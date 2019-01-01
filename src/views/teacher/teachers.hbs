@@ -1,0 +1,9 @@
+{{#each teachersByArea as | value key | }}
+<h3>{{key}}</h3>
+<ul>
+    {{#each value }}
+    <li ng-repeat="teacher in value"><strong>{{firstName}} {{lastName}}</strong><span ng-show="{{holder}}">,
+            titular</span><span>, {{degree}}</span><span>, {{subject}}</span></li>
+    {{/each}}
+</ul>
+{{/each}}
