@@ -1,7 +1,7 @@
 {
     "name": "scoala21",
     "version": "1.0.0",
-    "description": "",
+    "description": "test1",
     "main": "app.js",
     "scripts": {
         "start": "run-s build watch",
