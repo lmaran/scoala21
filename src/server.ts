@@ -5,8 +5,6 @@ import config from "./config";
 import logger from "./logger";
 import { EnvironmentType } from "./constants";
 
-const browserSync = require("browser-sync");
-
 const httpServer: http.Server = http.createServer(app);
 
 // const port = config.port;
@@ -20,6 +18,7 @@ httpServer.on("listening", () => {
     // https://github.com/voorhoede/front-end-tooling-recipes/blob/master/express-with-nodemon-browsersync/index.js
     // https://ponyfoo.com/articles/a-browsersync-primer#inside-a-node-application
     if (`${config.env}` === EnvironmentType.DEVELOPMENT) {
+        const browserSync = require("browser-sync");
         browserSync({
             files: ["dist/src/**/*.{html,js,css,hbs}"],
             online: true, // to have also an external url as 192.168.1.17:1417 for testing on mobile
