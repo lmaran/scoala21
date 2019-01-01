@@ -1,0 +1,8 @@
+{
+    "verbose": false,
+    "watch": ["dist/src"],
+    "ignore": ["**/*.test.js"],
+    "exec": "node dist/src/server.js",
+    "ext": "js",
+    "delay": 100
+}
