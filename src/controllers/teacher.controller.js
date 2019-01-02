@@ -14,9 +14,10 @@ exports.teacherController = {
     getAll: (req, res) => __awaiter(this, void 0, void 0, function* () {
         const teachers = yield services_1.teacherService.getAll();
         const teachersByArea = groupBy(teachers, "area");
-        var context = {
+        var data = {
             teachersByArea: teachersByArea,
+            ctx: req.ctx,
         };
-        res.render("teacher/teachers", context);
+        res.render("teacher/teachers", data);
     }),
 };

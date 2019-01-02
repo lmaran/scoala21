@@ -8,11 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.matemaratonController = {
-    getMatemaraton: (req, res) => __awaiter(this, void 0, void 0, function* () {
-        var data = {
-            ctx: req.ctx,
-        };
-        res.render("matemaraton/matemaraton", data);
-    }),
-};
+exports.setContext = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    req.ctx = {};
+    req.ctx.selectedTopMenu = req.path;
+    next();
+});

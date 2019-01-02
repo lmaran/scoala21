@@ -6,3 +6,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./errorHandler.middleware"));
 __export(require("./catch404.middleware"));
 __export(require("./httpLogHandler.middleware"));
+__export(require("./httpLogHandler.middleware"));
