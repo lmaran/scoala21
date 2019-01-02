@@ -12,9 +12,10 @@ const services_1 = require("../services");
 exports.staffController = {
     getAll: (req, res) => __awaiter(this, void 0, void 0, function* () {
         const staff = yield services_1.staffService.getAll();
-        var context = {
+        var data = {
+            ctx: req.ctx,
             staff: staff,
         };
-        res.render("staff/staff", context);
+        res.render("staff/staff", data);
     }),
 };

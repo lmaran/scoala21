@@ -10,6 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactController = {
     getContact: (req, res) => __awaiter(this, void 0, void 0, function* () {
-        res.render("contact/contact", {});
+        var data = {
+            ctx: req.ctx,
+        };
+        res.render("contact/contact", data);
     }),
 };

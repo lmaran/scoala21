@@ -17,16 +17,18 @@ if 2 similar sections are used, the last one will override the first one --}}
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/conducere">Conducere <span class="sr-only">(current)</span></a>
+                    <a class="nav-link {{#if (eq selectedTopMenu '/conducere' )}} active {{/if}}" href="/conducere">Conducere
+                        <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/profesori">Profesori</a>
+                    <a class="nav-link {{#if (eq selectedTopMenu '/profesori' )}} active {{/if}}" href="/profesori">Profesori
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/matemaraton">MateMaraton</a>
+                    <a class="nav-link {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}" href="/matemaraton">MateMaraton</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/contact">Contact</a>
+                    <a class="nav-link {{#if (eq selectedTopMenu '/contact' )}} active {{/if}}" href="/contact">Contact</a>
                 </li>
             </ul>
         </div>
