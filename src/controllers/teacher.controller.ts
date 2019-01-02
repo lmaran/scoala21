@@ -16,10 +16,11 @@ export const teacherController = {
         const teachers = await teacherService.getAll();
         const teachersByArea = groupBy(teachers, "area");
 
-        var context = {
+        var data = {
             teachersByArea: teachersByArea,
+            ctx: req.ctx,
         };
 
-        res.render("teacher/teachers", context);
+        res.render("teacher/teachers", data);
     },
 };

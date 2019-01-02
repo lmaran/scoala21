@@ -3,6 +3,7 @@ import * as path from "path";
 import { catch404, errorHandler, httpLogHandler } from "./middlewares";
 import allRoutes from "./routes";
 import * as exphbs from "express-handlebars";
+import { setContext } from "./middlewares/setContext.middleware";
 var e = require("express");
 
 const app: express.Application = express();
@@ -29,11 +30,19 @@ app.engine(
                 this._sections[name] = options.fn(this);
                 return null;
             },
+            eq: function(v1: any, v2: any) {
+                return v1 === v2;
+            },
+            toJson: function(object: any) {
+                return JSON.stringify(object);
+            },
         },
     })
 );
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(setContext); // adds requestId, tokenCode and other properties to the request object
 
 app.use(httpLogHandler);
 

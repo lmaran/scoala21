@@ -25,6 +25,7 @@ export interface IContext {
     accessToken?: any;
     tenantCode?: string;
     requestId?: string;
+    selectedTopMenu?: string;
 }
 
 export interface ITeacher {

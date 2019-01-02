@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 
 export const matemaratonController = {
     getMatemaraton: async (req: Request, res: Response) => {
-        res.render("matemaraton/matemaraton", {});
+        var data = {
+            ctx: req.ctx,
+        };
+        res.render("matemaraton/matemaraton", data);
     },
 };

@@ -5,10 +5,11 @@ export const staffController = {
     getAll: async (req: Request, res: Response) => {
         const staff = await staffService.getAll();
 
-        var context = {
+        var data = {
+            ctx: req.ctx,
             staff: staff,
         };
 
-        res.render("staff/staff", context);
+        res.render("staff/staff", data);
     },
 };
