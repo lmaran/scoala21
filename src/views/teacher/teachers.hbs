@@ -1,5 +1,13 @@
+{{!-- <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profesori</li>
+    </ol>
+</nav> --}}
+
+<h1>Profesori</h1>
 {{#each teachersByArea as | value key | }}
-<h3>{{key}}</h3>
+<h2>{{key}}</h2>
 <ul>
     {{#each value }}
     <li ng-repeat="teacher in value"><strong>{{firstName}} {{lastName}}</strong><span ng-show="{{holder}}">,
@@ -7,3 +15,8 @@
     {{/each}}
 </ul>
 {{/each}}
+
+{{#section 'script'}}
+<script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
+    crossorigin="anonymous"></script>
+{{/section}}

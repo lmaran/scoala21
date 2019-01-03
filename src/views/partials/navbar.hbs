@@ -16,17 +16,166 @@ if 2 similar sections are used, the last one will override the first one --}}
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+
+                {{!-- <li class="nav-item">
+                    <a class="nav-link {{#if (eq selectedTopMenu '/inscriere' )}} active {{/if}}" href="/inscriere">Istoric
+                    </a>
+                </li> --}}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Despre
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Repere
+                            istorice</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Vicentiu
+                            Babes</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}" href="/matemaraton">Elevi
+                            de prestigiu</a>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Inscriere
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Ziua
+                            Portilor Deschise</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Planul
+                            de scolarizare</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/orar' )}} active {{/if}}" href="#">Circumscriptie</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/transfer' )}} active {{/if}}" href="#">Criterii
+                            specifice de departajare</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Orarul
+                            pentru inscriere</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Acte
+                            necesare inscrierii</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="#">Procedura
+                            de repartizare pe clase</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Scoala
+                            dupa scoala</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Imagini
+                            din clase</a>
+
+
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Evaluare Nationala
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="#">Metodologie</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/orar' )}} active {{/if}}" href="#">Calendar</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/transfer' )}} active {{/if}}" href="#">Rezultate
+                            simulare EN</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Rezultate
+                            EN</a>
+                    </div>
+                </li>
+
+                {{!-- <li class="nav-item">
+                    <a class="nav-link {{#if (eq selectedTopMenu '/evaluare-nationala' )}} active {{/if}}" href="/inscriere">EvNat
+                    </a>
+                </li> --}}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Echipa
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/profesori' )}} active {{/if}}" href="/profesori">Profesori
+                        </a>
+                        <a class="dropdown-item" href="#">Personal didactic auxiliar</a>
+                        <a class="dropdown-item" href="#">Personal nedidactic</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/conducere' )}} active {{/if}}" href="/conducere">Echipa
+                            manageriala
+                        </a>
+
+                        {{!-- <a class="dropdown-item" href="#">Consiliul de administratie</a> --}}
+                        <a class="dropdown-item" href="#">Comisii</a>
+                    </div>
+                </li>
+
+                {{!-- <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/conducere' )}} active {{/if}}" href="/conducere">Conducere
-                        <span class="sr-only">(current)</span></a>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/profesori' )}} active {{/if}}" href="/profesori">Profesori
                     </a>
+                </li> --}}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Elevi
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="#">Clase</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/orar' )}} active {{/if}}" href="#">Orar</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/transfer' )}} active {{/if}}" href="#">Transfer</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Rezultate
+                            olimpiade</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/rezultate' )}} active {{/if}}" href="#">Burse</a>
+                    </div>
                 </li>
-                <li class="nav-item">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Proiecte
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Revista
+                            scolii</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Eco
+                            Scoala</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/biblioteca' )}} active {{/if}}" href="#">Biblioteca</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}" href="/matemaraton">MateMaraton</a>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Transparenta
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Hotarari
+                            CA</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Budget</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}" href="#">Venituri
+                            salariale</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/biblioteca' )}} active {{/if}}" href="#">Achizitii
+                            publice</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}" href="/matemaraton">Cheltuili
+                            asociatie parinti</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/biblioteca' )}} active {{/if}}" href="#">Rapoarte</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/biblioteca' )}} active {{/if}}" href="#">Anunturi</a>
+                    </div>
+                </li>
+
+                {{!-- <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}" href="/matemaraton">MateMaraton</a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/contact' )}} active {{/if}}" href="/contact">Contact</a>
                 </li>
