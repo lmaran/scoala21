@@ -6,6 +6,7 @@ import {
     staffController,
     contactController,
     matemaratonController,
+    pageController,
 } from "./controllers";
 
 const router = Router();
@@ -27,5 +28,8 @@ router.get("/contact", contactController.getContact);
 
 // matemaraton
 router.get("/matemaraton", matemaratonController.getMatemaraton);
+
+// pages
+router.get("/:pageId", pageController.getPage);
 
 export default router;

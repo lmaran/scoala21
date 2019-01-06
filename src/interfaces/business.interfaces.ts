@@ -46,3 +46,9 @@ export interface IStaff {
     title?: string; // prof. inv.
     role?: string; // consilier educativ
 }
+
+export interface IPage {
+    _id?: string;
+    markdownContent?: string;
+    htmlContent?: string;
+}

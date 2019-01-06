@@ -4,3 +4,4 @@ export * from "./teacher.controller";
 export * from "./staff.controller";
 export * from "./contact.controller";
 export * from "./matemaraton.controller";
+export * from "./page.controller";
