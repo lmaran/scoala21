@@ -5,3 +5,4 @@ function __export(m) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./teacher.service"));
 __export(require("./staff.service"));
+__export(require("./page.service"));
