@@ -10,15 +10,46 @@ const readFileAsync = promisify(fs.readFile);
 
 export const pageController = {
     getPage: async (req: Request, res: Response, next: NextFunction) => {
-        const routeWhitelist = ["asd", "pag-test"];
+        const routeWhitelist = [
+            "repere-istorice",
+            "elevi-de-prestigiu",
+            "ziua-portilor-deschise",
+            "planul-de-scolarizare",
+            "circumscriptie",
+            "criterii-specifice-de-departajare",
+            "orarul-pentru-inscriere",
+            "acte-necesare-pentru-inscriere",
+            "procedura-de-repartizare-pe-clase",
+            "scoala-dupa-scoala",
+            "imagini-din-clase",
+            "metodologie-evaluare-nationala",
+            "calendar-evaluare-nationala",
+            "rezultate-simulare-evaluare-nationala",
+            "rezultate-evaluare-nationala",
+            "personal-auxiliar",
+            "comisii",
+            "clase",
+            "orar-elevi",
+            "transfer-elevi",
+            "rezultate-olimpiade",
+            "burse-elevi",
+            "revista-scolii",
+            "eco-scoala",
+            "biblioteca",
+            "hotarari-ca",
+            "achizitii-publice",
+            "cheltuieli-asociatie-parinti",
+            "rapoarte",
+            "anunturi",
+        ];
 
         if (!routeWhitelist.includes(req.params.pageId)) {
             const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
             return next(err);
         }
 
-        // const pageId = req.params.pageId;
-        const pageId = "5c3258b8b3a6dc56c06a6e7d";
+        const pageId = req.params.pageId;
+        // const pageId = "5c3258b8b3a6dc56c06a6e7d";
 
         // const filePath = path.join(__dirname, "../public/test.md");
 
@@ -36,11 +67,11 @@ export const pageController = {
         // 2. rulezi "Find and Replace din VSCode: Mondul regex, find=\\n, replace = \n
         // 3. dupa ce ai terminat de editat, refaci string-ul tot cu Find and Replace: \n -> \\n
 
-        const page = await pageService.getOneById(pageId);
+        const page = await pageService.getOneBySlug(pageId);
 
         var data = {
             ctx: req.ctx,
-            pageContent: page.htmlContent,
+            pageContent: (page && page.htmlContent) || "pagina negasita",
         };
 
         res.render("page", data);

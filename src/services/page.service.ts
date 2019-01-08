@@ -19,6 +19,11 @@ export const pageService = {
         return await db.collection(collection).findOne({ _id: id });
     },
 
+    getOneBySlug: async (slug: string) => {
+        const db = await mongoHelper.getDb();
+        return await db.collection(collection).findOne({ slug: slug });
+    },
+
     insertOne: async (page: IPage) => {
         const db = await mongoHelper.getDb();
         return await db.collection(collection).insertOne(page);
