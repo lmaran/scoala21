@@ -24,6 +24,10 @@ exports.pageService = {
         id = helpers_1.mongoHelper.normalizedId(id);
         return yield db.collection(collection).findOne({ _id: id });
     }),
+    getOneBySlug: (slug) => __awaiter(this, void 0, void 0, function* () {
+        const db = yield helpers_1.mongoHelper.getDb();
+        return yield db.collection(collection).findOne({ slug: slug });
+    }),
     insertOne: (page) => __awaiter(this, void 0, void 0, function* () {
         const db = yield helpers_1.mongoHelper.getDb();
         return yield db.collection(collection).insertOne(page);
