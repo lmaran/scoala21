@@ -9,3 +9,4 @@ __export(require("./teacher.controller"));
 __export(require("./staff.controller"));
 __export(require("./contact.controller"));
 __export(require("./matemaraton.controller"));
+__export(require("./page.controller"));

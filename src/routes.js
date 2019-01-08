@@ -9,4 +9,5 @@ router.get("/profesori", controllers_1.teacherController.getAll);
 router.get("/conducere", controllers_1.staffController.getAll);
 router.get("/contact", controllers_1.contactController.getContact);
 router.get("/matemaraton", controllers_1.matemaratonController.getMatemaraton);
+router.get("/:pageId", controllers_1.pageController.getPage);
 exports.default = router;
