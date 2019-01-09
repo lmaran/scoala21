@@ -32,10 +32,10 @@ exports.pageService = {
         const db = yield helpers_1.mongoHelper.getDb();
         return yield db.collection(collection).insertOne(page);
     }),
-    updateOne: (teacher) => __awaiter(this, void 0, void 0, function* () {
+    updateOne: (page) => __awaiter(this, void 0, void 0, function* () {
         const db = yield helpers_1.mongoHelper.getDb();
-        teacher._id = helpers_1.mongoHelper.normalizedId(teacher._id);
-        return yield db.collection(collection).updateOne({ _id: teacher._id }, teacher);
+        page._id = helpers_1.mongoHelper.normalizedId(page._id);
+        return yield db.collection(collection).updateOne({ _id: page._id }, { $set: page });
     }),
     deleteOneById: (id) => __awaiter(this, void 0, void 0, function* () {
         const db = yield helpers_1.mongoHelper.getDb();

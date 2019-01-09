@@ -10,4 +10,5 @@ router.get("/conducere", controllers_1.staffController.getAll);
 router.get("/contact", controllers_1.contactController.getContact);
 router.get("/matemaraton", controllers_1.matemaratonController.getMatemaraton);
 router.get("/:pageId", controllers_1.pageController.getPage);
+router.get("/:pageId/asdfgh", controllers_1.pageController.getPage2);
 exports.default = router;
