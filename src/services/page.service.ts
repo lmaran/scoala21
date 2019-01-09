@@ -29,10 +29,10 @@ export const pageService = {
         return await db.collection(collection).insertOne(page);
     },
 
-    updateOne: async (teacher: any) => {
+    updateOne: async (page: IPage) => {
         const db = await mongoHelper.getDb();
-        teacher._id = mongoHelper.normalizedId(teacher._id);
-        return await db.collection(collection).updateOne({ _id: teacher._id }, teacher);
+        page._id = mongoHelper.normalizedId(page._id);
+        return await db.collection(collection).updateOne({ _id: page._id }, { $set: page });
     },
 
     deleteOneById: async (id: any) => {

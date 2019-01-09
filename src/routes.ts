@@ -32,4 +32,6 @@ router.get("/matemaraton", matemaratonController.getMatemaraton);
 // pages
 router.get("/:pageId", pageController.getPage);
 
+router.get("/:pageId/asdfgh", pageController.getPage2);
+
 export default router;
