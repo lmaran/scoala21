@@ -104,6 +104,8 @@ exports.pageController = {
         const page = yield services_1.pageService.getOneBySlug(pageId);
         page.markdownContent = page1Md;
         page.htmlContent = marked(page1Md);
+        page.htmlContent =
+            page.htmlContent && page.htmlContent.split(`<table>`).join(`<table class="table table-sm table-bordered">`);
         console.log(page);
         yield services_1.pageService.updateOne(page);
         var data = {
