@@ -166,6 +166,11 @@ export const pageController = {
         page.markdownContent = page1Md;
         page.htmlContent = marked(page1Md);
 
+        // better way to extend marked
+        // https://stribny.name/blog/2018/10/convert-markdown-text-to-html-and-to-plaintext-in-javascript
+        page.htmlContent =
+            // page.htmlContent && page.htmlContent.replace(`/<table>/g`, `<table class="table-sm table-bordered">`);
+            page.htmlContent && page.htmlContent.split(`<table>`).join(`<table class="table table-sm table-bordered">`);
         console.log(page);
 
         await pageService.updateOne(page);
