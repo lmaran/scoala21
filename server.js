@@ -12,7 +12,7 @@ httpServer.on("listening", () => {
     if (`${config_1.default.env}` === "development") {
         const browserSync = require("browser-sync");
         browserSync({
-            files: ["dist/src/**/*.{html,js,css,hbs}"],
+            files: ["dist/**/*.{html,js,css,hbs}"],
             online: true,
             open: false,
             port: config_1.default.port + 1,
