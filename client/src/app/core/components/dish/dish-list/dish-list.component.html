@@ -1,0 +1,58 @@
+<h1>{{title}}</h1>
+
+<button class="btn btn-primary" [routerLink]="['/dishes/add']">
+    <clr-icon shape="plus"></clr-icon>
+    Adauga fel de mancare
+</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th class="left">Nume</th>
+            <th class="left">Categorie</th>
+            <th>DePost</th>
+            <th>Calorii</th>
+            <th class="left">Descriere</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dish of dishes">
+            <td width="60" style="padding:2px 2px 2px 5px">
+                <a href *ngIf="dish.image">
+                    <img [src]="dish.image.small" width="60" />
+                </a>
+            </td>
+            <td class="left">
+                <a href="#" [routerLink]="['/dishes', dish._id]">{{dish.name}}</a>
+            </td>
+            <td class="left">{{dish.category}}</td>
+            <td>
+                <clr-icon [attr.shape]="dish.isFasting ? 'check' : 'minus'" [style.color]="dish.isFasting ? '#0077b7' : 'lightgray' "></clr-icon>
+                <!-- <clr-icon *ngIf="dish.isFasting" shape="check" class="is-info"></clr-icon>
+                <clr-icon *ngIf="!dish.isFasting" shape="minus" style="color:lightgray"></clr-icon> -->
+            </td>
+            <td style="text-align: right">{{dish.calories}}</td>
+            <td class="left">{{dish.description}}</td>
+            <td>
+                <button style="margin-top:0; margin-bottom:1px; padding:0; line-height: 0; height: 0.4rem; border:0;" class="btn btn-sm btn-link"
+                    (click)="deleteDish(dish)">Sterge</button>
+                <!-- <button class="btn btn-sm btn-link" (click)="deleteDish(dish)">Sterge</button> -->
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<app-modal-component [btnText]="'Close'"></app-modal-component>
+
+<!-- <clr-modal [(clrModalOpen)]="deleteModal">
+    <h3 class="modal-title">Esti sigur ca vrei sa stergi aceasta inregistrare?</h3>
+    <div class="modal-body">
+        <p>{{selectedDish.firstName}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="deleteModal=false">Renunta</button>
+        <button type="button" class="btn btn-warning" (click)="delete()">Sterge</button>
+    </div>
+</clr-modal> -->

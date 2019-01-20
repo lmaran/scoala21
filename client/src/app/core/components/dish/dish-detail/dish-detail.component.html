@@ -1,0 +1,58 @@
+<h1>{{title}}</h1>
+
+<form class="form" [formGroup]="dishForm" (ngSubmit)="onSubmit()" [hidden]="submitted" novalidate>
+    <section class="form-block">
+        <!-- <label>Add Employee Address</label> -->
+
+        <div class="form-group">
+            <label for="dishName" class="required">Nume</label>
+            <label for="dishName" aria-haspopup="true" role="tooltip" class="tooltip tooltip-md tooltip-validation " [class.invalid]="isFieldInvalid('name')">
+                <input id="dishName" type="text" formControlName="name" size="45">
+                <span class="tooltip-content">
+                    <app-display-error [control]=dishForm.controls.name></app-display-error>
+                </span>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="dishCategory" class="required">Categorie</label>
+            <label for="dishCategory" aria-haspopup="true" role="tooltip" class="tooltip tooltip-md tooltip-validation " [class.invalid]="isFieldInvalid('category')">
+                <div class="select">
+                    <select id="dishCategory" name="dishCategory" formControlName="category">
+                        <option *ngFor="let category of categoryList" [value]="category.value">{{category.label}}</option>
+                    </select>
+                    <span class="tooltip-content">
+                        <app-display-error [control]=dishForm.controls.category></app-display-error>
+                    </span>
+                </div>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="dishCalories">Calorii</label>
+            <label for="dishCalories" aria-haspopup="true" role="tooltip" class="tooltip tooltip-md tooltip-validation" [class.invalid]="isFieldInvalid('calories')">
+                <input id="dishCalories" type="text" formControlName="calories" size="7">
+                <span class="tooltip-content">
+                    <app-display-error [control]=dishForm.controls.calories></app-display-error>
+                </span>
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label for="dishDescription">Descriere</label>
+            <textarea id="dishDescription" rows="2" formControlName="description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="dishIsFasting"></label>
+
+            <clr-checkbox name="termsCheckbox" id="dishIsFasting" formControlName="isFasting">
+                De Post
+            </clr-checkbox>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salveaza</button>
+        <button type="button" (click)="goBack()" class="btn">Renunta</button>
+
+    </section>
+</form>

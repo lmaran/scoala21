@@ -1,0 +1,29 @@
+<table class="table" style="margin-top: 0">
+    <thead>
+        <tr>
+            <th class="left">Unique Name</th>
+            <th class="left">Display Name</th>
+            <th class="left">Type</th>
+            <th class="left">Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let field of entityFields">
+            <td class="left">{{field.uniqueName}}</td>
+            <td class="left">{{field.displayName}}</td>
+            <td class="left">{{field.type}}</td>
+            <td class="left">{{field.description}}</td>
+            <td>
+                <button type="button" style="margin-top:0; margin-bottom:1px; padding:0; line-height: 0; height: 0.4rem; border:0;" class="btn btn-sm btn-link"
+                    (click)="editEntityField(field)">Modifica</button>
+                <button type="button" style="margin-top:0; margin-bottom:1px; padding:0; line-height: 0; height: 0.4rem; border:0;" class="btn btn-sm btn-link"
+                    (click)="deleteEntityField(field)">Sterge</button>
+                <!-- <a routerLink="../">modifica</a>
+                <span> | </span>
+                <a routerLink="">sterge</a> -->
+            </td>
+        </tr>
+    </tbody>
+</table>
+<app-modal-component [btnText]="'Close'"></app-modal-component>

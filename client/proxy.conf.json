@@ -1,0 +1,11 @@
+{
+    "/admin/api": {
+        "target": "http://localhost:1416",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "old-pathRewrite": {
+            "^/admin": ""
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<!-- <clr-modal [(clrModalOpen)]="show">
+
+    <h3 class="modal-title">I'm A Modal!</h3>
+
+    <div class="modal-body">
+        <h5>{{ msg }}</h5>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="show = false" class="btn btn-primary">{{ btnText }}</button>
+        <button (click)="delete()" class="btn btn-primary">Delete</button>
+    </div>
+
+</clr-modal> -->
+
+<clr-modal [(clrModalOpen)]="show">
+    <h3 class="modal-title">Esti sigur ca vrei sa stergi aceasta inregistrare?</h3>
+    <div class="modal-body">
+        <p>{{msg}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="show = false">Renunta</button>
+        <button type="button" class="btn btn-warning" (click)="delete()">Sterge</button>
+    </div>
+</clr-modal>

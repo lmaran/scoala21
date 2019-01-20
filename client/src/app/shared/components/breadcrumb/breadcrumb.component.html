@@ -1,0 +1,18 @@
+<nav>
+    <button (click)="goBack()" type="button" class="btn btn-sm" style="margin-right:15px;">
+        <clr-icon shape="arrow left"></clr-icon> Inapoi
+    </button>
+
+    <ol class="breadcrumb" style="display: inline">
+        <li>
+            <a href="/home">
+                <clr-icon shape="home"></clr-icon>
+            </a>
+        </li>
+
+        <li *ngFor="let b of breadcrumbItems; let last = last" [ngClass]="{ 'active' : last }">
+            <a *ngIf="!last" [routerLink]="b.url">{{b.name}}</a>
+            <span *ngIf="last">{{b.name}}</span>
+        </li>
+    </ol>
+</nav>

@@ -1,0 +1,124 @@
+<!-- <h1>
+    {{title}}
+</h1> -->
+<!-- <pre>{{entity | json}}</pre> -->
+
+<!-- <clr-alert [clrAlertType]="'alert-danger'" [clrAlertClosable]="false" *ngIf="!entityForm.valid">
+    <div class="alert-item">
+        <span class="alert-text">
+            Formular invalid. Corecteaza informatiile din campurile marcate.
+        </span>
+    </div>
+</clr-alert> -->
+
+<form class="form" [formGroup]="entityForm" (ngSubmit)="saveEntity()" [hidden]="submitted" novalidate>
+    <section class="form-block">
+        <!-- <label>Add Employee Address</label> -->
+
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="entityName" class="required">Nume afisat:</label>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <input id="entityName" type="text" class="form-control" formControlName="displayName" [class.lm-invalid]="isFieldInvalid('displayName')">
+                <div class="lm-hint-notes">
+                    Numele entitatii, la singular. Ex: Materie prima, Produs etc
+                </div>
+                <!-- <app-display-error *ngIf="isFieldInvalid('displayName')" [control]=entityForm.controls.displayName></app-display-error> -->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="entityPluralName" class="required">Nume la plural:</label>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <input id="entityPluralName" type="text" class="form-control" formControlName="pluralName" [class.lm-invalid]="isFieldInvalid('pluralName')">
+                <div class="lm-hint-notes">
+                    Ex: Materii Prime, Produse etc
+                </div>
+                <!-- <app-display-error *ngIf="isFieldInvalid('pluralName')" [control]=entityForm.controls.pluralName></app-display-error> -->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="entityUniqueName" class="required">Nume unic:</label>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <input id="entityUniqueName" type="text" class="form-control" formControlName="uniqueName" [class.lm-invalid]="isFieldInvalid('uniqueName')">
+                <div class="lm-hint-notes">
+                    Nume unic, nemodificabil, folosit ca referinta in DB (slug). Ex: materie-prima, produs etc
+                </div>
+                <!-- <app-display-error *ngIf="isFieldInvalid('uniqueName')" [control]=entityForm.controls.uniqueName></app-display-error> -->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                <label for="entityDescription">Descriere:</label>
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                <textarea id="entityDescription" rows="3" class="form-control" formControlName="description" [class.lm-invalid]="isFieldInvalid('description')"></textarea>
+                <div class="lm-hint-notes">
+                    Nume unic, nemodificabil, folosit ca referinta in DB (slug). Ex: materie-prima, produs etc
+                </div>
+                <!-- <app-display-error *ngIf="isFieldInvalid('description')" [control]=entityForm.controls.description></app-display-error> -->
+            </div>
+        </div>
+
+    </section>
+
+    <section class="form-block">
+        <h3>Campuri:</h3>
+        <button type="button" [routerLink]="['fields/new']" class="btn btn-primary btn-sm btn-link2">Adauga camp</button>
+
+
+        <!-- <div formArrayName="fields">
+            <table class="table" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="left">Unique Name</th>
+                        <th class="left">Display Name</th>
+                        <th class="left">Type</th>
+                        <th class="left">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let entityField of entityForm.controls['fields'].controls; let i = index" [formGroupName]="i">
+                        <td class="left">
+                            <input type="text" formControlName="uniqueName">{{entityField.uniqueName}}</td>
+                        <td class="left">
+                            <input type="text" formControlName="displayName">{{entityField.displayName}}</td>
+                        <td class="left">
+                            <input type="text" formControlName="type"> {{entityField.type}}
+                        </td>
+                        <td class="left">{{entityField.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+
+        <app-entity-field-list [entityFields]="entity && entity.fields"></app-entity-field-list>
+
+    </section>
+
+    <section class="form-block">
+        <h3>Relatii 1:N</h3>
+        <button class="btn btn-primary2 btn-sm btn-link2">Adauga relatie 1:N</button>
+
+    </section>
+
+    <section class="form-block">
+        <h3>Relatii N:1</h3>
+        <button class="btn btn-primary2 btn-sm btn-link2">Adauga relatie N:1</button>
+
+    </section>
+
+
+    <button type="submit " class="btn btn-primary ">Salveaza</button>
+    <!-- <button type="button " (click)="goBack() " class="btn ">Renunta</button> -->
+</form>
