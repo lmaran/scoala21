@@ -2,6 +2,6 @@
     "verbose": false,
     "watch": ["."],
     "ignore": ["**/*.test.js"],
-    "exec": "node server.js",
+    "exec": "node src/server.js",
     "ext": "js"
 }

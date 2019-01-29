@@ -8,7 +8,7 @@
     },
     "main": "app.js",
     "scripts": {
-        "start": "node server.js",
+        "start": "nodemon",
         "lint": "eslint --fix .",
         "prettier": "prettier --write {,**/}*.{js,css}",
         "watch": "nodemon --config nodemon.json"

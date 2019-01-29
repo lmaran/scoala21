@@ -9,7 +9,7 @@
 //console.log(xx);
 //const xaaaab = 1;
 
-const app = require("./app");
+const app = require("./host/app");
 const debug = require("debug")("host:server");
 const http = require("http");
 
