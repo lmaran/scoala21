@@ -6,6 +6,10 @@ const admin = require("../admin/app");
 
 const app = express();
 
+app.get("/check", function(req, res) {
+    res.send("scoala21-" + (process.env.DEPLOYMENT_SLOT || "noslot") + "-" + process.env.NODE_ENV);
+});
+
 app.use("/api", api);
 app.use("/admin", admin);
 app.use("/", web);

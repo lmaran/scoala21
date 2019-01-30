@@ -5,10 +5,7 @@ const router = express.Router();
 // -----------
 
 router.get("/", function(req, res) {
-    res.json({
-        foo: "api",
-        baz: "quux",
-    });
+    res.send("Public API - not implemented");
 });
 
 router.get("/err", function(req, res, next) {
@@ -21,7 +18,7 @@ router.get("/err", function(req, res, next) {
 // API not found
 router.use(function(req, res) {
     res.status(404);
-    res.send();
+    res.send("Public API - not found");
 });
 
 // errors handler

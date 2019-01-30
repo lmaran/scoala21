@@ -1,15 +1,12 @@
-// import { Request, Response } from "express";
-// import { staffService } from "../services";
+const staffService = require("../services/staff.service");
 
-// export const staffController = {
-//     getAll: async (req: Request, res: Response) => {
-//         const staff = await staffService.getAll();
+exports.getAll = async (req, res) => {
+    const staff = await staffService.getAll();
 
-//         var data = {
-//             ctx: req.ctx,
-//             staff: staff,
-//         };
+    const data = {
+        //ctx: req.ctx,
+        staff: staff,
+    };
 
-//         res.render("staff/staff", data);
-//     },
-// };
+    res.render("staff/staff", data);
+};
