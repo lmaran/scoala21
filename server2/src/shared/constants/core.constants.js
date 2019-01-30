@@ -1,4 +1,4 @@
-module.exports = {
+const constants = {
     EnvironmentType: {
         DEVELOPMENT: "development",
         STAGING: "staging",
@@ -32,3 +32,5 @@ module.exports = {
         FULL: "full",
     },
 };
+
+module.exports = constants;

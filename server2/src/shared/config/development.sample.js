@@ -2,7 +2,7 @@ const constants = require("../constants/core.constants");
 const LogLevel = constants.LogLevel;
 const LogDetail = constants.LogDetail;
 
-module.exports = {
+const config = {
     mongo: {
         uri: "mongodb://localhost",
         dbName: "cantinas-dev",
@@ -24,3 +24,4 @@ module.exports = {
         },
     },
 };
+module.exports = config;
