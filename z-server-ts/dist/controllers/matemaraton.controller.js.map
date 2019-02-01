@@ -1,1 +1,0 @@
-{"version":3,"file":"matemaraton.controller.js","sourceRoot":"","sources":["../../src/controllers/matemaraton.controller.ts"],"names":[],"mappings":";;;;;;;;;;AAEa,QAAA,qBAAqB,GAAG;IACjC,cAAc,EAAE,CAAO,GAAY,EAAE,GAAa,EAAE,EAAE;QAClD,IAAI,IAAI,GAAG;YACP,GAAG,EAAE,GAAG,CAAC,GAAG;SACf,CAAC;QACF,GAAG,CAAC,MAAM,CAAC,yBAAyB,EAAE,IAAI,CAAC,CAAC;IAChD,CAAC,CAAA;CACJ,CAAC"}

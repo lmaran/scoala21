@@ -1,1 +1,0 @@
-{"version":3,"file":"catch404.middleware.js","sourceRoot":"","sources":["../../src/middlewares/catch404.middleware.ts"],"names":[],"mappings":";;AAEA,sCAAyC;AAE5B,QAAA,QAAQ,GAAG,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB,EAAE,EAAE;IACxE,MAAM,GAAG,GAAG,IAAI,qBAAY,CAAC,oBAAoB,GAAG,CAAC,MAAM,IAAI,GAAG,CAAC,GAAG,EAAE,CAAC,CAAC;IAC1E,IAAI,CAAC,GAAG,CAAC,CAAC;AACd,CAAC,CAAC"}
