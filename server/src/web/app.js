@@ -65,9 +65,9 @@ app.engine(
             },
             toJson: function(object) {
                 return JSON.stringify(object);
-            },
-        },
-    }),
+            }
+        }
+    })
 );
 
 // angular static files
