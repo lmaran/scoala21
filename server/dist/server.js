@@ -1,75 +1,109 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+//const xx = 123;
+
+// xx = xx + 1;
+//console.log(xx);
+//const xaaaab = 1;
+
+const app = require("./host/app");
+const debug = require("debug")("host:server");
 const http = require("http");
-const app_1 = require("./app");
-const config_1 = require("./config");
-const logger_1 = require("./logger");
-const httpServer = http.createServer(app_1.default);
-httpServer.listen(config_1.default.port);
-httpServer.on("listening", () => {
-    const addr = httpServer.address();
-    logger_1.default.warn(`Express server listening on port ${addr.port} in ${config_1.default.env} mode (pid: ${process.pid})`);
-    if (`${config_1.default.env}` === "development") {
-        const browserSync = require("browser-sync");
-        browserSync({
-            files: ["dist/**/*.{html,js,css,hbs}"],
-            online: true,
-            open: false,
-            port: config_1.default.port + 1,
-            proxy: "localhost:" + config_1.default.port,
-            ui: false,
-        });
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
     }
-});
-httpServer.on("error", (error) => {
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
     if (error.syscall !== "listen") {
-        logger_1.default.debug("test123");
         throw error;
     }
+
+    //const bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+    // handle specific listen errors with friendly messages
     switch (error.code) {
         case "EACCES":
-            logger_1.default.error(`Port ${config_1.default.port} requires elevated privileges`);
+            //console.error(bind + " requires elevated privileges");
             process.exit(1);
             break;
         case "EADDRINUSE":
-            logger_1.default.error(`Port ${config_1.default.port} is already in use`);
+            //console.error(bind + " is already in use");
             process.exit(1);
             break;
         default:
             throw error;
     }
-});
-httpServer.on("close", () => {
-    logger_1.default.warn("Server was closed");
-});
-process.on("uncaughtException", (err) => {
-    logger_1.default.error(`Caught exception: ${err.message}`, { err });
-    gracefulShutdown("uncaughtException");
-});
-process.on("unhandledRejection", (reason, promise) => {
-    logger_1.default.error(`Caught rejection at ${promise}, reason: ${reason}`, { promise, reason });
-    gracefulShutdown("unhandledRejection");
-});
-process.on("warning", (warning) => {
-    logger_1.default.warn(`Caught warning: ${warning.message}`, { warning });
-});
-process.on("SIGTERM", () => {
-    gracefulShutdown("SIGTERM");
-});
-process.on("SIGINT", () => {
-    gracefulShutdown("SIGINT");
-});
-function gracefulShutdown(eventName) {
-    const cleanUpAndExit = () => {
-        logger_1.default.warn("Cleaned up. Bye!");
-        process.exit(0);
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    const addr = server.address();
+    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    debug("Listening on " + bind);
+
+    const config = {
+        port: 3000,
+        env: "DEVELOPMENT",
     };
-    logger_1.default.warn(`${eventName} received. Closing server...`);
-    httpServer.close(() => {
-        cleanUpAndExit();
-    });
-    setTimeout(() => {
-        logger_1.default.warn("Forcing server to close");
-        process.exit(1);
-    }, 5000);
+    // https://github.com/voorhoede/front-end-tooling-recipes/blob/master/express-with-nodemon-browsersync/index.js
+    // https://ponyfoo.com/articles/a-browsersync-primer#inside-a-node-application
+    if (`${config.env}` === "DEVELOPMENT") {
+        const browserSync = require("browser-sync");
+        browserSync({
+            files: ["app.js"],
+            online: true, // to have also an external url as 192.168.1.17:1417 for testing on mobile
+            open: false,
+            port: config.port + 1,
+            proxy: "localhost:" + config.port,
+            ui: false,
+        });
+    }
 }
