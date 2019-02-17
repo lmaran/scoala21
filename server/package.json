@@ -9,6 +9,10 @@
     "main": "app.js",
     "scripts": {
         "start": "nodemon",
+        "build-prod": "run-s clean copy-files",
+        "copy-files": "cpx \"src/**/*\" dist",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "clean": "rimraf dist",
         "lint": "eslint --fix .",
         "prettier": "prettier --write {,**/}*.{js,css}",
         "watch": "nodemon --config nodemon.json"
