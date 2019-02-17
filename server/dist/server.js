@@ -68,7 +68,7 @@ function onListening() {
     if (`${config.env}` === "development") {
         const browserSync = require("browser-sync");
         browserSync({
-            files: ["*.js"],
+            files: ["*.js", "*.hbs"],
             online: true, // to have also an external url as 192.168.1.17:1417 for testing on mobile
             open: false,
             port: config.port + 1,
