@@ -71,7 +71,7 @@ app.engine(
 );
 
 // angular static files
-app.use("/admin", express.static(path.join(__dirname, "../../client/dist")));
+app.use("/admin", express.static(path.join(__dirname, "../../../client/dist")));
 
 app.use(express.static(path.join(__dirname, "public")));
 
