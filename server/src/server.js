@@ -1,24 +1,16 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-//const xx = 123;
-
-// xx = xx + 1;
-//console.log(xx);
-//const xaaaab = 1;
-
 const app = require("./host/app");
-const debug = require("debug")("host:server");
+// const debug = require("debug")("host:server");
 const http = require("http");
+const config = require("./shared/config");
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+// const port = normalizePort(process.env.PORT || "3000");
+app.set("port", config.port);
 
 /**
  * Create HTTP server.
@@ -30,33 +22,9 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(config.port);
 server.on("error", onError);
 server.on("listening", onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-    const port = parseInt(val, 10);
-
-    if (isNaN(port)) {
-        // named pipe
-        return val;
-    }
-
-    if (port >= 0) {
-        // port number
-        return port;
-    }
-
-    return false;
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
 
 function onError(error) {
     if (error.syscall !== "listen") {
@@ -87,23 +55,25 @@ function onError(error) {
 function onListening() {
     const addr = server.address();
     const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-    debug("Listening on " + bind);
+    console.log("Listening on " + bind);
 
-    const config = {
-        port: 3000,
-        env: "DEVELOPMENT",
-    };
+    //   console.log(config);
+
+    // const config = {
+    //     port: 3000,
+    //     env: "development"
+    // };
     // https://github.com/voorhoede/front-end-tooling-recipes/blob/master/express-with-nodemon-browsersync/index.js
     // https://ponyfoo.com/articles/a-browsersync-primer#inside-a-node-application
-    if (`${config.env}` === "DEVELOPMENT") {
+    if (`${config.env}` === "development") {
         const browserSync = require("browser-sync");
         browserSync({
-            files: ["app.js"],
+            files: ["*.js"],
             online: true, // to have also an external url as 192.168.1.17:1417 for testing on mobile
             open: false,
             port: config.port + 1,
             proxy: "localhost:" + config.port,
-            ui: false,
+            ui: false
         });
     }
 }
