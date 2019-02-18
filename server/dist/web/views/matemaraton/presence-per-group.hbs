@@ -1,0 +1,10 @@
+<h1>Prezenta ({{groupName}})</h1>
+
+{{#each presencePerGroup}}
+<h2>{{date}}</h2>
+<ul>
+    {{#each students}}
+    <li><a href="/matemaraton/prezenta/elevi/{{id}}">{{name}}</a> ({{class}})</li>
+    {{/each}}
+</ul>
+{{/each}}
