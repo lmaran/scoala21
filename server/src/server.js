@@ -53,9 +53,9 @@ function onError(error) {
  */
 
 function onListening() {
-    const addr = server.address();
-    const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-    console.log("Listening on " + bind);
+    // const addr = server.address();
+    // const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+    // console.log("Listening on " + bind);
 
     //   console.log(config);
 
@@ -68,7 +68,7 @@ function onListening() {
     if (`${config.env}` === "development") {
         const browserSync = require("browser-sync");
         browserSync({
-            files: ["*.js", "*.hbs"],
+            files: ["./web/views/**/*.js", "./**/*.hbs"],
             online: true, // to have also an external url as 192.168.1.17:1417 for testing on mobile
             open: false,
             port: config.port + 1,
