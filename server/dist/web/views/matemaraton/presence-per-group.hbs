@@ -4,7 +4,12 @@
 <h2>{{date}}</h2>
 <ul>
     {{#each students}}
-    <li><a href="/matemaraton/prezenta/elevi/{{id}}">{{name}}</a> ({{class}})</li>
+    <li><a href="/matemaraton/prezenta/elevi/{{id}}">{{name}}</a> ({{class}}) - {{age}}</li>
     {{/each}}
 </ul>
+{{/each}}
+
+All students:
+{{#each students}}
+<h2>{{firstName}}, {{class}}</h2>
 {{/each}}

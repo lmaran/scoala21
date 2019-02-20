@@ -19,19 +19,39 @@ exports.getPresencePerGroup = async (req, res, next) => {
     }
 
     // const presence = await matemaratonService.getLastPresence(groupId);
-    const presencePerGroup = await matemaratonService.getPresencePerGroup(groupId);
-    const students = await matemaratonService.getStudents();
+    // const presencePerGroup = await matemaratonService.getPresencePerGroup(groupId);
+    // const students = await matemaratonService.getStudents();
 
     // met 1:
     //const [a, b] = [presencePerGroup, students];
 
     // met 2:
-    const [aa, bb] = await Promise.all([presencePerGroup, students]);
+    const [presencePerGroup, students] = await Promise.all([
+        await matemaratonService.getPresencePerGroup(groupId),
+        await matemaratonService.getStudents()
+    ]);
 
-    console.log("========== a");
-    console.log(aa);
-    console.log("========== b");
-    console.log(bb);
+    const cache = {};
+    presencePerGroup.forEach(presencePerGroup => {
+        presencePerGroup.students.forEach(student => {
+            const studentCode = student.name;
+            let studentDetails;
+
+            if (cache[studentCode]) {
+                console.log(student.name + " from cache");
+                studentDetails = cache[studentCode];
+            } else {
+                studentDetails = getStudentDetails(student, students);
+                cache[studentCode] = studentDetails;
+            }
+            student.age = (studentDetails && studentDetails.class) || "xx";
+        });
+    });
+
+    // console.log("========== a");
+    // console.log(presencePerGroup);
+    // console.log("========== b");
+    // console.log(students);
 
     presencePerGroup.forEach(presence => {
         presence.date = dateTimeHelper.getStringFromString(presence.date);
@@ -41,7 +61,8 @@ exports.getPresencePerGroup = async (req, res, next) => {
     const data = {
         groupName: getGroupNameById(groupId),
         // presence: presence,
-        presencePerGroup: presencePerGroup
+        presencePerGroup: presencePerGroup,
+        students: students
     };
     res.render("matemaraton/presence-per-group", data);
 };
@@ -65,4 +86,14 @@ const getGroupNameById = groupId => {
     else if (groupId === "cls8-incepatori") return "Cls 8, Incepatori";
     else if (groupId === "cls5-avansati") return "Cls 5, Avansati";
     else return "Grup necunoscut";
+};
+
+//let cache = {};
+
+const getStudentDetails = (student, students) => {
+    const studentCode = student.name;
+
+    const studentDetails = students.find(x => x.shortName === studentCode);
+
+    return studentDetails;
 };
