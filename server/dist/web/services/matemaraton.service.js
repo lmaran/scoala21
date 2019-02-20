@@ -9,13 +9,13 @@ exports.getLastPresence = async groupId => {
     return await db.collection(collection).findOne({ groupId: groupId });
 };
 
-exports.getPresencePerGroup = async groupId => {
+exports.getPresencePerGroup = async (period, grade, groupName) => {
     const db = await mongoHelper.getDb();
     // id = mongoHelper.normalizedId(id);
     // const teacher = await db.collection(collection).findOne({ _id: id });
     return await db
         .collection(collection)
-        .find({ edition: "1", groupId: groupId })
+        .find({ period: period, grade: grade, groupName: groupName })
         .toArray();
 };
 

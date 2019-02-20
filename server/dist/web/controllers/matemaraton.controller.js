@@ -11,12 +11,14 @@ exports.getMatemaraton = async (req, res) => {
 
 exports.getPresencePerGroup = async (req, res, next) => {
     const groupId = req.params.id;
-    const routeParamWhitelist = ["cls8-avansati", "cls8-incepatori", "cls5-avansati"];
+    const routeParamWhitelist = ["8-avansati", "8-incepatori", "5-avansati"];
 
     if (!routeParamWhitelist.includes(groupId)) {
         const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
         return next(err);
     }
+
+    const [grade, groupName] = groupId.split("-");
 
     // const presence = await matemaratonService.getLastPresence(groupId);
     // const presencePerGroup = await matemaratonService.getPresencePerGroup(groupId);
@@ -26,43 +28,52 @@ exports.getPresencePerGroup = async (req, res, next) => {
     //const [a, b] = [presencePerGroup, students];
 
     // met 2:
-    const [presencePerGroup, students] = await Promise.all([
-        await matemaratonService.getPresencePerGroup(groupId),
-        await matemaratonService.getStudents()
-    ]);
+    // const [presencePerGroup, students] = await Promise.all([
+    //     await matemaratonService.getPresencePerGroup(groupId),
+    //     await matemaratonService.getStudents()
+    // ]);
 
-    const cache = {};
-    presencePerGroup.forEach(presencePerGroup => {
-        presencePerGroup.students.forEach(student => {
-            const studentCode = student.name;
-            let studentDetails;
+    // const cache = {};
+    // presencePerGroup.forEach(presencePerGroup => {
+    //     presencePerGroup.students.forEach(student => {
+    //         const studentCode = student.name;
+    //         let studentDetails;
 
-            if (cache[studentCode]) {
-                console.log(student.name + " from cache");
-                studentDetails = cache[studentCode];
-            } else {
-                studentDetails = getStudentDetails(student, students);
-                cache[studentCode] = studentDetails;
-            }
-            student.age = (studentDetails && studentDetails.class) || "xx";
-        });
-    });
+    //         if (cache[studentCode]) {
+    //             console.log(student.name + " from cache");
+    //             studentDetails = cache[studentCode];
+    //         } else {
+    //             studentDetails = getStudentDetails(student, students);
+    //             cache[studentCode] = studentDetails;
+    //         }
+    //         student.age = (studentDetails && studentDetails.class) || "xx";
+    //     });
+    // });
 
     // console.log("========== a");
     // console.log(presencePerGroup);
     // console.log("========== b");
     // console.log(students);
 
-    presencePerGroup.forEach(presence => {
-        presence.date = dateTimeHelper.getStringFromString(presence.date);
-    });
+    // presencePerGroup.forEach(presence => {
+    //     presence.date = dateTimeHelper.getStringFromString(presence.date);
+    // });
 
     // presence.date = dateTimeHelper.getStringFromString(presence.date);
+    // const data = {
+    //     groupName: getGroupNameById(groupId),
+    //     // presence: presence,
+    //     presencePerGroup: presencePerGroup,
+    //     students: students
+    // };
+
+    const period = "201819";
+    const presencePerGroup = await matemaratonService.getPresencePerGroup(period, grade, groupName);
+
     const data = {
-        groupName: getGroupNameById(groupId),
-        // presence: presence,
-        presencePerGroup: presencePerGroup,
-        students: students
+        grade,
+        groupName,
+        presencePerGroup
     };
     res.render("matemaraton/presence-per-group", data);
 };
