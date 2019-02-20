@@ -1,15 +1,15 @@
-<h1>Prezenta ({{groupName}})</h1>
+<h1>Prezenta (cls{{grade}}-{{groupName}})</h1>
 
 {{#each presencePerGroup}}
 <h2>{{date}}</h2>
 <ul>
     {{#each students}}
-    <li><a href="/matemaraton/prezenta/elevi/{{id}}">{{name}}</a> ({{class}}) - {{age}}</li>
+    <li><a href="/matemaraton/prezenta/elevi/{{id}}">{{shortName}}</a> ({{../grade}}{{class}})</li>
     {{/each}}
 </ul>
 {{/each}}
 
-All students:
+{{!-- All students:
 {{#each students}}
 <h2>{{firstName}}, {{class}}</h2>
-{{/each}}
+{{/each}} --}}
