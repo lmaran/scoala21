@@ -70,6 +70,18 @@ exports.getPresencePerGroup = async (req, res, next) => {
     const period = "201819";
     const presencePerGroup = await matemaratonService.getPresencePerGroup(period, grade, groupName);
 
+    const presencePerStudent = getPresencePerStudent(presencePerGroup);
+
+    // console.log(presencePerStudent);
+
+    presencePerGroup.forEach(presence => {
+        presence.students.forEach(student => {
+            // console.log(student);
+            // presencePerStudent[student._id].totalPresences
+            student.totalPresences = presencePerStudent[student.id].totalPresences;
+        });
+    });
+
     const data = {
         grade,
         groupName,
@@ -81,13 +93,14 @@ exports.getPresencePerGroup = async (req, res, next) => {
 exports.getPresencePerStudent = async (req, res, next) => {
     const studentId = req.params.id;
 
-    const presencePerStudent = await matemaratonService.getPresencePerStudent(studentId);
+    const presencePerGroup = await matemaratonService.getPresencePerGroup(studentId);
+
 
     const data = {
         // groupName: getGroupNameById(groupId),
         // allPresences: allPresences
         student: studentId,
-        presencePerStudent
+        presencePerGroup
     };
     res.render("matemaraton/presence-per-student", data);
 };
@@ -108,3 +121,24 @@ const getStudentDetails = (student, students) => {
 
     return studentDetails;
 };
+
+const getPresencePerStudent = presencePerGroup => {
+    const presencePerStudentObj = presencePerGroup.reduce((acc, crt) => {
+        if (crt.students) {
+            crt.students.forEach(student => {
+                if (acc[student.id]) {
+                    acc[student.id].totalPresences += 1;
+                } else {
+                    acc[student.id] = {
+                        totalPresences: 1
+                    }
+                }
+            });
+        }
+        return acc;
+    }, {});
+    // console.log(presencePerStudentObj);
+    return presencePerStudentObj;
+};
+
+
