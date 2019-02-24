@@ -19,11 +19,25 @@ exports.getPresencePerGroup = async (period, grade, groupName) => {
         .toArray();
 };
 
-exports.getPresencePerStudent = async studentId => {
+exports.getPresencePerPeriod = async period => {
+    const db = await mongoHelper.getDb();
+    // id = mongoHelper.normalizedId(id);
+    // const teacher = await db.collection(collection).findOne({ _id: id });
+    return await db
+        .collection(collection)
+        .find({ period: period })
+        .sort({ date: -1 })
+        .toArray();
+};
+
+exports.getPresencePerStudent = async (period, studentId) => {
     const db = await mongoHelper.getDb();
     return await db
         .collection(collection)
-        .aggregate([{ $match: { edition: "1", "students.id": { $eq: studentId } } }, { $project: { _id: 0, date: 1 } }])
+        .aggregate([
+            { $match: { period: period, "students.id": { $eq: studentId } } },
+            { $project: { _id: 0, date: 1, "students.shortName": 1 } }
+        ])
         .toArray();
 };
 

@@ -37,7 +37,7 @@ exports.getPage = async (req, res, next) => {
         "achizitii-publice",
         "cheltuieli-asociatie-parinti",
         "rapoarte",
-        "anunturi",
+        "anunturi"
     ];
 
     const pageId = req.params.pageId;
@@ -69,7 +69,7 @@ exports.getPage = async (req, res, next) => {
 
     const data = {
         //ctx: req.ctx,
-        pageContent: (page && page.htmlContent) || "pagina negasita",
+        pageContent: (page && page.htmlContent) || "pagina negasita"
     };
 
     res.render("page", data);
@@ -130,7 +130,7 @@ exports.getPage2 = async (req, res, next) => {
         "achizitii-publice",
         "cheltuieli-asociatie-parinti",
         "rapoarte",
-        "anunturi",
+        "anunturi"
     ];
 
     const pageId = req.params.pageId;
@@ -155,7 +155,7 @@ exports.getPage2 = async (req, res, next) => {
 
     // daca vrei sa editezi extern string-ul de markdown din mongo:
     // 1. copiezi sirul intr-un fisier (cu extensia md) din VSCode
-    // 2. rulezi "Find and Replace din VSCode: Mondul regex, find=\\n, replace = \n
+    // 2. rulezi "Find and Replace din VSCode: Modul regex, find=\\n, replace = \n
     // 3. dupa ce ai terminat de editat, refaci string-ul tot cu Find and Replace: \n -> \\n
 
     const page = await pageService.getOneBySlug(pageId);
@@ -167,14 +167,14 @@ exports.getPage2 = async (req, res, next) => {
     // https://stribny.name/blog/2018/10/convert-markdown-text-to-html-and-to-plaintext-in-javascript
     page.htmlContent =
         // page.htmlContent && page.htmlContent.replace(`/<table>/g`, `<table class="table-sm table-bordered">`);
-        page.htmlContent && page.htmlContent.split("<table>").join("<table class=\"table table-sm table-bordered\">");
+        page.htmlContent && page.htmlContent.split("<table>").join('<table class="table table-sm table-bordered">');
     // console.log(page);
 
     await pageService.updateOne(page);
 
     const data = {
         // ctx: req.ctx,
-        pageContent: (page && page.htmlContent) || "pagina negasita",
+        pageContent: (page && page.htmlContent) || "pagina negasita"
     };
 
     res.render("page", data);

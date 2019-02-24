@@ -21,21 +21,21 @@ exports.getPresencePerGroup = async (req, res, next) => {
     const [grade, groupName] = groupId.split("-");
 
     // const presence = await matemaratonService.getLastPresence(groupId);
-    // const presencePerGroup = await matemaratonService.getPresencePerGroup(groupId);
+    // const presencePerGroups = await matemaratonService.getPresencePerGroup(groupId);
     // const students = await matemaratonService.getStudents();
 
     // met 1:
-    //const [a, b] = [presencePerGroup, students];
+    //const [a, b] = [presencePerGroups, students];
 
     // met 2:
-    // const [presencePerGroup, students] = await Promise.all([
+    // const [presencePerGroups, students] = await Promise.all([
     //     await matemaratonService.getPresencePerGroup(groupId),
     //     await matemaratonService.getStudents()
     // ]);
 
     // const cache = {};
-    // presencePerGroup.forEach(presencePerGroup => {
-    //     presencePerGroup.students.forEach(student => {
+    // presencePerGroups.forEach(presencePerGroups => {
+    //     presencePerGroups.students.forEach(student => {
     //         const studentCode = student.name;
     //         let studentDetails;
 
@@ -51,11 +51,11 @@ exports.getPresencePerGroup = async (req, res, next) => {
     // });
 
     // console.log("========== a");
-    // console.log(presencePerGroup);
+    // console.log(presencePerGroups);
     // console.log("========== b");
     // console.log(students);
 
-    // presencePerGroup.forEach(presence => {
+    // presencePerGroups.forEach(presence => {
     //     presence.date = dateTimeHelper.getStringFromString(presence.date);
     // });
 
@@ -63,82 +63,152 @@ exports.getPresencePerGroup = async (req, res, next) => {
     // const data = {
     //     groupName: getGroupNameById(groupId),
     //     // presence: presence,
-    //     presencePerGroup: presencePerGroup,
+    //     presencePerGroups: presencePerGroups,
     //     students: students
     // };
 
     const period = "201819";
-    const presencePerGroup = await matemaratonService.getPresencePerGroup(period, grade, groupName);
+    let presencePerGroups = await matemaratonService.getPresencePerGroup(period, grade, groupName);
 
-    const presencePerStudent = getPresencePerStudent(presencePerGroup);
+    const totalCourses = getTotalCourses(presencePerGroups);
 
-    // console.log(presencePerStudent);
+    const presencePerStudentsObj = getPresencePerStudentsObjWithTotal(presencePerGroups, totalCourses);
 
-    presencePerGroup.forEach(presence => {
-        presence.students.forEach(student => {
-            // console.log(student);
-            // presencePerStudent[student._id].totalPresences
-            student.totalPresences = presencePerStudent[student.id].totalPresences;
-        });
+    console.log(presencePerStudentsObj);
+
+    presencePerGroups.forEach(presence => {
+        presence.dateAsString = dateTimeHelper.getStringFromStringNoDay(presence.date);
+
+        if (presence.students) {
+            // add 'totalPresences' (as a new property)
+            presence.students.forEach(student => {
+                student.totalPresences = presencePerStudentsObj[student.id].totalPresences;
+                student.totalPresencesAsPercent = presencePerStudentsObj[student.id].totalPresencesAsPercent;
+            });
+
+            // sort by 'totalPresences' (desc), then by 'shortName' (asc);
+            presence.students = presence.students.sort(sortByPresence);
+        }
     });
+
+    presencePerGroups = presencePerGroups.sort((a, b) => (a.date > b.date ? -1 : 1)); // sort by date, desc
+
+    const presencePerStudents = Object.keys(presencePerStudentsObj)
+        .map(key => presencePerStudentsObj[key])
+        .sort(sortByPresence);
+
+    const totalStudents = presencePerStudents.length;
 
     const data = {
         grade,
         groupName,
-        presencePerGroup
+        presencePerGroups,
+        presencePerStudents,
+        totalCourses,
+        totalStudents
     };
     res.render("matemaraton/presence-per-group", data);
 };
 
-exports.getPresencePerStudent = async (req, res, next) => {
+exports.getPresencePerStudent = async (req, res) => {
     const studentId = req.params.id;
+    const period = "201819";
 
-    const presencePerGroup = await matemaratonService.getPresencePerGroup(studentId);
+    // const presencePerStudent = await matemaratonService.getPresencePerStudent(period, studentId);
+    let presencePerPeriod = await matemaratonService.getPresencePerPeriod(period);
 
+    let selectedStudentAtLatestPresence = null;
+
+    presencePerPeriod.forEach(line => {
+        line.dateAsString = dateTimeHelper.getStringFromStringNoDay(line.date);
+        if (line.students) {
+            const studentFound = line.students.find(x => x.id === studentId);
+            if (studentFound) {
+                line.presence = true;
+
+                // extract student info from its latest presence
+                if (!selectedStudentAtLatestPresence) {
+                    selectedStudentAtLatestPresence = studentFound;
+                    selectedStudentAtLatestPresence.grade = line.grade;
+                    selectedStudentAtLatestPresence.groupName = line.groupName;
+                }
+            }
+        }
+        line.students = null;
+    });
+
+    // ditch the grades and groups the student do not belong
+    presencePerPeriod = presencePerPeriod.filter(
+        x =>
+            x.grade === selectedStudentAtLatestPresence.grade &&
+            x.groupName === selectedStudentAtLatestPresence.groupName
+    );
+
+    const totals = presencePerPeriod.reduce(
+        (acc, crt) => {
+            if (!crt.noCourse) acc.totalCourses += 1;
+            if (crt.presence) acc.totalPresences += 1;
+            return acc;
+        },
+        { totalPresences: 0, totalCourses: 0 }
+    );
+    if (totals.totalCourses !== 0) {
+        totals.totalPresencesAsPercent = Math.round((totals.totalPresences * 100) / totals.totalCourses);
+    }
+
+    console.log(totals);
 
     const data = {
         // groupName: getGroupNameById(groupId),
         // allPresences: allPresences
-        student: studentId,
-        presencePerGroup
+        student: selectedStudentAtLatestPresence,
+        presencePerStudent: presencePerPeriod,
+        totals
     };
     res.render("matemaraton/presence-per-student", data);
 };
 
-const getGroupNameById = groupId => {
-    if (groupId === "cls8-avansati") return "Cls 8, Avansati";
-    else if (groupId === "cls8-incepatori") return "Cls 8, Incepatori";
-    else if (groupId === "cls5-avansati") return "Cls 5, Avansati";
-    else return "Grup necunoscut";
+const getPresencePerStudentsObjWithTotal = (presencePerGroups, totalCourses) => {
+    const presencePerStudents = getPresencePerStudentsObj(presencePerGroups);
+
+    // for each student, calculate totalPresences as percent (of the total # of courses)
+    Object.keys(presencePerStudents).forEach(key => {
+        presencePerStudents[key].totalPresencesAsPercent = Math.round(
+            (presencePerStudents[key].totalPresences * 100) / totalCourses
+        );
+    });
+
+    return presencePerStudents;
 };
 
-//let cache = {};
-
-const getStudentDetails = (student, students) => {
-    const studentCode = student.name;
-
-    const studentDetails = students.find(x => x.shortName === studentCode);
-
-    return studentDetails;
-};
-
-const getPresencePerStudent = presencePerGroup => {
-    const presencePerStudentObj = presencePerGroup.reduce((acc, crt) => {
+const getPresencePerStudentsObj = presencePerGroups => {
+    return presencePerGroups.reduce((acc, crt) => {
         if (crt.students) {
             crt.students.forEach(student => {
                 if (acc[student.id]) {
                     acc[student.id].totalPresences += 1;
                 } else {
                     acc[student.id] = {
+                        id: student.id,
+                        shortName: student.shortName,
+                        class: student.class,
                         totalPresences: 1
-                    }
+                    };
                 }
             });
         }
         return acc;
     }, {});
-    // console.log(presencePerStudentObj);
-    return presencePerStudentObj;
 };
 
+const getTotalCourses = presencePerGroups => presencePerGroups.filter(x => !x.noCourse).reduce(acc => acc + 1, 0);
 
+// sort student by 'totalPresences' (desc), then by 'shortName' (asc); https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
+const sortByPresence = (a, b) =>
+    a.totalPresences > b.totalPresences
+        ? -1
+        : a.totalPresences === b.totalPresences
+        ? a.shortName > b.shortName
+            ? 1
+            : -1
+        : 1;

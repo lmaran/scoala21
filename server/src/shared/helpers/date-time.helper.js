@@ -87,7 +87,15 @@ exports.getStringFromString = function(dateStr) {
     const date = this.getDateFromString(dateStr);
     const f = this.getFriendlyDate(date);
     const dateStrRo = f.dayAsString + ", " + f.dayOfMonth + " " + f.monthAsShortString + ". " + f.year;
-    return dateStrRo; // "Joi, 07 Aprilie 2015"
+    return dateStrRo; // "Joi, 07 Apr. 2015"
+};
+
+exports.getStringFromStringNoDay = function(dateStr) {
+    // "yyyy-mm-dd"
+    const date = this.getDateFromString(dateStr);
+    const f = this.getFriendlyDate(date);
+    const dateStrRo = f.dayOfMonth + " " + f.monthAsShortString + ". " + f.year;
+    return dateStrRo; // "07 Apr. 2015"
 };
 
 exports.getStringFromDate = function(date) {
