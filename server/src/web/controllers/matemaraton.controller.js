@@ -1,6 +1,7 @@
 const matemaratonService = require("../services/matemaraton.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
+const arrayHelper = require("../../shared/helpers/array.helper");
 
 exports.getMatemaraton = async (req, res) => {
     const data = {
@@ -10,6 +11,116 @@ exports.getMatemaraton = async (req, res) => {
 };
 
 exports.getPresencePerGroup = async (req, res, next) => {
+    // check group name
+    const groupId = req.params.id;
+    const routeParamWhitelist = ["8-avansati", "8-incepatori", "5-avansati"];
+
+    if (!routeParamWhitelist.includes(groupId)) {
+        const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
+        return next(err);
+    }
+
+    // check edition
+    const editionName = req.params.edition; // "edition-2"
+    let edition = null;
+    if (editionName) {
+        const editionSegments = editionName.split("-");
+        if (editionSegments.length !== 2) {
+            const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
+            return next(err);
+        } else {
+            edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
+        }
+    } else {
+        // get latest edition from  DB
+        edition = await matemaratonService.getCurrentEdition();
+    }
+
+    if (!edition) {
+        const err = new PageNotFound(`Pagina negasita2: ${req.method} ${req.url}`);
+        return next(err);
+    }
+
+    const period = edition.period; // 201819
+
+    const [grade, groupName] = groupId.split("-");
+
+    // let presencePerGroups = await matemaratonService.getPresencePerGroup(period, grade, groupName);
+    // const students = await matemaratonService.getStudentsPerGroup(period, grade, groupName);
+
+    const [presencePerGroups, students] = await Promise.all([
+        await matemaratonService.getPresencePerGroup(period, grade, groupName),
+        await matemaratonService.getStudentsPerGrade(period, grade)
+    ]);
+
+    const studentsObj = arrayHelper.arrayToObject(students, "_id");
+
+    // enrich students with total presences
+    // populate also totalCourses
+    let totalCourses = 0;
+    presencePerGroups.forEach(presencePerWeek => {
+        if (!presencePerWeek.noCourse) {
+            totalCourses += 1;
+            if (presencePerWeek.students2) {
+                presencePerWeek.students2.forEach(studentId => {
+                    const student = studentsObj[studentId];
+                    if (student) {
+                        if (!student.totalPresences) {
+                            student.totalPresences = 1;
+                        } else {
+                            student.totalPresences += 1;
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    // for each student, add totalPresencesAsPercent
+    if (totalCourses !== 0) {
+        Object.keys(studentsObj).forEach(studentId => {
+            const student = studentsObj[studentId];
+            // if (!student.totalPresences) student.totalPresences = 0;
+            student.totalPresencesAsPercent = Math.round((student.totalPresences * 100) / totalCourses);
+        });
+    }
+
+    // console.log(totalCourses);
+
+    presencePerGroups.forEach(presencePerWeek => {
+        presencePerWeek.dateAsString = dateTimeHelper.getStringFromStringNoDay(presencePerWeek.date);
+        if (presencePerWeek.students2) {
+            presencePerWeek.students = presencePerWeek.students2
+                .reduce((acc, studentId) => {
+                    const student = studentsObj[studentId];
+                    // const selectedGrade = student.grades.find(x => x.period === period);
+                    acc.push(student);
+                    return acc;
+                }, [])
+                .sort(sortByPresence);
+        }
+    });
+
+    const presencePerStudents = arrayHelper
+        .objectToArray(studentsObj)
+        .filter(x => x.totalPresences) // exclude students from other groups
+        .sort(sortByPresence);
+
+    // console.log(edition);
+    // res.send(presencePerGroups);
+
+    const data = {
+        grade,
+        groupName,
+        presencePerGroups,
+        presencePerStudents,
+        totalCourses,
+        totalStudents: presencePerStudents.length
+    };
+    res.render("matemaraton/presence-per-group", data);
+};
+
+exports.getPresencePerGroup2 = async (req, res, next) => {
     const groupId = req.params.id;
     const routeParamWhitelist = ["8-avansati", "8-incepatori", "5-avansati"];
 
@@ -20,61 +131,14 @@ exports.getPresencePerGroup = async (req, res, next) => {
 
     const [grade, groupName] = groupId.split("-");
 
-    // const presence = await matemaratonService.getLastPresence(groupId);
-    // const presencePerGroups = await matemaratonService.getPresencePerGroup(groupId);
-    // const students = await matemaratonService.getStudents();
-
-    // met 1:
-    //const [a, b] = [presencePerGroups, students];
-
-    // met 2:
-    // const [presencePerGroups, students] = await Promise.all([
-    //     await matemaratonService.getPresencePerGroup(groupId),
-    //     await matemaratonService.getStudents()
-    // ]);
-
-    // const cache = {};
-    // presencePerGroups.forEach(presencePerGroups => {
-    //     presencePerGroups.students.forEach(student => {
-    //         const studentCode = student.name;
-    //         let studentDetails;
-
-    //         if (cache[studentCode]) {
-    //             console.log(student.name + " from cache");
-    //             studentDetails = cache[studentCode];
-    //         } else {
-    //             studentDetails = getStudentDetails(student, students);
-    //             cache[studentCode] = studentDetails;
-    //         }
-    //         student.age = (studentDetails && studentDetails.class) || "xx";
-    //     });
-    // });
-
-    // console.log("========== a");
-    // console.log(presencePerGroups);
-    // console.log("========== b");
-    // console.log(students);
-
-    // presencePerGroups.forEach(presence => {
-    //     presence.date = dateTimeHelper.getStringFromString(presence.date);
-    // });
-
-    // presence.date = dateTimeHelper.getStringFromString(presence.date);
-    // const data = {
-    //     groupName: getGroupNameById(groupId),
-    //     // presence: presence,
-    //     presencePerGroups: presencePerGroups,
-    //     students: students
-    // };
-
     const period = "201819";
-    let presencePerGroups = await matemaratonService.getPresencePerGroup(period, grade, groupName);
+    const presencePerGroups = await matemaratonService.getPresencePerGroup(period, grade, groupName);
 
     const totalCourses = getTotalCourses(presencePerGroups);
 
     const presencePerStudentsObj = getPresencePerStudentsObjWithTotal(presencePerGroups, totalCourses);
 
-    console.log(presencePerStudentsObj);
+    // console.log(presencePerStudentsObj);
 
     presencePerGroups.forEach(presence => {
         presence.dateAsString = dateTimeHelper.getStringFromStringNoDay(presence.date);
@@ -91,7 +155,8 @@ exports.getPresencePerGroup = async (req, res, next) => {
         }
     });
 
-    presencePerGroups = presencePerGroups.sort((a, b) => (a.date > b.date ? -1 : 1)); // sort by date, desc
+    // sorted by mongo
+    // presencePerGroups = presencePerGroups.sort((a, b) => (a.date > b.date ? -1 : 1)); // sort by date, desc
 
     const presencePerStudents = Object.keys(presencePerStudentsObj)
         .map(key => presencePerStudentsObj[key])
@@ -156,7 +221,7 @@ exports.getPresencePerStudent = async (req, res) => {
         totals.totalPresencesAsPercent = Math.round((totals.totalPresences * 100) / totals.totalCourses);
     }
 
-    console.log(totals);
+    // console.log(totals);
 
     const data = {
         // groupName: getGroupNameById(groupId),

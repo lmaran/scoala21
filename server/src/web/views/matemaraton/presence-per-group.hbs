@@ -32,7 +32,7 @@
 
     <ul>
         {{#each students}}
-        <li><a href="/matemaraton/prezenta/elevi/{{id}}">{{shortName}}</a> ({{../grade}}{{class}})
+        <li><a href="/matemaraton/prezenta/elevi/{{_id}}">{{shortName}}</a> ({{../grade}}{{class}})
             {{#if (eq @../index 0)}}
             - {{totalPresencesAsPercent}}%
             {{/if}}
@@ -53,7 +53,7 @@
 
 {{#each presencePerStudents}}
 <div {{#if (gt @index 7)}} class="toggle-student hideStudent" {{/if}}>
-    <a href="/matemaraton/prezenta/elevi/{{id}}">{{shortName}}</a> - prezente: {{totalPresences}} din
+    <a href="/matemaraton/prezenta/elevi/{{_id}}">{{shortName}}</a> - prezente: {{totalPresences}} din
     {{../totalCourses}} ({{totalPresencesAsPercent}}%)
     <div class="progress mb-2">
         <div class="progress-bar" role="progressbar" style="width: {{totalPresencesAsPercent}}%" aria-valuenow="25"
