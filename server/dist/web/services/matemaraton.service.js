@@ -16,6 +16,7 @@ exports.getPresencePerGroup = async (period, grade, groupName) => {
     return await db
         .collection(collection)
         .find({ period: period, grade: grade, groupName: groupName })
+        .sort({ date: -1 })
         .toArray();
 };
 
@@ -47,6 +48,33 @@ exports.getStudents = async () => {
         .collection("mm-students")
         .find({ edition: "1" })
         .toArray();
+};
+
+exports.getStudentsPerGrade = async (period, grade) => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection("students")
+        .aggregate([
+            { $match: { "grades.period": period, "grades.grade": grade } },
+            { $unwind: "$grades" },
+            { $project: { shortName: 1, grade: "$grades.grade", class: "$grades.class" } }
+        ])
+        .toArray();
+};
+
+exports.getCurrentEdition = async () => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-editions").findOne({ isCurrent: true });
+};
+
+exports.getCurrentEditionVer2 = async () => { // no need for 'isCurrent' field
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-editions").findOne({}, { sort: { period: -1 } });
+};
+
+exports.getSelectedEdition = async edition => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-editions").findOne({ edition: edition });
 };
 
 // exports.getAll = async () => {
