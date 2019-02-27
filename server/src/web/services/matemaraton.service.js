@@ -67,6 +67,11 @@ exports.getCurrentEdition = async () => {
     return await db.collection("mm-editions").findOne({ isCurrent: true });
 };
 
+exports.getCurrentEditionVer2 = async () => { // no need for 'isCurrent' field
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-editions").findOne({}, { sort: { period: -1 } });
+};
+
 exports.getSelectedEdition = async edition => {
     const db = await mongoHelper.getDb();
     return await db.collection("mm-editions").findOne({ edition: edition });
