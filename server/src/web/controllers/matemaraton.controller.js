@@ -4,6 +4,13 @@ const { PageNotFound } = require("../../shared/errors/all.errors");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
+exports.getTrainingProgramForENSimulation = async (req, res) => {
+    const data = {
+        // ctx: req.ctx,
+    };
+    res.render("matemaraton/pregatire-simulare-en", data);
+};
+
 exports.getMatemaraton = async (req, res) => {
     const data = {
         // ctx: req.ctx,
@@ -111,7 +118,6 @@ exports.getPresencePerGroup = async (req, res, next) => {
     res.render("matemaraton/presence-per-group", data);
 };
 
-
 exports.getPresencePerStudent = async (req, res) => {
     // get edition (and its associated period)
     // edition = {period:'201819', edition:'2', ...}
@@ -131,7 +137,6 @@ exports.getPresencePerStudent = async (req, res) => {
                 await matemaratonService.getSelectedEdition(editionSegments[1]),
                 await studentService.getOneById(studentId)
             ]);
-
         }
     } else {
         // edition = await matemaratonService.getCurrentEdition();
@@ -149,8 +154,6 @@ exports.getPresencePerStudent = async (req, res) => {
     const period = edition.period; // 201819
 
     res.send(edition);
-
-
 
     // const studentId = req.params.id;
     // const period = "201819";
@@ -212,7 +215,7 @@ const sortByPresence = (a, b) =>
     a.totalPresences > b.totalPresences
         ? -1
         : a.totalPresences === b.totalPresences
-            ? a.shortName > b.shortName
-                ? 1
-                : -1
-            : 1;
+        ? a.shortName > b.shortName
+            ? 1
+            : -1
+        : 1;
