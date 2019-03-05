@@ -59,8 +59,7 @@ exports.getPresencePerGroup = async (req, res, next) => {
 
     const studentsObj = arrayHelper.arrayToObject(students, "_id");
 
-    // enrich students with 'totalPresences'
-    // calculate also 'totalCourses'
+    // enrich students with 'totalPresences'; calculate also 'totalCourses'
     let totalCourses = 0;
     presencePerGroups.forEach(presencePerWeek => {
         if (!presencePerWeek.noCourse) {
@@ -118,9 +117,8 @@ exports.getPresencePerGroup = async (req, res, next) => {
     res.render("matemaraton/presence-per-group", data);
 };
 
-exports.getPresencePerStudent = async (req, res) => {
-    // get edition (and its associated period)
-    // edition = {period:'201819', edition:'2', ...}
+exports.getPresencePerStudent = async (req, res, next) => {
+    // get edition (and its associated period); edition = {period:'201819', edition:'2', ...}
     const editionName = req.params.edition; // "edition-2"
     const studentId = req.params.id;
     let edition = null;
@@ -131,15 +129,12 @@ exports.getPresencePerStudent = async (req, res) => {
             const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
             return next(err);
         } else {
-            // edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
-
             [edition, student] = await Promise.all([
                 await matemaratonService.getSelectedEdition(editionSegments[1]),
                 await studentService.getOneById(studentId)
             ]);
         }
     } else {
-        // edition = await matemaratonService.getCurrentEdition();
         [edition, student] = await Promise.all([
             await matemaratonService.getCurrentEdition(),
             await studentService.getOneById(studentId)
@@ -153,61 +148,81 @@ exports.getPresencePerStudent = async (req, res) => {
 
     const period = edition.period; // 201819
 
-    res.send(edition);
+    const periodInfo = student.grades.find(x => x.period === period);
 
-    // const studentId = req.params.id;
-    // const period = "201819";
+    student.crtGrade = periodInfo.grade;
+    student.crtClass = periodInfo.class;
+    student.crtGroup = periodInfo.group;
 
-    // // const presencePerStudent = await matemaratonService.getPresencePerStudent(period, studentId);
-    // let presencePerPeriod = await matemaratonService.getPresencePerPeriod(period);
+    const presencePerGrade = await matemaratonService.getPresencePerGrade(period, periodInfo.grade);
 
-    // let selectedStudentAtLatestPresence = null;
+    let totalCourses = 0;
+    let totalPresences = 0;
+    const presencesObj = presencePerGrade
+        .map(x => {
+            // let isPresent = false;
+            const result = {
+                date: x.date,
+                grade: x.grade,
+                groupName: x.groupName,
+                course: x.course
+            };
+            if (x.noCourse) {
+                result.noCourse = x.noCourse;
+                result.noCourseReason = x.noCourseReason;
+            } else {
+                result.isPresent = x.students.some(x => x === studentId);
+            }
+            return result;
+        })
+        // group by day
+        .reduce((acc, crt) => {
+            const key = crt.date;
+            if (acc[key]) {
+                // if exists and is present, overwrite it
+                if (crt.isPresent && !acc[key].isPresent) {
+                    acc[key].isPresent = true;
+                    // acc[key].groupName = crt.groupName;
+                    totalPresences += 1;
+                }
+            } else {
+                // copy (part of the) original object
+                acc[key] = {
+                    date: crt.date,
+                    dateAsString: dateTimeHelper.getStringFromStringNoDay(crt.date)
+                };
 
-    // presencePerPeriod.forEach(line => {
-    //     line.dateAsString = dateTimeHelper.getStringFromStringNoDay(line.date);
-    //     if (line.students) {
-    //         const studentFound = line.students.find(x => x.id === studentId);
-    //         if (studentFound) {
-    //             line.presence = true;
+                if (crt.noCourse) {
+                    acc[key].noCourse = crt.noCourse;
+                    acc[key].noCourseReason = crt.noCourseReason;
+                } else {
+                    acc[key].course = crt.course;
+                    // acc[key].groupName = crt.groupName;
+                    totalCourses += 1;
+                    if (crt.isPresent) {
+                        acc[key].isPresent = true;
+                        totalPresences += 1;
+                    }
+                }
+            }
+            return acc;
+        }, {});
 
-    //             // extract student info from its latest presence
-    //             if (!selectedStudentAtLatestPresence) {
-    //                 selectedStudentAtLatestPresence = studentFound;
-    //                 selectedStudentAtLatestPresence.grade = line.grade;
-    //                 selectedStudentAtLatestPresence.groupName = line.groupName;
-    //             }
-    //         }
-    //     }
-    //     line.students = null;
-    // });
+    let totalPresencesAsPercent = 0;
+    if (totalCourses) {
+        totalPresencesAsPercent = Math.round((totalPresences * 100) / totalCourses);
+    }
 
-    // // ditch the grades and groups the student do not belong
-    // presencePerPeriod = presencePerPeriod.filter(
-    //     x =>
-    //         x.grade === selectedStudentAtLatestPresence.grade &&
-    //         x.groupName === selectedStudentAtLatestPresence.groupName
-    // );
+    const data = {
+        student,
+        presences: arrayHelper.objectToArray(presencesObj),
+        totalCourses,
+        totalPresences,
+        totalPresencesAsPercent
+    };
 
-    // const totals = presencePerPeriod.reduce(
-    //     (acc, crt) => {
-    //         if (!crt.noCourse) acc.totalCourses += 1;
-    //         if (crt.presence) acc.totalPresences += 1;
-    //         return acc;
-    //     },
-    //     { totalPresences: 0, totalCourses: 0 }
-    // );
-    // if (totals.totalCourses !== 0) {
-    //     totals.totalPresencesAsPercent = Math.round((totals.totalPresences * 100) / totals.totalCourses);
-    // }
-
-    // // console.log(totals);
-
-    // const data = {
-    //     student: selectedStudentAtLatestPresence,
-    //     presencePerStudent: presencePerPeriod,
-    //     totals
-    // };
-    // res.render("matemaraton/presence-per-student", data);
+    //res.send(data);
+    res.render("matemaraton/presence-per-student", data);
 };
 
 // sort student by 'totalPresences' (desc), then by 'shortName' (asc); https://flaviocopes.com/how-to-sort-array-of-objects-by-property-javascript/
