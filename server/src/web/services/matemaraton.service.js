@@ -1,11 +1,21 @@
 const mongoHelper = require("../../shared/helpers/mongo.helper");
 
 const collection = "mm-presence";
+const coursesCollection = "mm-courses";
 
 exports.getPresencePerGroup = async (period, grade, groupName) => {
     const db = await mongoHelper.getDb();
     return await db
         .collection(collection)
+        .find({ period: period, grade: grade, groupName: groupName })
+        .sort({ date: -1 })
+        .toArray();
+};
+
+exports.getCoursesPerGroup = async (period, grade, groupName) => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection(coursesCollection)
         .find({ period: period, grade: grade, groupName: groupName })
         .sort({ date: -1 })
         .toArray();
