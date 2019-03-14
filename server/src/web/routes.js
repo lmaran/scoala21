@@ -21,7 +21,7 @@ router.get("/conducere", staffController.getAll);
 router.get("/contact", contactController.getContact);
 
 // matemaraton
-router.get("/matemaraton/:edition?", matemaratonController.getMatemaraton);
+
 // router.get("/matemaraton/:edition", matemaratonController.getEditionHomepage);
 router.get("/matemaraton/:edition?/prezenta/grupe/:groupId", matemaratonController.getPresencePerGroup);
 router.get("/matemaraton/:edition?/prezenta/elevi/:studentId", matemaratonController.getPresencePerStudent);
@@ -29,6 +29,8 @@ router.get("/matemaraton/:edition?/pregatire-simulare-en", matemaratonController
 
 router.get("/matemaraton/:edition?/cursuri/grupe/:groupId", matemaratonController.getCoursesPerGroup);
 router.get("/matemaraton/:edition?/cursuri/:courseId", matemaratonController.getCourse);
+
+router.get("/matemaraton/:edition?", matemaratonController.getMatemaraton);
 
 // // angular routes: not found in static files, so default to index.html
 // router.get("/admin/*", (req, res) => {
