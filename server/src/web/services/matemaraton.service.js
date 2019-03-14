@@ -1,4 +1,5 @@
 const mongoHelper = require("../../shared/helpers/mongo.helper");
+const { ObjectID } = require("mongodb");
 
 const collection = "mm-presence";
 const coursesCollection = "mm-courses";
@@ -59,4 +60,9 @@ exports.getCurrentEdition = async () => {
 exports.getSelectedEdition = async edition => {
     const db = await mongoHelper.getDb();
     return await db.collection("mm-editions").findOne({ edition: edition });
+};
+
+exports.getCourse = async id => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-courses").findOne({ _id: new ObjectID(id) });
 };

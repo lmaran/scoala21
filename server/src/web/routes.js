@@ -21,7 +21,8 @@ router.get("/conducere", staffController.getAll);
 router.get("/contact", contactController.getContact);
 
 // matemaraton
-router.get("/matemaraton", matemaratonController.getMatemaraton);
+router.get("/matemaraton/:edition?", matemaratonController.getMatemaraton);
+// router.get("/matemaraton/:edition", matemaratonController.getEditionHomepage);
 router.get("/matemaraton/:edition?/prezenta/grupe/:groupId", matemaratonController.getPresencePerGroup);
 router.get("/matemaraton/:edition?/prezenta/elevi/:studentId", matemaratonController.getPresencePerStudent);
 router.get("/matemaraton/:edition?/pregatire-simulare-en", matemaratonController.getTrainingProgramForENSimulation);

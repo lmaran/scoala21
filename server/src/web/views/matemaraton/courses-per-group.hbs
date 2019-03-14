@@ -24,31 +24,23 @@
 {{#each coursesPerGroups}}
 <div {{#if (gt @index 2)}} class="toggle-presence hidePresence" {{/if}}>
 
-    <h3 {{#if noCourse}} class="text-muted" {{/if}}>{{dateAsString}} {{#if course}}- curs {{course}} {{/if}}</h3>
+    <h3 class="mt-5" {{#if noCourse}} class="text-muted" {{/if}}>{{#if course}}<a
+            href="/matemaraton/cursuri/{{_id}}">Curs {{course}}</a>
+        {{/if}} <span class="font-weight-light text-secondary2"> - {{dateAsString}}</span> </h3>
 
     {{#if noCourse}}
     <p style="padding-left:40px;" class="text-muted">Nu s-a tinut curs ({{noCourseReason}})</p>
     {{/if}}
-    <div>{{description}}</div>
-
-    {{#each images}}
-    <p>{{description}}</p>
-    <img src={{url}} class="img-fluid" alt="">
 
 
-    {{/each}}
+    <div class2="ml-5">
+        <div>{{description}}</div>
 
-    {{!-- <ul>
         {{#each images}}
-        <li>
-
-            <div>{{url}}</div>
-
-            <img src={{url}} class="img-fluid" alt="">
-
-        </li>
+        <p>{{description}}</p>
+        <img src={{url}} class="img-fluid" alt="">
         {{/each}}
-    </ul> --}}
+    </div>
 </div>
 {{/each}}
 {{#if (gt totalCourses 3)}}
@@ -57,6 +49,9 @@
 <a class="toggle-presence hidePresence" href="#" style="font-size:1.2rem; vertical-align: bottom;"><i
         class="fas fa-angle-double-left"></i> Vezi doar primele cursuri </a>
 {{/if}}
+<br>
+<br>
+<br>
 
 
 {{#section 'script-after'}}
