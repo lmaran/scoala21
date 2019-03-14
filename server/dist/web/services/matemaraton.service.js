@@ -1,11 +1,22 @@
 const mongoHelper = require("../../shared/helpers/mongo.helper");
+const { ObjectID } = require("mongodb");
 
 const collection = "mm-presence";
+const coursesCollection = "mm-courses";
 
 exports.getPresencePerGroup = async (period, grade, groupName) => {
     const db = await mongoHelper.getDb();
     return await db
         .collection(collection)
+        .find({ period: period, grade: grade, groupName: groupName })
+        .sort({ date: -1 })
+        .toArray();
+};
+
+exports.getCoursesPerGroup = async (period, grade, groupName) => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection(coursesCollection)
         .find({ period: period, grade: grade, groupName: groupName })
         .sort({ date: -1 })
         .toArray();
@@ -49,4 +60,9 @@ exports.getCurrentEdition = async () => {
 exports.getSelectedEdition = async edition => {
     const db = await mongoHelper.getDb();
     return await db.collection("mm-editions").findOne({ edition: edition });
+};
+
+exports.getCourse = async id => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-courses").findOne({ _id: new ObjectID(id) });
 };
