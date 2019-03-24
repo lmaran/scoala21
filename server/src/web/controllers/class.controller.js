@@ -1,4 +1,5 @@
 const classService = require("../services/class.service");
+const lessonService = require("../services/lesson.service");
 
 exports.getAll = async (req, res) => {
     const classes = await classService.getAll();
@@ -39,6 +40,25 @@ exports.getAll = async (req, res) => {
 
     // res.send(data);
     res.render("class/classes", data);
+};
+
+exports.getTeachers = async (req, res) => {
+    const classId = req.params.classId;
+
+    const [lessons, cls] = await Promise.all([
+        await lessonService.getLessonsForClass(classId),
+        await classService.getOneById(classId)
+    ]);
+
+    const data = {
+        // classesByGrade,
+        class: cls,
+        lessons,
+        ctx: req.ctx
+    };
+
+    // res.send(lessons);
+    res.render("class/teachers", data);
 };
 
 // item in DB (sample):

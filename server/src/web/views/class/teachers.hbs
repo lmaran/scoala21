@@ -5,18 +5,17 @@
     </ol>
 </nav> --}}
 
-<h1>Clase in gimnaziu</h1>
-{{#each classesByGrade}}
-<h2>Clasa a {{grade.name}}-a</h2>
+<h1>Clasa {{class.shortName}}</h1>
+<h2>Diriginte: {{class.classTeacher.name}}</h2>
+<h3 class="mt-4">Profesorii clasei:</h3>
 <ul>
-    {{#each classes }}
-    <li><span class="font-weight-bold">{{name}}</span>, diriginte {{classTeacher.name}}
-        <div class="mb-3">
+    {{#each lessons }}
+    <li><span class="font-weight-bold">{{teacher.name}}</span>, {{subject.name}}
+        {{!-- <div class="mb-3">
             <a href="#">elevi</a> |
             <a href="/clase/{{_id}}/profesori">profesori</a> |
             <a href="#">orar</a>
-        </div>
+        </div> --}}
     </li>
     {{/each}}
 </ul>
-{{/each}}
