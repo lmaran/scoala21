@@ -3,6 +3,7 @@ const router = express.Router();
 
 const homeController = require("./controllers/home.controller");
 const teacherController = require("./controllers/teacher.controller");
+const classController = require("./controllers/class.controller");
 const staffController = require("./controllers/staff.controller");
 const contactController = require("./controllers/contact.controller");
 const matemaratonController = require("./controllers/matemaraton.controller");
@@ -13,6 +14,9 @@ router.get("/", homeController.getHomePage);
 
 // teacher
 router.get("/profesori", teacherController.getAll);
+
+// teacher
+router.get("/clase", classController.getAll);
 
 // staff
 router.get("/conducere", staffController.getAll);

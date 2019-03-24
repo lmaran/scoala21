@@ -1,0 +1,19 @@
+{{!-- <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profesori</li>
+    </ol>
+</nav> --}}
+
+<h1>Clase in gimnaziu</h1>
+{{#each classesByGrade}}
+<h2>Clasa a {{grade.name}}-a</h2>
+<ul>
+    {{#each classes }}
+    <li><span class="font-weight-bold">{{name}}</span>, diriginte {{classTeacher.name}}
+        <div class="mb-3">
+            <a href="#">elevi</a> | <a href="#">profesori</a> | <a href="#">orar</a></div>
+    </li>
+    {{/each}}
+</ul>
+{{/each}}
