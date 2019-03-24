@@ -14,10 +14,14 @@ router.get("/", homeController.getHomePage);
 
 // teacher
 router.get("/profesori", teacherController.getAll);
+router.get("/profesori/:teacherId", teacherController.getTeacher);
 
 // class
 router.get("/clase", classController.getAll);
+router.get("/clase/:classId", classController.getClass);
+router.get("/clase/:classId/elevi", classController.getStudents);
 router.get("/clase/:classId/profesori", classController.getTeachers);
+router.get("/clase/:classId/orar", classController.getTimeTable);
 
 // staff
 router.get("/conducere", staffController.getAll);

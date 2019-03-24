@@ -10,7 +10,7 @@
 <h3 class="mt-4">Profesorii clasei:</h3>
 <ul>
     {{#each lessons }}
-    <li><span class="font-weight-bold">{{teacher.name}}</span>, {{subject.name}}
+    <li class="mt-1"><a href="/profesori/{{teacher.id}}">{{teacher.name}}</a>, {{subject.name}}
         {{!-- <div class="mb-3">
             <a href="#">elevi</a> |
             <a href="/clase/{{_id}}/profesori">profesori</a> |

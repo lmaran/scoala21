@@ -10,13 +10,14 @@
 <h2>{{key}}</h2>
 <ul>
     {{#each value }}
-    <li ng-repeat="teacher in value"><strong>{{firstName}} {{lastName}}</strong><span ng-show="{{holder}}">,
-            titular</span><span>, {{degree}}</span><span>, {{subject}}</span></li>
+    <li class="mt-1"><a href="/profesori/{{_id}}">{{firstName}} {{lastName}}</a>{{#if holder}},
+        titular{{/if}}<span>, {{degree}}</span><span>, {{subject}}</span></li>
     {{/each}}
 </ul>
 {{/each}}
 
 {{#section 'script'}}
-<script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
+<script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js"
+    integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
     crossorigin="anonymous"></script>
 {{/section}}

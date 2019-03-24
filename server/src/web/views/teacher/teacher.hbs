@@ -1,0 +1,23 @@
+<h1>{{teacher.firstName}} {{teacher.lastName}}</h1>
+
+<h3 class="font-weight-light">Profesor {{teacher.degree}}{{#if teacher.holder}}, titular{{/if}}</h3>
+<h4 class="font-weight-light">{{teacher.subject}}</h4>
+
+<h5 class="mt-4 font-weight-light2">Clase la care preda:</h5>
+
+<h5 class="font-weight-light">
+    {{#each uniqueClasses }}
+    <a href="/clase/{{id}}">{{name}}</a>{{#unless @last}},{{/unless}}
+    {{/each}}
+</h5>
+{{!-- <ol>
+    {{#each lessons }}
+    <li><span class="font-weight-bold">{{teacher.name}}</span>, {{subject.name}}
+        <div class="mb-3">
+            <a href="#">elevi</a> |
+            <a href="/clase/{{_id}}/profesori">profesori</a> |
+            <a href="#">orar</a>
+        </div>
+    </li>
+    {{/each}}
+</ol> --}}

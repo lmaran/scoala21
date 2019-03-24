@@ -10,3 +10,12 @@ exports.getLessonsForClass = async classId => {
         .sort({ "teacher.name": 1 })
         .toArray();
 };
+
+exports.getLessonsForTeacher = async (teacherId, academicYear) => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection(collection)
+        .find({ academicYear: academicYear, "teacher.id": teacherId })
+        .sort({ "class.name": 1 })
+        .toArray();
+};

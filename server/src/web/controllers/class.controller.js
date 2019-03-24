@@ -42,6 +42,25 @@ exports.getAll = async (req, res) => {
     res.render("class/classes", data);
 };
 
+exports.getStudents = async (req, res) => {
+    // const classId = req.params.classId;
+
+    // const [lessons, cls] = await Promise.all([
+    //     await lessonService.getLessonsForClass(classId),
+    //     await classService.getOneById(classId)
+    // ]);
+
+    const data = {
+        // classesByGrade,
+        // class: cls,
+        // lessons,
+        ctx: req.ctx
+    };
+
+    // res.send(lessons);
+    res.render("class/class-students", data);
+};
+
 exports.getTeachers = async (req, res) => {
     const classId = req.params.classId;
 
@@ -58,7 +77,58 @@ exports.getTeachers = async (req, res) => {
     };
 
     // res.send(lessons);
-    res.render("class/teachers", data);
+    res.render("class/class-teachers", data);
+};
+
+exports.getTimeTable = async (req, res) => {
+    // const classId = req.params.classId;
+
+    // const [lessons, cls] = await Promise.all([
+    //     await lessonService.getLessonsForClass(classId),
+    //     await classService.getOneById(classId)
+    // ]);
+
+    const data = {
+        // classesByGrade,
+        // class: cls,
+        // lessons,
+        ctx: req.ctx
+    };
+
+    // res.send(lessons);
+    res.render("class/class-timetable", data);
+};
+
+exports.getClass = async (req, res) => {
+    const classId = req.params.classId;
+    // const edition = await matemaratonService.getCurrentEdition();
+
+    // const [teacher, lessons] = await Promise.all([
+    //     await teacherService.getOneById(teacherId),
+    //     await lessonService.getLessonsForTeacher(teacherId, edition.period)
+    // ]);
+
+    // const uniqueClassesAsObject = lessons.reduce((acc, crt) => {
+    //     if (crt.class) {
+    //         acc[crt.class.id] = crt.class;
+    //     }
+    //     return acc;
+    // }, {});
+
+    // const uniqueClasses = arrayHelper.objectToArray(uniqueClassesAsObject);
+
+    const cls = await classService.getOneById(classId);
+
+    const data = {
+        // uniqueClasses,
+        // teacher,
+        // lessons,
+        class: cls,
+        ctx: req.ctx
+    };
+
+    // res.send(data);
+    res.render("class/class", data);
 };
 
 // item in DB (sample):
