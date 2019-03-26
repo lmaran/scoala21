@@ -72,7 +72,7 @@ exports.getPresencePerGroup = async (req, res, next) => {
 
     const [presencePerGroups, students] = await Promise.all([
         await matemaratonService.getPresencePerGroup(period, grade, groupName),
-        await matemaratonService.getStudentsPerGrade(period, grade)
+        await studentService.getStudentsPerGrade(period, grade)
     ]);
 
     const studentsObj = arrayHelper.arrayToObject(students, "_id");

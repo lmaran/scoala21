@@ -40,18 +40,6 @@ exports.getPresencePerPeriod = async period => {
         .toArray();
 };
 
-exports.getStudentsPerGrade = async (period, grade) => {
-    const db = await mongoHelper.getDb();
-    return await db
-        .collection("students")
-        .aggregate([
-            { $match: { "grades.period": period, "grades.grade": grade } },
-            { $unwind: "$grades" },
-            { $project: { shortName: 1, grade: "$grades.grade", class: "$grades.class" } }
-        ])
-        .toArray();
-};
-
 exports.getCurrentEdition = async () => {
     const db = await mongoHelper.getDb();
     return await db.collection("mm-editions").findOne({ isCurrent: true });
