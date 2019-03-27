@@ -21,7 +21,7 @@ router.get("/clase", classController.getAll);
 router.get("/clase/:classId", classController.getClass);
 router.get("/clase/:classId/elevi", classController.getStudents);
 router.get("/clase/:classId/profesori", classController.getTeachers);
-router.get("/clase/:classId/orar", classController.getTimeTable);
+router.get("/clase/:classId/orar", classController.getTimetable);
 
 // staff
 router.get("/conducere", staffController.getAll);

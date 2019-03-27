@@ -1,5 +1,9 @@
 const classService = require("../services/class.service");
 const lessonService = require("../services/lesson.service");
+const timetableService = require("../services/timetable.service");
+const { PageNotFound } = require("../../shared/errors/all.errors");
+const matemaratonService = require("../services/matemaraton.service");
+
 
 exports.getAll = async (req, res) => {
     const classes = await classService.getAll();
@@ -80,23 +84,50 @@ exports.getTeachers = async (req, res) => {
     res.render("class/class-teachers", data);
 };
 
-exports.getTimeTable = async (req, res) => {
-    // const classId = req.params.classId;
+exports.getTimetable = async (req, res, next) => {
+    const classId = req.params.classId;
 
-    // const [lessons, cls] = await Promise.all([
-    //     await lessonService.getLessonsForClass(classId),
-    //     await classService.getOneById(classId)
-    // ]);
+    // get edition (and its associated period)
+    // edition = {period:'201819', edition:'2', ...}
+    const editionName = req.params.edition; // "edition-2"
+    let edition = null;
+    if (editionName) {
+        const editionSegments = editionName.split("-");
+        if (editionSegments.length !== 2) {
+            const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
+            return next(err);
+        } else {
+            edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
+        }
+    } else {
+        edition = await matemaratonService.getCurrentEdition();
+    }
+
+    if (!edition) {
+        const err = new PageNotFound(`Pagina negasita2: ${req.method} ${req.url}`);
+        return next(err);
+    }
+
+    const academicYear = edition.period; // 201819
+
+    const activeTimetable = await timetableService.getActiveTimetableForAcademicYear(academicYear);
+    const timetableId = activeTimetable._id.toString(); // "_id" is an object
+
+    const [lessons, cls, timetableItems] = await Promise.all([
+        await lessonService.getLessonsForClass(classId),
+        await classService.getOneById(classId),
+        await timetableService.getTimetableItemsForClass(timetableId, classId)
+    ]);
 
     const data = {
-        // classesByGrade,
-        // class: cls,
-        // lessons,
+        lessons,
+        class: cls,
+        timetableItems,
         ctx: req.ctx
     };
 
-    // res.send(lessons);
-    res.render("class/class-timetable", data);
+    res.send(data);
+    //res.render("class/class-timetable", data);
 };
 
 exports.getClass = async (req, res) => {
