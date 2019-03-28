@@ -15,6 +15,7 @@ router.get("/", homeController.getHomePage);
 // teacher
 router.get("/profesori", teacherController.getAll);
 router.get("/profesori/:teacherId", teacherController.getTeacher);
+router.get("/profesori/:teacherId/orar", teacherController.getTimetable);
 
 // class
 router.get("/clase", classController.getAll);

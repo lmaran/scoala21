@@ -12,7 +12,14 @@ exports.getTimetableItemsForClass = async (timetableId, classId) => {
     const db = await mongoHelper.getDb();
     return await db
         .collection(itemsCollection)
-        .find({ "timetableId": timetableId, "class.id": classId })
+        .find({ timetableId: timetableId, "class.id": classId })
         .toArray();
 };
 
+exports.getTimetableItems = async timetableId => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection(itemsCollection)
+        .find({ timetableId: timetableId })
+        .toArray();
+};

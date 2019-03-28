@@ -121,24 +121,26 @@ exports.getTimetable = async (req, res, next) => {
 
     const timetableItemsAsObject = timetableItems.reduce((acc, crt) => {
         const crtLesson = lessonsAsObject[crt.lessonId];
-        const newItem = {
-            day: crt.day,
-            hour: crt.hour,
-            lesson: {
-                subject: crtLesson.subject,
-                teacher: crtLesson.teacher
-            },
-            allWeeks: !crtLesson.week
-        };
+        if (crtLesson) {
+            const newItem = {
+                day: crt.day,
+                hour: crt.hour,
+                lesson: {
+                    subject: crtLesson.subject,
+                    teacher: crtLesson.teacher
+                },
+                allWeeks: !crtLesson.week
+            };
 
-        if (crtLesson.week) {
-            newItem.lesson.week = crtLesson.week;
-        }
+            if (crtLesson.week) {
+                newItem.lesson.week = crtLesson.week;
+            }
 
-        if (acc[crt.day]) {
-            acc[crt.day].push(newItem);
-        } else {
-            acc[crt.day] = [newItem];
+            if (acc[crt.day]) {
+                acc[crt.day].push(newItem);
+            } else {
+                acc[crt.day] = [newItem];
+            }
         }
         return acc;
     }, {});
@@ -217,7 +219,7 @@ exports.getTimetable = async (req, res, next) => {
 
         const newLessonsPerHour = [];
         allHours.forEach(hour => {
-            const existingLessonPerHour = lessonsPerHour.find(x => x.hour === hour.id);
+            const existingLessonPerHour = lessonsPerHour && lessonsPerHour.find(x => x.hour === hour.id);
             const newLessonPerHour = {
                 hour: hour
             };
@@ -229,12 +231,14 @@ exports.getTimetable = async (req, res, next) => {
                     // multiple lessons per hour
                     const newLessonsPerWeek = [];
                     allWeeks.forEach(week => {
-                        const existingLessonPerWeek = existingLessonPerHour.lessonsPerWeek.find(x => x.week.shortName === week);
+                        const existingLessonPerWeek = existingLessonPerHour.lessonsPerWeek.find(
+                            x => x.week.shortName === week
+                        );
                         const newLessonPerWeek = {
                             week: week
-                        }
+                        };
                         if (existingLessonPerWeek) {
-                            newLessonPerWeek.lesson = existingLessonPerWeek.lesson
+                            newLessonPerWeek.lesson = existingLessonPerWeek.lesson;
                         }
                         newLessonsPerWeek.push(newLessonPerWeek);
                     });
