@@ -209,6 +209,7 @@ exports.getTimetable = async (req, res, next) => {
     ];
 
     const allDays = ["Luni", "Marti", "Miercuri", "Joi", "Vineri"];
+    const allWeeks = ["A", "B"];
     const lessonsPerDay = [];
 
     allDays.forEach(day => {
@@ -226,10 +227,19 @@ exports.getTimetable = async (req, res, next) => {
                     newLessonPerHour.lesson = existingLessonPerHour.lesson;
                 } else {
                     // multiple lessons per hour
-                    newLessonPerHour.lessonsPerWeek = existingLessonPerHour.lessonsPerWeek;
+                    const newLessonsPerWeek = [];
+                    allWeeks.forEach(week => {
+                        const existingLessonPerWeek = existingLessonPerHour.lessonsPerWeek.find(x => x.week.shortName === week);
+                        const newLessonPerWeek = {
+                            week: week
+                        }
+                        if (existingLessonPerWeek) {
+                            newLessonPerWeek.lesson = existingLessonPerWeek.lesson
+                        }
+                        newLessonsPerWeek.push(newLessonPerWeek);
+                    });
+                    newLessonPerHour.lessonsPerWeek = newLessonsPerWeek;
                 }
-            } else {
-                newLessonPerHour.noLesson = true;
             }
 
             newLessonsPerHour.push(newLessonPerHour);
@@ -247,7 +257,7 @@ exports.getTimetable = async (req, res, next) => {
         ctx: req.ctx
     };
 
-    // res.send(data);
+    //res.send(data);
     res.render("class/class-timetable", data);
 };
 

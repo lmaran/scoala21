@@ -30,8 +30,20 @@
                     <tr>
                         <td>{{hour.start}}</td>
                         <td>
-                            <div class="font-weight-bold2">{{lesson.subject.name}}</div>
+                            {{#if lesson}}
+
+                            <div>{{lesson.subject.name}}</div>
                             <div><a href="/profesori/{{lesson.teacher.id}}">{{lesson.teacher.name}}</a></div>
+
+                            {{else if lessonsPerWeek}}
+
+                            {{#each lessonsPerWeek}}
+                            <div>{{lesson.subject.name}} <span class="text-secondary">(sapt. {{week}})</span>
+                            </div>
+                            <div><a href="/profesori/{{lesson.teacher.id}}">{{lesson.teacher.name}}</a></div>
+                            {{/each}}
+
+                            {{/if}}
                         </td>
                     </tr>
                     {{/each}}
