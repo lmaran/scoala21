@@ -1,6 +1,6 @@
 exports.getContact = async (req, res) => {
     const data = {
-        // ctx: req.ctx
+        ctx: req.ctx
     }
 
     res.render("contact/contact", data)
