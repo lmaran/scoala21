@@ -21,6 +21,15 @@ exports.getStudentsPerGrade = async (period, grade) => {
         .toArray();
 };
 
+exports.getAllFromSiiir = async () => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection("siiir-elevi")
+        .find()
+        .project({ _id: 0, CNP: 1, Nume: 1, Prenume: 1, Formațiune: 1 })
+        .toArray();
+};
+
 // exports.insertOne = async teacher => {
 //     const db = await mongoHelper.getDb();
 //     return await db.collection(collection).insertOne(teacher);
