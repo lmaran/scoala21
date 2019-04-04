@@ -21,19 +21,44 @@ exports.getStudentsPerGrade = async (period, grade) => {
         .toArray();
 };
 
+exports.getStudentsPerClass = async classId => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection("students")
+        .find({ "class.id": classId }, { projection: { firstName: 1, lastName: 1 } })
+        .sort({ lastName: 1 })
+        .toArray();
+};
+
 exports.getAllFromSiiir = async () => {
     const db = await mongoHelper.getDb();
     return await db
         .collection("siiir-elevi")
-        .find()
-        .project({ _id: 0, CNP: 1, Nume: 1, Prenume: 1, Formațiune: 1 })
+        .find({ "STATUS ELEV": "Situaţie şcolară deschisă" })
+        .project({
+            _id: 0,
+            CNP: 1,
+            NUME: 1,
+            PRENUME1: 1,
+            PRENUME2: 1,
+            PRENUME3: 1,
+            "COD FORMATIUNE": 1,
+            "TIP FORMATIUNE": 1,
+            // NIVEL: 1,
+            "STATUS ELEV": 1
+        })
         .toArray();
 };
 
-// exports.insertOne = async teacher => {
-//     const db = await mongoHelper.getDb();
-//     return await db.collection(collection).insertOne(teacher);
-// };
+exports.insertMany = async students => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("students").insertMany(students);
+};
+
+exports.insertOne = async student => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("students").insertOne(student);
+};
 
 // exports.updateOne = async teacher => {
 //     const db = await mongoHelper.getDb();

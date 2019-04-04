@@ -1,6 +1,7 @@
 const classService = require("../services/class.service");
 const lessonService = require("../services/lesson.service");
 const timetableService = require("../services/timetable.service");
+const studentService = require("../services/student.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
 const matemaratonService = require("../services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
@@ -46,21 +47,20 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getStudents = async (req, res) => {
-    // const classId = req.params.classId;
+    const classId = req.params.classId;
 
-    // const [lessons, cls] = await Promise.all([
-    //     await lessonService.getLessonsForClass(classId),
-    //     await classService.getOneById(classId)
-    // ]);
+    const [students, cls] = await Promise.all([
+        await studentService.getStudentsPerClass(classId),
+        await classService.getOneById(classId)
+    ]);
 
     const data = {
-        // classesByGrade,
-        // class: cls,
-        // lessons,
+        class: cls,
+        students,
         ctx: req.ctx
     };
 
-    // res.send(lessons);
+    // res.send(data);
     res.render("class/class-students", data);
 };
 

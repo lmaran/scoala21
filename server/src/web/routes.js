@@ -14,7 +14,8 @@ const pageController = require("./controllers/page.controller");
 router.get("/", homeController.getHomePage);
 
 // student
-router.get("/elevi/import", studentController.import);
+// uncomment this route in order to import students
+// router.get("/elevi/import", studentController.import);
 
 // teacher
 router.get("/profesori", teacherController.getAll);
