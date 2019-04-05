@@ -17,6 +17,11 @@ exports.getOneById = async id => {
     return await db.collection(collection).findOne({ _id: new ObjectID(id) });
 };
 
+exports.getPrimaryClassForTeacher = async teacherId => {
+    const db = await mongoHelper.getDb();
+    return await db.collection(collection).findOne({ "classTeacher.id": teacherId.toString() });
+};
+
 // exports.insertOne = async teacher => {
 //     const db = await mongoHelper.getDb();
 //     return await db.collection(collection).insertOne(teacher);

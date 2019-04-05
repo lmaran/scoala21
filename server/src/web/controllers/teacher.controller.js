@@ -1,5 +1,6 @@
 const teacherService = require("../services/teacher.service");
 const lessonService = require("../services/lesson.service");
+const classService = require("../services/class.service");
 const matemaratonService = require("../services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 const timetableService = require("../services/timetable.service");
@@ -52,7 +53,17 @@ exports.getTeacher = async (req, res) => {
         ctx: req.ctx
     };
 
-    // res.send(data);
+    if (teacher.area === "Invatamant primar") {
+        const teacherClass = await classService.getPrimaryClassForTeacher(teacher._id);
+        if (teacherClass) {
+            data.teacherClass = {
+                id: teacherClass._id,
+                name: teacherClass.name
+            }
+        }
+    }
+
+    //res.send(data);
     res.render("teacher/teacher", data);
 };
 

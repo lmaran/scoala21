@@ -18,9 +18,12 @@
     <li><span class="font-weight-bold">{{name}}</span>, {{#if (gt grade.name "4")}}diriginte{{else}}invatator{{/if}}
         {{classTeacher.name}}
         <div class="mb-3">
-            <a href="/clase/{{_id}}/elevi">elevi</a> |
+            <a href="/clase/{{_id}}/elevi">elevi</a>
+            {{#if (gt grade.name "4")}}
+            |
             <a href="/clase/{{_id}}/profesori">profesori</a> |
             <a href="/clase/{{_id}}/orar">orar</a>
+            {{/if}}
         </div>
     </li>
     {{/each}}

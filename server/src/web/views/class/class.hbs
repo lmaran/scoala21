@@ -2,9 +2,12 @@
 <h2>Diriginte: {{class.classTeacher.name}}</h2>
 
 <h5 class="mt-4 font-weight-light">
-    <a href="/clase/{{class._id}}/elevi">elevi</a> |
+    <a href="/clase/{{class._id}}/elevi">elevi</a>
+    {{#if (gt grade.name "4")}}
+    |
     <a href="/clase/{{class._id}}/profesori">profesori</a> |
     <a href="/clase/{{class._id}}/orar">orar</a>
+    {{/if}}
 </h5>
 
 {{!-- <h3 class="font-weight-light">Profesor {{teacher.degree}}{{#if teacher.holder}}, titular{{/if}}</h3>
