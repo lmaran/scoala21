@@ -8,6 +8,7 @@ exports.getAll = async () => {
     return await db
         .collection(collection)
         .find()
+        .sort({ "grade.name": -1, shortName: 1 })
         .toArray();
 };
 
