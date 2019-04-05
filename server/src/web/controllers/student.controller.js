@@ -48,6 +48,19 @@ exports.import = async (req, res) => {
     res.send(data);
 };
 
+exports.getStudent = async (req, res) => {
+    const studentId = req.params.studentId;
+    const student = await studentService.getOneById2(studentId);
+
+    const data = {
+        student,
+        ctx: req.ctx
+    };
+
+    //res.send(data);
+    res.render("student/student", data);
+};
+
 const getClassAndGrade = (classType, classLetter, classesAsObject) => {
     let cls = null;
     // const grade = null;

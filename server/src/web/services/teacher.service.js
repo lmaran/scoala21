@@ -14,8 +14,7 @@ exports.getAll = async () => {
 
 exports.getOneById = async id => {
     const db = await mongoHelper.getDb();
-    const teacher = await db.collection(collection).findOne({ _id: new ObjectID(id) });
-    return teacher;
+    return await db.collection(collection).findOne({ _id: new ObjectID(id) });
 };
 
 exports.insertOne = async teacher => {

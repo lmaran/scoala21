@@ -16,6 +16,7 @@ router.get("/", homeController.getHomePage);
 // student
 // uncomment this route in order to import students
 // router.get("/elevi/import", studentController.import);
+router.get("/elevi/:studentId", studentController.getStudent);
 
 // teacher
 router.get("/profesori", teacherController.getAll);

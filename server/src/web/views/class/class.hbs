@@ -3,7 +3,7 @@
 
 <h5 class="mt-4 font-weight-light">
     <a href="/clase/{{class._id}}/elevi">elevi</a>
-    {{#if (gt grade.name "4")}}
+    {{#if (gt class.grade.name "4")}}
     |
     <a href="/clase/{{class._id}}/profesori">profesori</a> |
     <a href="/clase/{{class._id}}/orar">orar</a>

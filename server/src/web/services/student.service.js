@@ -9,6 +9,11 @@ exports.getOneById = async id => {
     return teacher;
 };
 
+exports.getOneById2 = async id => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("students").findOne({ _id: new ObjectID(id) });
+};
+
 exports.getStudentsPerGrade = async (period, grade) => {
     const db = await mongoHelper.getDb();
     return await db
@@ -25,7 +30,7 @@ exports.getStudentsPerClass = async classId => {
     const db = await mongoHelper.getDb();
     return await db
         .collection("students")
-        .find({ "class.id": classId }, { projection: { firstName: 1, lastName: 1 } })
+        .find({ "class.id": classId }, { projection: { allFirstNames: 1, lastName: 1 } })
         .sort({ lastName: 1 })
         .toArray();
 };
