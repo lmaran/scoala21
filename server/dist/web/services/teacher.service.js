@@ -1,4 +1,5 @@
 const mongoHelper = require("../../shared/helpers/mongo.helper");
+const { ObjectID } = require("mongodb");
 
 const collection = "teachers";
 
@@ -13,9 +14,7 @@ exports.getAll = async () => {
 
 exports.getOneById = async id => {
     const db = await mongoHelper.getDb();
-    id = mongoHelper.normalizedId(id);
-    const teacher = await db.collection(collection).findOne({ _id: id });
-    return teacher;
+    return await db.collection(collection).findOne({ _id: new ObjectID(id) });
 };
 
 exports.insertOne = async teacher => {
@@ -25,12 +24,12 @@ exports.insertOne = async teacher => {
 
 exports.updateOne = async teacher => {
     const db = await mongoHelper.getDb();
-    teacher._id = mongoHelper.normalizedId(teacher._id);
+    teacher._id = new ObjectID(teacher._id);
     return await db.collection(collection).updateOne({ _id: teacher._id }, teacher);
 };
 
 exports.deleteOneById = async id => {
     const db = await mongoHelper.getDb();
     id = mongoHelper.normalizedId(id);
-    return await db.collection(collection).deleteOne({ _id: id });
+    return await db.collection(collection).deleteOne({ _id: new ObjectID(id) });
 };

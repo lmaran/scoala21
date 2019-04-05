@@ -1,0 +1,60 @@
+<style>
+    .table td {
+        padding-top: 0.4rem;
+        padding-bottom: 0.4rem;
+    }
+
+    .table thead {
+        background-color: #f3f3f3;
+    }
+</style>
+
+<h1>Clasa {{class.shortName}}</h1>
+<h2>Diriginte: {{class.classTeacher.name}}</h2>
+<h3 class="mt-4">Orarul clasei:</h3>
+
+<div class="container-flui">
+    <div class="row">
+        {{#each lessonsPerDay}}
+        <div class="col-md-4">
+
+            <table class="table thead-light table-bordered table-light2 table-hover mb-5">
+                <thead>
+                    <tr>
+                        <th colspan="2">{{day}}</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each lessonsPerHour}}
+                    <tr>
+                        <td style="width: 20%">{{hour.start}}</td>
+                        <td>
+                            {{#if lesson}}
+
+                            <div>{{lesson.subject.name}}</div>
+                            <div><a href="/profesori/{{lesson.teacher.id}}">{{lesson.teacher.name}}</a></div>
+
+                            {{else if lessonsPerWeek}}
+
+                            {{#each lessonsPerWeek}}
+                            <div>{{lesson.subject.name}} <span class="text-secondary">(sapt. {{week}})</span>
+                            </div>
+                            <div><a href="/profesori/{{lesson.teacher.id}}">{{lesson.teacher.name}}</a></div>
+                            {{/each}}
+
+                            {{/if}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+
+
+
+
+        </div>
+        {{/each}}
+    </div>
+</div>

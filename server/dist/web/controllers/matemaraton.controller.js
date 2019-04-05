@@ -30,7 +30,7 @@ exports.getMatemaraton = async (req, res, next) => {
     } else {
         // edition = await matemaratonService.getCurrentEdition();
         const data = {
-            // ctx: req.ctx,
+            ctx: req.ctx,
         };
         res.render("matemaraton/matemaraton", data);
     }
@@ -72,7 +72,7 @@ exports.getPresencePerGroup = async (req, res, next) => {
 
     const [presencePerGroups, students] = await Promise.all([
         await matemaratonService.getPresencePerGroup(period, grade, groupName),
-        await matemaratonService.getStudentsPerGrade(period, grade)
+        await studentService.getStudentsPerGrade(period, grade)
     ]);
 
     const studentsObj = arrayHelper.arrayToObject(students, "_id");
@@ -318,7 +318,7 @@ const sortByPresence = (a, b) =>
     a.totalPresences > b.totalPresences
         ? -1
         : a.totalPresences === b.totalPresences
-        ? a.shortName > b.shortName
-            ? 1
-            : -1
-        : 1;
+            ? a.shortName > b.shortName
+                ? 1
+                : -1
+            : 1;

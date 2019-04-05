@@ -1,0 +1,25 @@
+<h1>{{teacher.firstName}} {{teacher.lastName}}</h1>
+
+<h3 class="font-weight-light">Profesor {{teacher.degree}}{{#if teacher.holder}}, titular{{/if}}</h3>
+<h4 class="font-weight-light">{{teacher.subject}}</h4>
+
+{{#if (eq teacher.area "Invatamant primar")}}
+<h5 class="mt-4">Clasa la care preda:
+    {{#if teacherClass}}
+    <a href="/clase/{{teacherClass.id}}">{{teacherClass.name}}</a>
+    {{/if}}
+</h5>
+{{else}}
+<h5 class="mt-4">Clase la care preda:</h5>
+
+<h5 class="font-weight-light">
+    {{#each uniqueClasses }}
+    <a href="/clase/{{id}}">{{name}}</a>{{#unless @last}}<span class="mr-2">,</span>{{/unless}}
+    {{/each}}
+</h5>
+
+<h5 class="mt-4">Zile in care preda:<span></span></h5>
+<h5 class="font-weight-light">
+    <a href="/profesori/{{teacher._id}}/orar">Orar</a>
+</h5>
+{{/if}}

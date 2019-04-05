@@ -1,0 +1,14 @@
+<h1>Clasa {{class.shortName}}</h1>
+<h2>{{#if (gt grade.name "4")}}Diriginte{{else}}Invatator{{/if}}: {{class.classTeacher.name}}</h2>
+<h3 class="mt-4">Elevii clasei:</h3>
+<ol>
+    {{#each students }}
+    <li class="mt-1"><a href="/elevi/{{_id}}">{{lastName}} {{allFirstNames}}</a>
+        {{!-- <div class="mb-3">
+            <a href="#">elevi</a> |
+            <a href="/clase/{{_id}}/profesori">profesori</a> |
+            <a href="#">orar</a>
+        </div> --}}
+    </li>
+    {{/each}}
+    </ul>

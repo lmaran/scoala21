@@ -1,0 +1,31 @@
+{{!-- <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+        <li class="breadcrumb-item active" aria-current="page">Profesori</li>
+    </ol>
+</nav> --}}
+
+<h1>Clase</h1>
+{{#each classesByGrade}}
+{{#if (or 
+    (eq grade.name "0") (eq grade.name "1"))}}
+<h2>Clasa {{grade.name}}</h2>
+{{else}}
+<h2>Clasa a {{grade.name}}-a</h2>
+{{/if}}
+<ul>
+    {{#each classes }}
+    <li><span class="font-weight-bold">{{name}}</span>, {{#if (gt grade.name "4")}}diriginte{{else}}invatator{{/if}}
+        {{classTeacher.name}}
+        <div class="mb-3">
+            <a href="/clase/{{_id}}/elevi">elevi</a>
+            {{#if (gt grade.name "4")}}
+            |
+            <a href="/clase/{{_id}}/profesori">profesori</a> |
+            <a href="/clase/{{_id}}/orar">orar</a>
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+</ul>
+{{/each}}

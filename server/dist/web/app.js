@@ -34,7 +34,7 @@ const path = require("path");
 const routes = require("./routes");
 // import * as exphbs from "express-handlebars";
 const exphbs = require("express-handlebars");
-// import { setContext } from "./middlewares/setContext.middleware";
+const setContext = require("./middlewares/setContext.middleware").setContext;
 
 const app = express();
 
@@ -53,38 +53,38 @@ app.engine(
         // http://stackoverflow.com/a/25307270, http://stackoverflow.com/a/21740214
         helpers: {
             // tslint:disable-next-line:object-literal-shorthand
-            section: function(name, options) {
+            section: function (name, options) {
                 if (!this._sections) {
                     this._sections = {};
                 }
                 this._sections[name] = options.fn(this);
                 return null;
             },
-            toJson: function(object) {
+            toJson: function (object) {
                 return JSON.stringify(object);
             },
-            eq: function(v1, v2) {
+            eq: function (v1, v2) {
                 return v1 === v2;
             },
-            ne: function(v1, v2) {
+            ne: function (v1, v2) {
                 return v1 !== v2;
             },
-            lt: function(v1, v2) {
+            lt: function (v1, v2) {
                 return v1 < v2;
             },
-            gt: function(v1, v2) {
+            gt: function (v1, v2) {
                 return v1 > v2;
             },
-            lte: function(v1, v2) {
+            lte: function (v1, v2) {
                 return v1 <= v2;
             },
-            gte: function(v1, v2) {
+            gte: function (v1, v2) {
                 return v1 >= v2;
             },
-            and: function() {
+            and: function () {
                 return Array.prototype.slice.call(arguments, 0, arguments.length - 1).every(Boolean);
             },
-            or: function() {
+            or: function () {
                 return Array.prototype.slice.call(arguments, 0, arguments.length - 1).some(Boolean);
             }
         }
@@ -96,7 +96,7 @@ app.use("/admin", express.static(path.join(__dirname, "../../../client/dist")));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use(setContext); // adds requestId, tokenCode and other properties to the request object
+app.use(setContext); // adds requestId, tokenCode and other properties to the request object
 
 // app.use(httpLogHandler);
 
