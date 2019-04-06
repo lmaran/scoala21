@@ -37,6 +37,8 @@ exports.getTeacher = async (req, res) => {
         await lessonService.getLessonsForTeacher(teacherId, edition.period)
     ]);
 
+    teacher.firstNameFirstChar = teacher.firstName.charAt(0);
+
     const uniqueClassesAsObject = lessons.reduce((acc, crt) => {
         if (crt.class) {
             acc[crt.class.id] = crt.class;
@@ -59,7 +61,7 @@ exports.getTeacher = async (req, res) => {
             data.teacherClass = {
                 id: teacherClass._id,
                 name: teacherClass.name
-            }
+            };
         }
     }
 

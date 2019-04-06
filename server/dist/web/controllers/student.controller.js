@@ -51,13 +51,14 @@ exports.import = async (req, res) => {
 exports.getStudent = async (req, res) => {
     const studentId = req.params.studentId;
     const student = await studentService.getOneById2(studentId);
+    student.firstNameFirstChar = student.firstName.charAt(0);
 
     const data = {
         student,
         ctx: req.ctx
     };
 
-    //res.send(data);
+    // res.send(data);
     res.render("student/student", data);
 };
 

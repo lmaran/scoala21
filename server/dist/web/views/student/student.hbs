@@ -1,3 +1,13 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{student.class.id}}">Clasa {{student.class.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{student.class.id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{student.firstNameFirstChar}}.</li>
+    </ol>
+</nav>
+
 <h1>{{student.lastName}} {{student.allFirstNames}} </h1>
 
 <h5 class="mt-4">Clasa

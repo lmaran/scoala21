@@ -11,7 +11,7 @@ exports.getOneById = async id => {
 
 exports.getOneById2 = async id => {
     const db = await mongoHelper.getDb();
-    return await db.collection("students").findOne({ _id: new ObjectID(id) });
+    return await db.collection("students").findOne({ _id: new ObjectID(id) }, { projection: { cnp: 0 } });
 };
 
 exports.getStudentsPerGrade = async (period, grade) => {
