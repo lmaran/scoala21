@@ -1,3 +1,11 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/profesori">Profesori</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{teacher.lastName}} {{teacher.firstNameFirstChar}}.</li>
+    </ol>
+</nav>
+
 <h1>{{teacher.firstName}} {{teacher.lastName}}</h1>
 
 <h3 class="font-weight-light">Profesor {{teacher.degree}}{{#if teacher.holder}}, titular{{/if}}</h3>

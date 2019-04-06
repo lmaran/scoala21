@@ -1,5 +1,14 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class._id}}">Clasa {{class.name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Elevi</li>
+    </ol>
+</nav>
+
 <h1>Clasa {{class.shortName}}</h1>
-<h2>{{#if (gt grade.name "4")}}Diriginte{{else}}Invatator{{/if}}: {{class.classTeacher.name}}</h2>
+<h2>{{#if (gt class.grade.name "4")}}Diriginte{{else}}Invatator{{/if}}: {{class.classTeacher.name}}</h2>
 <h3 class="mt-4">Elevii clasei:</h3>
 <ol>
     {{#each students }}

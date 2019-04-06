@@ -1,9 +1,9 @@
-{{!-- <nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item active" aria-current="page">Profesori</li>
     </ol>
-</nav> --}}
+</nav>
 
 <h1>Profesori</h1>
 {{#each teachersByArea as | value key | }}
@@ -11,7 +11,8 @@
 <ul>
     {{#each value }}
     <li class="mt-1"><a href="/profesori/{{_id}}">{{firstName}} {{lastName}}</a>{{#if holder}},
-        titular{{/if}}<span>, {{degree}}</span><span>, {{subject}}</span></li>
+        titular{{/if}}<span>, {{degree}}</span>{{#if (ne area 'Invatamant primar') }}<span>, {{subject}}</span>{{/if}}
+    </li>
     {{/each}}
 </ul>
 {{/each}}
