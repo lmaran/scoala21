@@ -104,6 +104,8 @@ exports.getTimetable = async (req, res, next) => {
         await timetableService.getTimetableItems(timetableId)
     ]);
 
+    teacher.firstNameFirstChar = teacher.firstName.charAt(0);
+
     const lessonsAsObject = arrayHelper.arrayToObject(lessons.filter(x => x.teacher.id === teacherId), "_id");
 
     const timetableItemsAsObject = timetableItems.reduce((acc, crt) => {
