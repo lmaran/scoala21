@@ -9,6 +9,16 @@
     }
 </style>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/profesori">Profesori</a></li>
+        <li class="breadcrumb-item"><a href="/profesori/{{teacher._id}}">{{teacher.lastName}}
+                {{teacher.firstNameFirstChar}}.</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Orar</li>
+    </ol>
+</nav>
+
 <h1>{{teacher.firstName}} {{teacher.lastName}}</h1>
 <h3 class="mt-4">Orar:</h3>
 
