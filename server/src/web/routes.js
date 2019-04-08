@@ -9,9 +9,13 @@ const staffController = require("./controllers/staff.controller");
 const contactController = require("./controllers/contact.controller");
 const matemaratonController = require("./controllers/matemaraton.controller");
 const pageController = require("./controllers/page.controller");
+const pdfController = require("./controllers/pdf.controller");
 
 // home
 router.get("/", homeController.getHomePage);
+
+// pdf
+router.get("/pdf/:pdfId", pdfController.getTextFromPdf)
 
 // student
 // uncomment this route in order to import students
