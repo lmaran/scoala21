@@ -4,6 +4,13 @@ exports.getTextFromPdf = async (req, res) => {
     // inspiration: https://github.com/mozilla/pdf.js/blob/master/examples/node/getinfo.js
     const pdfId = req.params.pdfId;
     // const pdfUrl = "https://scoala21.blob.core.windows.net/share/lista-copii-admisi-201920.pdf";
+    // /lista-copii-admisi-201920-2
+    // /lista-cereri-nesolutionate-201920
+    // /m
+    // /n
+    // /raport-dinamic-etapa-2
+    // /raport-sali
+    // /raport-cladiri
     const pdfUrl = `https://scoala21.blob.core.windows.net/share/${pdfId}.pdf`;
     const result = {};
 
@@ -11,13 +18,12 @@ exports.getTextFromPdf = async (req, res) => {
 
     result.numberOfPages = pdfDocument.numPages;
 
-    // get info / metadata
-    const pdfData = await pdfDocument.getMetadata();
-    result.info = pdfData.info;
-    if (pdfData.metadata) {
-        result.metadata = pdfData.metadata.getAll();
-    }
-
+    // // get info / metadata
+    // const pdfData = await pdfDocument.getMetadata();
+    // result.info = pdfData.info;
+    // if (pdfData.metadata) {
+    //     result.metadata = pdfData.metadata.getAll();
+    // }
 
     // get text withStyles
     const pagesPromises2 = [];
@@ -33,6 +39,9 @@ exports.getTextFromPdf = async (req, res) => {
     }
     result.pages = await Promise.all(pagesPromises);
 
+    // get text rows
+    result.pagesWithRows = getPagesWithRows(result.pages);
+
     const model = getModel(pdfId);
 
     if (model) {
@@ -46,72 +55,98 @@ exports.getTextFromPdf = async (req, res) => {
         }
     }
 
-
     res.send(result);
 };
 
+const getPagesWithRows = pages => {
+    const pagesWithRows = [];
+    pages.forEach(page => {
+        const rows = [];
+
+        page.text.forEach(textObj => {
+            const foundRow = rows.find(x => x.y === textObj.y);
+            if (foundRow) {
+                foundRow.cols.push(textObj);
+            } else {
+                rows.push({
+                    y: textObj.y,
+                    cols: [textObj]
+                });
+            }
+        });
+        pagesWithRows.push({
+            pageNumber: page.pageNumber,
+            rows: rows.sort((a, b) => a.y - b.y)
+        });
+    });
+    return pagesWithRows;
+};
+
 const getModel = pdfId => {
-    const models = [{
-        modelId: "lista-copii-admisi-201920",
-        numberOfColumns: 4,
-        // 'columns' property is optional
-        columns: [
-            {
-                inputOrder: 1,
-                name: "prenume",
-                outputOrder: 3
-            },
-            {
-                inputOrder: 2,
-                name: "nume",
-                outputOrder: 2
-            },
-            {
-                inputOrder: 3,
-                name: "nrcrt",
-                outputOrder: 1
-            },
-            {
-                inputOrder: 4,
-                ignoreAsOutput: true
-                // name: "etapa", // no matter
-                // outputOrder: 4 // no matter
-            }
-        ],
-        ignoreFirstItemsOnFirstPage: 9,
+    const models = [
+        {
+            modelId: "lista-copii-admisi-201920",
+            numberOfColumns: 4,
+            // 'columns' property is optional
+            columns: [
+                {
+                    inputOrder: 1,
+                    name: "prenume",
+                    outputOrder: 3
+                },
+                {
+                    inputOrder: 2,
+                    name: "nume",
+                    outputOrder: 2
+                },
+                {
+                    inputOrder: 3,
+                    name: "nrcrt",
+                    outputOrder: 1
+                },
+                {
+                    inputOrder: 4,
+                    ignoreAsOutput: true
+                    // name: "etapa", // no matter
+                    // outputOrder: 4 // no matter
+                }
+            ],
+            ignoreFirstItemsOnFirstPage: 9,
 
-        ignoreFirstItemsOnOtherPages: 7,
-        ignoreLastItemsOnOtherPages: 2,
+            ignoreFirstItemsOnOtherPages: 7,
+            ignoreLastItemsOnOtherPages: 2,
 
-        ignoreLastItemsOnLastPage: 4
-    }, {
-        modelId: "lista-cereri-nesolutionate-201920",
-        numberOfColumns: 3,
-        // 'columns' property is optional
-        columns: [
-            {
-                inputOrder: 1,
-                name: "prenume",
-                outputOrder: 3
-            },
-            {
-                inputOrder: 2,
-                name: "nume",
-                outputOrder: 2
-            },
-            {
-                inputOrder: 3,
-                name: "nrcrt",
-                outputOrder: 1
-            }
-        ],
-        ignoreFirstItemsOnFirstPage: 8,
+            ignoreLastItemsOnLastPage: 4
+        },
+        {
+            modelId: "lista-cereri-nesolutionate-201920",
+            numberOfColumns: 3,
+            // 'columns' property is optional
+            columns: [
+                {
+                    inputOrder: 1,
+                    name: "prenume",
+                    outputOrder: 3
+                },
+                {
+                    inputOrder: 2,
+                    name: "nume",
+                    outputOrder: 2
+                },
+                {
+                    inputOrder: 3,
+                    name: "nrcrt",
+                    outputOrder: 1
+                }
+            ],
+            ignoreFirstItemsOnFirstPage: 8,
 
-        ignoreFirstItemsOnOtherPages: 7,
-        ignoreLastItemsOnOtherPages: 2,
+            ignoreFirstItemsOnOtherPages: 7,
+            ignoreLastItemsOnOtherPages: 2,
 
-        ignoreLastItemsOnLastPage: 4
-    }];
+            ignoreLastItemsOnLastPage: 4
+        }
+    ];
     return models.find(x => x.modelId === pdfId);
 };
 
@@ -119,18 +154,29 @@ const getPageText = async (pageNumber, pdfDocument) => {
     const page = await pdfDocument.getPage(pageNumber);
 
     // const opList = await page.getOperatorList();
-    // console.log(opList);
+    const viewport = page.getViewport(1);
+    // console.log(viewport);
 
     const content = await page.getTextContent();
-    const strings = content.items.map(x => { return { str: x.str, x: x.transform[4], y: x.transform[5] } });
-    return { pageNumber, text: strings };
+    const strings = content.items.map(x => {
+        x.objTransformed = pdfLib.Util.transform(viewport.transform, x.transform); // https://github.com/mozilla/pdf.js/issues/8599
+        return { str: x.str, x: x.objTransformed[4], y: x.objTransformed[5], width: x.width, height: x.height };
+    });
+    return { pageNumber, text: strings, viewport };
 };
 
 const getPageText2 = async (pageNumber, pdfDocument) => {
     const page = await pdfDocument.getPage(pageNumber);
     const content = await page.getTextContent();
     const strings = content.items;
-    return { pageNumber, text: strings };
+
+    const viewport = page.getViewport(1);
+    const text2 = content.items.map(x => {
+        x.objTransformed = pdfLib.Util.transform(viewport.transform, x.transform); // https://github.com/mozilla/pdf.js/issues/8599
+        return x;
+    });
+
+    return { pageNumber, text: strings, viewport, text2 };
 };
 
 const getAllLineItems = (pages, model) => {
@@ -170,7 +216,7 @@ const getAllLineItems = (pages, model) => {
 const getParsedLines = (allLineItems, model) => {
     const allRows = [];
     const itemsLength = allLineItems.length;
-    for (let i = 0; i < itemsLength;) {
+    for (let i = 0; i < itemsLength; ) {
         const row = {};
         for (let j = 1; j <= model.numberOfColumns; j++) {
             row[`col${j}`] = allLineItems[i];
