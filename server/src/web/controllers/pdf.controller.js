@@ -3,10 +3,12 @@ const pdfLib = require("pdfjs-dist");
 exports.getTextFromPdf = async (req, res) => {
     // inspiration: https://github.com/mozilla/pdf.js/blob/master/examples/node/getinfo.js
     const pdfId = req.params.pdfId;
-    const pdfUrl = "https://scoala21.blob.core.windows.net/share/lista-copii-admisi-201920.pdf";
+    // const pdfUrl = "https://scoala21.blob.core.windows.net/share/lista-copii-admisi-201920.pdf";
+    const pdfUrl = `https://scoala21.blob.core.windows.net/share/${pdfId}.pdf`;
     const result = {};
 
     const pdfDocument = await pdfLib.getDocument(pdfUrl);
+
     result.numberOfPages = pdfDocument.numPages;
 
     // get info / metadata
@@ -15,6 +17,14 @@ exports.getTextFromPdf = async (req, res) => {
     if (pdfData.metadata) {
         result.metadata = pdfData.metadata.getAll();
     }
+
+
+    // get text withStyles
+    const pagesPromises2 = [];
+    for (let i = 1; i <= pdfDocument.numPages; i++) {
+        pagesPromises2.push(getPageText2(i, pdfDocument));
+    }
+    result.pagesWithStyles = await Promise.all(pagesPromises2);
 
     // get text
     const pagesPromises = [];
@@ -25,20 +35,24 @@ exports.getTextFromPdf = async (req, res) => {
 
     const model = getModel(pdfId);
 
-    result.allLineItems = getAllLineItems(result.pages, model);
+    if (model) {
+        result.allLineItems = getAllLineItems(result.pages, model);
 
-    result.parsedLines = getParsedLines(result.allLineItems, model);
+        result.parsedLines = getParsedLines(result.allLineItems, model);
 
-    // if additional info is present => filter, sort, rename columns
-    if (model.columns) {
-        result.formatterLines = getFormatedLines(result.parsedLines, model);
+        // if additional info is present => filter, sort, rename columns
+        if (model.columns) {
+            result.formatterLines = getFormatedLines(result.parsedLines, model);
+        }
     }
+
 
     res.send(result);
 };
 
 const getModel = pdfId => {
-    const model = {
+    const models = [{
+        modelId: "lista-copii-admisi-201920",
         numberOfColumns: 4,
         // 'columns' property is optional
         columns: [
@@ -70,14 +84,52 @@ const getModel = pdfId => {
         ignoreLastItemsOnOtherPages: 2,
 
         ignoreLastItemsOnLastPage: 4
-    };
-    return model;
+    }, {
+        modelId: "lista-cereri-nesolutionate-201920",
+        numberOfColumns: 3,
+        // 'columns' property is optional
+        columns: [
+            {
+                inputOrder: 1,
+                name: "prenume",
+                outputOrder: 3
+            },
+            {
+                inputOrder: 2,
+                name: "nume",
+                outputOrder: 2
+            },
+            {
+                inputOrder: 3,
+                name: "nrcrt",
+                outputOrder: 1
+            }
+        ],
+        ignoreFirstItemsOnFirstPage: 8,
+
+        ignoreFirstItemsOnOtherPages: 7,
+        ignoreLastItemsOnOtherPages: 2,
+
+        ignoreLastItemsOnLastPage: 4
+    }];
+    return models.find(x => x.modelId === pdfId);
 };
 
 const getPageText = async (pageNumber, pdfDocument) => {
     const page = await pdfDocument.getPage(pageNumber);
+
+    // const opList = await page.getOperatorList();
+    // console.log(opList);
+
     const content = await page.getTextContent();
-    const strings = content.items.map(x => x.str);
+    const strings = content.items.map(x => { return { str: x.str, x: x.transform[4], y: x.transform[5] } });
+    return { pageNumber, text: strings };
+};
+
+const getPageText2 = async (pageNumber, pdfDocument) => {
+    const page = await pdfDocument.getPage(pageNumber);
+    const content = await page.getTextContent();
+    const strings = content.items;
     return { pageNumber, text: strings };
 };
 
@@ -92,7 +144,7 @@ const getAllLineItems = (pages, model) => {
         if (isFirstPage && isLastPage) {
             // first and last page at the same time
             startIdx = model.ignoreFirstItemsOnFirstPage;
-            endIdx = pages.length - model.ignoreLastItemsOnLastPage - 1;
+            endIdx = page.text.length - model.ignoreLastItemsOnLastPage - 1;
         } else if (isFirstPage) {
             // first but not last page
             startIdx = model.ignoreFirstItemsOnFirstPage;
@@ -118,7 +170,7 @@ const getAllLineItems = (pages, model) => {
 const getParsedLines = (allLineItems, model) => {
     const allRows = [];
     const itemsLength = allLineItems.length;
-    for (let i = 0; i < itemsLength; ) {
+    for (let i = 0; i < itemsLength;) {
         const row = {};
         for (let j = 1; j <= model.numberOfColumns; j++) {
             row[`col${j}`] = allLineItems[i];
