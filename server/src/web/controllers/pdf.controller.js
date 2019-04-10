@@ -166,6 +166,8 @@ const getPageText = async (pageNumber, pdfDocument) => {
 };
 
 const getPageText2 = async (pageNumber, pdfDocument) => {
+    // https://github.com/ronnywang/pdf-table-extractor/blob/master/pdf-table-extractor.js
+
     const page = await pdfDocument.getPage(pageNumber);
     const content = await page.getTextContent();
     const strings = content.items;
@@ -175,6 +177,125 @@ const getPageText2 = async (pageNumber, pdfDocument) => {
         x.objTransformed = pdfLib.Util.transform(viewport.transform, x.transform); // https://github.com/mozilla/pdf.js/issues/8599
         return x;
     });
+
+    const opList = await page.getOperatorList();
+    // console.log("fnArray:");
+    // console.log(opList.fnArray);
+
+    // console.log(".......................");
+
+    // console.log("argsArray:");
+    // console.log(opList.argsArray);
+
+    // console.log("-----");
+    // console.log(pdfLib.OPS);
+
+    const REVOPS = [];
+    const OPSMAP = {};
+    for (const op in pdfLib.OPS) {
+        REVOPS[pdfLib.OPS[op]] = op;
+
+        // const elem = {};
+        OPSMAP[pdfLib.OPS[op]] = op;
+        // OPSMAP.push(elem);
+    }
+
+    console.log("--------------------");
+    // REVOPS.forEach(x => {
+    //     console.log(x);
+    // });
+    // console.log(REVOPS);
+    // console.log(OPSMAP);
+
+    // opList.fnArray.forEach((opId, idx) => {
+    //     console.log(idx + ": " + opId + " - " + OPSMAP[opId]);
+    // });
+
+    const line_max_width = 2;
+    const edges = [];
+    const transformMatrix = [1, 0, 0, 1, 0, 0];
+    let current_x;
+    let current_y;
+    let lineWidth;
+
+    let i = 0;
+    let x, y;
+    while (opList.fnArray.length) {
+        const fn = opList.fnArray.shift();
+        const args = opList.argsArray.shift();
+
+        if (pdfLib.OPS.constructPath == fn) {
+            while (args[0].length) {
+                // console.log(i + ": " + fn + " - " + OPSMAP[fn] + " -- args: " + JSON.stringify(args));
+                // i++;
+
+                const op = args[0].shift();
+
+                if (op == pdfLib.OPS.rectangle) {
+                    x = args[1].shift();
+                    y = args[1].shift();
+                    const width = args[1].shift();
+                    const height = args[1].shift();
+
+                    // deseneaza cele 3 coloane ale tabelului
+                    console.log("---");
+                    console.log(i + ": " + OPSMAP[op] + ": " + x + " ", y + " " + width + " " + height);
+                    i++;
+
+                    if (Math.min(width, height) < line_max_width) {
+                        edges.push({ y: y, x: x, width: width, height: height, transform: transformMatrix });
+                    }
+                } else if (op == pdfLib.OPS.moveTo) {
+                    current_x = args[1].shift();
+                    current_y = args[1].shift();
+
+                    // console.log(i + ": " + OPSMAP[op] + ": " + current_x + " ", current_y);
+                    // i++;
+                } else if (op == pdfLib.OPS.lineTo) {
+                    x = args[1].shift();
+                    y = args[1].shift();
+
+                    // console.log(i + ": " + OPSMAP[op] + ": " + x + " ", y);
+                    // i++;
+
+                    if (current_x == x) {
+                        edges.push({
+                            y: Math.min(y, current_y),
+                            x: x - lineWidth / 2,
+                            width: lineWidth,
+                            height: Math.abs(y - current_y),
+                            transform: transformMatrix
+                        });
+                    } else if (current_y == y) {
+                        edges.push({
+                            x: Math.min(x, current_x),
+                            y: y - lineWidth / 2,
+                            height: lineWidth,
+                            width: Math.abs(x - current_x),
+                            transform: transformMatrix
+                        });
+                    }
+                    current_x = x;
+                    current_y = y;
+                } else {
+                    // throw ('constructPath ' + op);
+                }
+            }
+        } else if (pdfLib.OPS.showText == fn) {
+            // console.log(i + ": " + fn + " - " + OPSMAP[fn] + " -- args: " + JSON.stringify(args));
+            // i++;
+        } else if (pdfLib.OPS.setLineWidth == fn) {
+            lineWidth = args[0];
+            // console.log(i + ": " + fn + " - " + OPSMAP[fn] + " -- args: " + JSON.stringify(args));
+            // i++;
+        }
+
+        // console.log(i + ": " + fn + " - " + OPSMAP[fn] + " -- args: " + JSON.stringify(args));
+        // i++;
+    }
+
+    // console.log("Edges:");
+    // console.log(edges);
 
     return { pageNumber, text: strings, viewport, text2 };
 };
