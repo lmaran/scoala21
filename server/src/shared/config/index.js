@@ -13,7 +13,7 @@ const common = {
     mongo: {
         uri: process.env.MONGO_URI,
         dbName: process.env.MONGO_DB_NAME,
-        options: { useNewUrlParser: true },
+        options: { useNewUrlParser: true }
     },
     rollbarToken: process.env.ROLLBAR_TOKEN,
     logglyToken: process.env.LOGGLY_TOKEN,
@@ -25,14 +25,24 @@ const common = {
         request: {
             general: process.env.HTTP_LOG_DETAILS_REQUEST_GENERAL || LogDetail.FULL,
             headers: process.env.HTTP_LOG_DETAILS_REQUEST_HEADERS || LogDetail.PARTIAL,
-            body: process.env.HTTP_LOG_DETAILS_REQUEST_BODY || false,
+            body: process.env.HTTP_LOG_DETAILS_REQUEST_BODY || false
         },
         response: {
             general: process.env.HTTP_LOG_DETAILS_RESPONSE_GENERAL || false,
             headers: process.env.HTTP_LOG_DETAILS_RESPONSE_HEADERS || false,
-            body: process.env.HTTP_LOG_DETAILS_RESPONSE_BODY || false,
-        },
+            body: process.env.HTTP_LOG_DETAILS_RESPONSE_BODY || false
+        }
     },
+
+    // Secret for session, you will want to change this and make it an environment variable
+    secrets: {
+        session: "node-fullstack-secret"
+    },
+
+    // List of user roles
+    userRoles: ["guest", "user", "partner", "admin"], // the order is important
+
+    externalUrl: "http://localhost:1417"
 };
 
 // Merge a `source` object to a `target` recursively
