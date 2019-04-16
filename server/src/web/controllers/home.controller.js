@@ -1,3 +1,6 @@
 exports.getHomePage = async (req, res) => {
-    res.render("home", {});
+    const data = {
+        ctx: req.ctx,
+    };
+    res.render("home", data);
 };

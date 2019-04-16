@@ -10,7 +10,7 @@ const arrayHelper = require("../../shared/helpers/array.helper");
 exports.import = async (req, res) => {
     const [studentsFromSiiir, classes] = await Promise.all([
         await studentService.getAllFromSiiir(),
-        await await classService.getAll()
+        await classService.getAll()
     ]);
 
     const classesAsObject = arrayHelper.arrayToObject(classes, "name");

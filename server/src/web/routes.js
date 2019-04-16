@@ -10,16 +10,16 @@ const contactController = require("./controllers/contact.controller");
 const matemaratonController = require("./controllers/matemaraton.controller");
 const pageController = require("./controllers/page.controller");
 const pdfController = require("./controllers/pdf.controller");
-const auth = require("./user/login/loginService");
+//const auth = require("./user/login/loginService");
 
 // home
 router.get("/", homeController.getHomePage);
 
 router.post("/login/", require("./user/login/local/loginLocalController").authenticate);
-router.get("/logout", auth.isAuthenticated(), require("./user/logout/logoutController").logout);
+// router.get("/logout", auth.isAuthenticated(), require("./user/logout/logoutController").logout);
 // app.get('/me', auth.isAuthenticated(), require('./user/userController').me);
-router.post("/me/changepassword", auth.isAuthenticated(), require("./user/userController").changePassword);
-router.get("/login", function(req, res) {
+//router.post("/me/changepassword", auth.isAuthenticated(), require("./user/userController").changePassword);
+router.get("/login", function (req, res) {
     res.render("user/login");
 });
 

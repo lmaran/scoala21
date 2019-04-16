@@ -10,6 +10,10 @@ exports.setContext = async (req, res, next) => {
     // 3. set selected menu as active
     // let firstSegment = req.path.split("/")[1];
     req.ctx.selectedTopMenu = req.path; // "/profesori"
+    // added in middleware before
+    // console.log("====================");
+    // console.log(req.user);
+    req.ctx.user = req.user;
 
     next();
 };

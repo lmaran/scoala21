@@ -1,8 +1,10 @@
 //const express = require("express");
 //const path = require("path");
 //const logger = require("morgan");
-//const cookieParser = require("cookie-parser");
-//const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const auth = require("./user/login/loginService");
 
 //const routes = require("./routes");
 
@@ -91,11 +93,19 @@ app.engine(
     })
 );
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names
+
+app.use(passport.initialize());
+
 // angular static files
 app.use("/admin", express.static(path.join(__dirname, "../../../client/dist")));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(auth.addUserIfExist());
 app.use(setContext); // adds requestId, tokenCode and other properties to the request object
 
 // app.use(httpLogHandler);
