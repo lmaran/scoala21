@@ -5,8 +5,7 @@ const collection = "mm-students";
 
 exports.getOneById = async id => {
     const db = await mongoHelper.getDb();
-    const teacher = await db.collection(collection).findOne({ _id: new ObjectID(id) });
-    return teacher;
+    return await db.collection(collection).findOne({ _id: new ObjectID(id) });
 };
 
 exports.getOneById2 = async id => {

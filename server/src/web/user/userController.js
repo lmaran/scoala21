@@ -1,4 +1,5 @@
 const userService = require("./userService");
+const userService2 = require("./user.service");
 const userValidator = require("./userValidator");
 
 // const passport = require("passport");
@@ -194,31 +195,27 @@ exports.remove = function(req, res) {
 /**
  * Change a users password
  */
-exports.changePassword = function(req, res) {
+exports.changePassword = async (req, res) => {
+    console.log(11);
     const userId = String(req.user._id); //without 'String' the result is an Object
     const oldPass = String(req.body.oldPassword);
     const newPass = String(req.body.newPassword);
 
-    userService.getById(userId, function(err, user) {
-        if (userService.authenticate(oldPass, user.hashedPassword, user.salt)) {
-            user.salt = userService.makeSalt();
-            user.hashedPassword = userService.encryptPassword(newPass, user.salt);
-            delete user.password;
+    const user = await userService2.getOneById(userId);
 
-            userService.update(user, function(err) {
-                if (err) return validationError(res, err);
+    console.log(user);
+    if (userService.authenticate(oldPass, user.hashedPassword, user.salt)) {
+        console.log("is auth");
+        user.salt = userService.makeSalt();
+        user.hashedPassword = userService.encryptPassword(newPass, user.salt);
+        delete user.password;
 
-                if (req.is("json")) {
-                    // http://expressjs.com/api.html#req.is
-                    res.json({}); // for requests that come from client-side (Angular)
-                } else res.redirect("/"); // for requests that come from server-side (Jade)
-
-                //res.status(200).send('OK');
-            });
-        } else {
-            res.status(403).send("Forbidden");
-        }
-    });
+        await userService2.updateOne(user);
+        // if (err) return validationError(res, err);
+        res.redirect("/"); // for requests that come from server-side (Jade)
+    } else {
+        res.status(403).send("Forbidden");
+    }
 };
 
 /**
