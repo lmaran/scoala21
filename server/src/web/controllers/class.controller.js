@@ -9,33 +9,19 @@ const arrayHelper = require("../../shared/helpers/array.helper");
 exports.getAll = async (req, res) => {
     const classes = await classService.getAll();
 
-    // tmpGrades = {
-    //      "5c88123e5926db0d231fa314": {id: "5c88123e5926db0d231fa314", name: "5"},
-    // etc }
-    const tmpGrades = {};
-
-    const classesByGradeAsObject = {};
-    classes.forEach(cls => {
-        const grade = cls.grade;
-        if (grade) {
-            if (classesByGradeAsObject[grade.id]) {
-                classesByGradeAsObject[grade.id].push(cls);
-            } else {
-                classesByGradeAsObject[grade.id] = [cls];
-                tmpGrades[grade.id] = grade; // used later to get details about a specific grade
-            }
-        }
-    });
+    const classesByGradeAsObject = arrayHelper.groupBy(classes, "grade");
 
     // classesByGrade: [
     //      { grade: {"id": "5c88123e5926db0d231fa314", name: "5"}, classes:[] },
     // etc ]
-    const classesByGrade = Object.keys(classesByGradeAsObject).map(key => {
-        return {
-            grade: tmpGrades[key],
-            classes: classesByGradeAsObject[key]
-        };
-    });
+    const classesByGrade = Object.keys(classesByGradeAsObject)
+        .map(key => {
+            return {
+                grade: key,
+                classes: classesByGradeAsObject[key]
+            };
+        })
+        .sort((a, b) => b.grade - a.grade); // sort by grade, desc
 
     const data = {
         classesByGrade,
@@ -296,53 +282,3 @@ exports.getClass = async (req, res) => {
     // res.send(data);
     res.render("class/class", data);
 };
-
-// const getDayNumber = day => {
-//     if (day === "Luni") return 1;
-//     else if (day === "Marti") return 2;
-//     else if (day === "Miercuri") return 3;
-//     else if (day === "Joi") return 4;
-//     else if (day === "Vineri") return 5;
-//     else if (day === "Sambata") return 6;
-//     else return 7;
-// };
-
-// const sortByWeekName = (a, b) => (a.week.shortName > b.week.shortName ? 1 : -1);
-
-// item in DB (sample):
-// {
-//     "_id" : ObjectId("5c880fb65926db0d231fa30b"),
-//     "name" : "5A-demo",
-//     "shortName" : "5A-demo",
-//     "grade" : {
-//         "id" : "5c88123e5926db0d231fa314",
-//         "name" : "5"
-//     },
-//     "homeRoom" : {
-//         "id" : "123",
-//         "name" : "asd"
-//     },
-//     "classTeacher" : {
-//         "id" : "123",
-//         "name" : "ss"
-//     },
-//     "divisions" : [
-//         [
-//             {
-//                 "isEntireClass" : true,
-//                 "name" : "Intreaga clasa",
-//                 "nrOfStudents" : 20.0
-//             }
-//         ],
-//         [
-//             {
-//                 "name" : "Mate-Avansati",
-//                 "nrOfStudents" : 5.0
-//             },
-//             {
-//                 "name" : "Mate-Incepatori",
-//                 "nrOfStudents" : 8.0
-//             }
-//         ]
-//     ]
-// }

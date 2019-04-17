@@ -29,7 +29,7 @@ exports.getStudentsPerClass = async classId => {
     const db = await mongoHelper.getDb();
     return await db
         .collection("students")
-        .find({ "class.id": classId }, { projection: { allFirstNames: 1, lastName: 1 } })
+        .find({ "class.id": classId }, { projection: { firstName: 1, lastName: 1 } })
         .sort({ lastName: 1 })
         .toArray();
 };

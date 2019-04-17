@@ -18,8 +18,8 @@
     </ol>
 </nav>
 
-<h1>Clasa {{class.shortName}}</h1>
-<h4>{{#if (gt class.grade.name "4")}}Diriginte{{else}}Invatator{{/if}}:
+<h1>Clasa {{class.name}}</h1>
+<h4>{{#if (gt class.grade "4")}}Diriginte{{else}}Invatator{{/if}}:
     <a class="font-weight-light" href="/profesori/{{class.classTeacher.id}}">{{class.classTeacher.name}}</a>
 </h4>
 <h3 class="mt-4">Orarul clasei:</h3>

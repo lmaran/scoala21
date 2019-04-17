@@ -150,25 +150,28 @@ if 2 similar sections are used, the last one will override the first one --}}
                     <a class="nav-link {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="/clase">Clase</a>
                 </li>
 
-                <li class="nav-item dropdown {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}">
+                <li class="nav-item">
+                    <a class="nav-link {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}"
+                        href="/matemaraton">MateMaraton</a>
+                </li>
+
+                {{!-- <li class="nav-item dropdown {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Proiecte
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
                         <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}"
                             href="/revista-scolii">Revista scolii</a>
-                        {{!-- <a class="dropdown-item {{#if (eq selectedTopMenu '/eco-scoala' )}} active {{/if}}"
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/eco-scoala' )}} active {{/if}}"
                             href="/eco-scoala">Eco
                             Scoala</a>
                         <a class="dropdown-item {{#if (eq selectedTopMenu '/biblioteca' )}} active {{/if}}"
-                            href="/biblioteca">Biblioteca</a> --}}
+                            href="/biblioteca">Biblioteca</a>
                         <a class="dropdown-item {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}"
                             href="/matemaraton">MateMaraton</a>
-
                     </div>
-                </li>
+                </li> --}}
 
                 {{!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -209,11 +212,10 @@ if 2 similar sections are used, the last one will override the first one --}}
                             href="/conducere">Echipa manageriala
                         </a>
                         <a class="dropdown-item" href="/personal-auxiliar">Personal auxiliar</a>
+                        <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}"
+                            href="/revista-scolii">Revista scolii</a>
                         {{!-- <a class="dropdown-item" href="#">Personal nedidactic</a> --}}
                         {{!-- <div class="dropdown-divider"></div> --}}
-
-
-
                     </div>
                 </li>
 

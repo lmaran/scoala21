@@ -15,3 +15,12 @@ exports.objectToArray = object => Object.keys(object).map(key => object[key]);
 //     acc.push(object[key]);
 //     return acc;
 // }, []);
+
+// console.log(groupBy(['one', 'two', 'three'], 'length'));
+// => {3: ["one", "two"], 5: ["three"]}
+exports.groupBy = (array, key) => {
+    return array.reduce((acc, crt) => {
+        (acc[crt[key]] = acc[crt[key]] || []).push(crt);
+        return acc;
+    }, {});
+};
