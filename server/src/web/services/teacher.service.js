@@ -5,11 +5,10 @@ const collection = "teachers";
 
 exports.getAll = async () => {
     const db = await mongoHelper.getDb();
-    const teachers = await db
+    return await db
         .collection(collection)
         .find()
         .toArray();
-    return teachers;
 };
 
 exports.getOneById = async id => {

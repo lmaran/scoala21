@@ -2,8 +2,8 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{student.class.id}}">Clasa {{student.class.name}}</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{student.class.id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}">Clasa {{currentClass.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}/elevi">Elevi</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{student.firstNameFirstChar}}.</li>
     </ol>
 </nav>
@@ -11,7 +11,7 @@
 <h1>{{student.lastName}} {{student.firstName}} </h1>
 
 <h5 class="mt-4">Clasa
-    <a href="/clase/{{student.class.id}}">{{student.class.name}}</a>
+    <a href="/clase/{{currentClass.id}}">{{currentClass.name}}</a>
 </h5>
 
 <h5 class="mt-4">Premii obtinute:</h5>

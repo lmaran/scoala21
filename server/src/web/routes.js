@@ -35,6 +35,7 @@ router.get("/pdf/:pdfId", pdfController.getTextFromPdf);
 // student
 // uncomment this route in order to import students
 // router.get("/elevi/import", studentController.import);
+// router.get("/elevi/addStudentsPerClass", studentController.addStudentsPerClass);
 router.get("/elevi/:studentId", studentController.getStudent);
 
 // teacher

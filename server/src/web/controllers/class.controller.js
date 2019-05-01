@@ -46,7 +46,7 @@ exports.getStudents = async (req, res) => {
         ctx: req.ctx
     };
 
-    // res.send(data);
+    //res.send(data);
     res.render("class/class-students", data);
 };
 
