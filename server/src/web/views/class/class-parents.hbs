@@ -3,7 +3,7 @@
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{class._id}}">Clasa {{class.name}}</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Elevi</li>
+        <li class="breadcrumb-item active" aria-current="page">Parinti</li>
     </ol>
 </nav>
 
@@ -11,10 +11,14 @@
 <h4>{{#if (gt class.grade "4")}}Diriginte{{else}}Invatator{{/if}}:
     <a class="font-weight-light" href="/profesori/{{class.classTeacher.id}}">{{class.classTeacher.name}}</a>
 </h4>
-<h3 class="mt-4">Elevii clasei:</h3>
+<h3 class="mt-4">Parinti / tutori:</h3>
 <ol>
 {{#each students }}
-<li class="mt-1"><a href="/elevi/{{id}}">{{lastName}} {{firstName}}</a>
+<li class="mt-1"><a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a>
+    {{#each parents }}
+    <div class="ml-5"><a href="/parinti/{{id}}">{{lastName}} {{firstName}}</div>
+        
+    {{/each}}
     {{!-- <div class="mb-3">
         <a href="#">elevi</a> |
         <a href="/clase/{{_id}}/profesori">profesori</a> |

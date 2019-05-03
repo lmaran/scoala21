@@ -20,6 +20,9 @@
         {{classTeacher.name}}
         <div class="mb-3">
             <a href="/clase/{{_id}}/elevi">elevi</a>
+            {{#if (eq name "7B")}}
+            | <a href="/clase/{{_id}}/parinti">parinti</a>
+            {{/if}}
             {{#if (gt grade "4")}}
             |
             <a href="/clase/{{_id}}/profesori">profesori</a> |

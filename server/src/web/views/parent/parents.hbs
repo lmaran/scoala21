@@ -1,0 +1,42 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Parinti</li>
+    </ol>
+</nav>
+
+<h1>Parinti</h1>
+
+{{!-- <div class="container-fluid"> --}}
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table thead-light table-bordered table-light2 table-hover mb-5">
+                <thead>
+                    <tr>
+                        <th>Nume parinte</th>
+                        <th>Email</th>
+                        <th>Copii</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each parents}}
+                    <tr>
+                        <td>
+                            <a href="/parinti/{{_id}}">{{firstName}} {{lastName}}
+                        </td>
+                        <td>{{email}}</td>
+                        <td>
+                            {{#each students}}
+                                <div><a href="/elevi/{{id}}">{{firstName}} {{lastName}}</div>
+                            {{/each}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+{{!-- </div> --}}

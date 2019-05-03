@@ -50,6 +50,29 @@ exports.getStudents = async (req, res) => {
     res.render("class/class-students", data);
 };
 
+exports.getParents = async (req, res) => {
+    const classId = req.params.classId;
+
+    const [studentsIds, cls] = await Promise.all([
+        // await studentService.getStudentsPerClass(classId),
+        await studentService.getStudentsIdsPerClass(classId),
+        await classService.getOneById(classId)
+    ]);
+
+    const students = await studentService.getStudentsByIds(studentsIds);
+
+    const data = {
+        class: cls,
+        students,
+        studentsIds,
+        // fullStudents,
+        ctx: req.ctx
+    };
+
+    // res.send(data);
+    res.render("class/class-parents", data);
+};
+
 exports.getTeachers = async (req, res) => {
     const classId = req.params.classId;
 

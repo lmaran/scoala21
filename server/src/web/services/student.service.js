@@ -43,6 +43,18 @@ exports.getStudentsPerClass = async classId => {
     });
 };
 
+exports.getStudentsIdsPerClass = async classId => {
+    const db = await mongoHelper.getDb();
+    const studentsPerClass = await db
+        .collection("studentsAndClasses")
+        .find({ "class.id": classId }, { projection: { "_id":0, "student.id":1} })
+        // .sort({ "student.lastName": 1 })
+        .toArray();
+
+    // flatten result
+    return studentsPerClass.map(x => x.student.id);
+};
+
 exports.getClassesPerStudent = async studentId => {
     const db = await mongoHelper.getDb();
     const classesPerStudent = await db
@@ -68,6 +80,17 @@ exports.getAll = async () => {
     return await db
         .collection("students")
         .find()
+        .toArray();
+};
+
+exports.getStudentsByIds = async (ids) => {
+
+    const idsAsObjectID = ids.map(x => new ObjectID(x));
+
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection("students")
+        .find({_id: {$in: idsAsObjectID}})
         .toArray();
 };
 

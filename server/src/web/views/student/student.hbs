@@ -10,8 +10,16 @@
 
 <h1>{{student.lastName}} {{student.firstName}} </h1>
 
-<h5 class="mt-4">Clasa
+<h5 class="mt-4">Clasa:
     <a href="/clase/{{currentClass.id}}">{{currentClass.name}}</a>
 </h5>
+
+<h5 class="mt-4">Parinti/Tutori:</h5>
+
+<ul>
+    {{#each student.parents }}
+    <li class="mt-1"><a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a></li>
+    {{/each}}
+</ul>
 
 <h5 class="mt-4">Premii obtinute:</h5>
