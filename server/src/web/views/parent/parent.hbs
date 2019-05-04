@@ -48,7 +48,12 @@
 
 <ul>
     {{#each parent.students }}
-    <li class="mt-1"><a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a></li>
+    <li class="mt-1">
+        <a href="/elevi/{{id}}">{{lastName}} {{firstName}}</a>
+        {{#if kinship}}
+        (in calitate de {{kinship}})
+        {{/if}}
+    </li>
     {{/each}}
 </ul>
 

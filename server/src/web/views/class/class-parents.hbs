@@ -12,18 +12,40 @@
     <a class="font-weight-light" href="/profesori/{{class.classTeacher.id}}">{{class.classTeacher.name}}</a>
 </h4>
 <h3 class="mt-4">Parinti / tutori:</h3>
-<ol>
+{{!-- <ol>
 {{#each students }}
 <li class="mt-1"><a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a>
     {{#each parents }}
     <div class="ml-5"><a href="/parinti/{{id}}">{{lastName}} {{firstName}}</div>
         
     {{/each}}
-    {{!-- <div class="mb-3">
-        <a href="#">elevi</a> |
-        <a href="/clase/{{_id}}/profesori">profesori</a> |
-        <a href="#">orar</a>
-    </div> --}}
 </li>
 {{/each}}
-</ol>
+</ol> --}}
+
+
+<table class="table thead-light table-bordered table-light2 table-hover mb-5">
+    <thead>
+        <tr>
+            <th>Elev</th>
+            <th>Parinti / tutori</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each students }}
+        <tr>
+            <td>{{inc @index}}. <a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a></td>
+            <td>
+                {{#each parents }}
+                <div>
+                    <a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a>
+                    {{!-- {{#if kinship}}
+                    ({{kinship}})
+                    {{/if}} --}}
+                </div>                   
+                {{/each}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
