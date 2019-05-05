@@ -14,6 +14,90 @@
     <a href="/clase/{{currentClass.id}}">{{currentClass.name}}</a>
 </h5>
 
+<h5 class="mt-4">Note / Absente <span class="font-weight-light text-secondary">(ultimele 2 sapt.)</span>:</h5>
+<table class="table thead-light table-bordered table-light2 table-hover">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Materia</th>
+            <th>Nota / Absenta</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each lastMarks}}
+        <tr>
+            <td>
+                {{!-- {{itemDate}} --}}
+                {{#if itemDate}}
+                {{itemDate}}
+                {{else}}
+                sem.{{semester}}
+                {{/if}}
+            </td>
+            <td>{{subject.name}}
+                {{!-- {{#if (eq itemType "semestrialTestPaper")}}
+                (teza)
+                {{else if (eq itemType "semestrialAverage")}}
+                (media)
+                {{/if}} --}}
+            </td>
+            <td>
+
+                {{#if (eq itemType "absence")}}
+                {{#if itemIsExcused}}
+                <span style="color:green">absent motivat</span>
+                {{else}}
+                <span style="color:red">absent</span>
+                {{/if}}
+                {{else}}
+                {{itemValue}}
+
+                {{#if (eq itemType "semestrialTestPaper")}}
+                (teza)
+                {{else if (eq itemType "semestrialAverage")}}
+                (media)
+                {{/if}}
+
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<a href="/parinti">Vezi tot catalogul</a>
+
+{{!-- <h5 class="mt-4">Absente <span class="font-weight-light text-secondary">(inregistrate in ultimele 2 saptamani)</span>:
+</h5>
+<table class="table thead-light table-bordered table-light2 table-hover mb-5">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Materia</th>
+            <th>Absenta motivata</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each lastAbsences}}
+        <tr>
+            <td>
+                {{itemDate}}
+            </td>
+            <td>{{subject.name}}
+                {{#if (eq itemType "semestrialTestPaper")}}
+                (teza, sem. {{semester}})
+                {{else if (eq itemType "semestrialAverage")}}
+                (media, sem. {{semester}})
+                {{/if}}
+            </td>
+            <td>
+                {{itemIsExcused}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table> --}}
+
 <h5 class="mt-4">Parinti/Tutori:</h5>
 
 <ul>

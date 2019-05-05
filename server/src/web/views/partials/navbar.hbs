@@ -22,7 +22,11 @@ if 2 similar sections are used, the last one will override the first one --}}
                     </a>
                 </li> --}}
 
-
+                <li class="nav-item">
+                    <a class="nav-link {{#if (eq selectedTopMenu '/pagina-mea' )}} active {{/if}}"
+                        href="/pagina-mea">Pagina mea
+                    </a>
+                </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -143,6 +147,12 @@ if 2 similar sections are used, the last one will override the first one --}}
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/profesori' )}} active {{/if}}"
                         href="/profesori">Profesori
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{#if (eq selectedTopMenu '/parinti' )}} active {{/if}}"
+                        href="/parinti">Parinti
                     </a>
                 </li>
 

@@ -36,14 +36,13 @@
         <tr>
             <td>{{inc @index}}. <a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a></td>
             <td>
-                {{#each parents }}
-                <div>
-                    <a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a>
-                    {{!-- {{#if kinship}}
-                    ({{kinship}})
-                    {{/if}} --}}
-                </div>                   
-                {{/each}}
+                <ul class="pl-3 mb-0">
+                    {{#each parents }}
+                    <li>
+                        <a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
             </td>
         </tr>
         {{/each}}

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const homeController = require("./controllers/home.controller");
+const meController = require("./controllers/me.controller");
 const teacherController = require("./controllers/teacher.controller");
 const studentController = require("./controllers/student.controller");
 const parentController = require("./controllers/parent.controller");
@@ -32,6 +33,9 @@ router.get("/changePassword", auth.isAuthenticated(), function(req, res) {
 
 // pdf
 router.get("/pdf/:pdfId", pdfController.getTextFromPdf);
+
+// my page
+router.get("/pagina-mea", meController.getMyPage);
 
 // student
 // uncomment this route in order to import students

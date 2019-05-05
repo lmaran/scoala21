@@ -89,7 +89,8 @@ app.engine(
             or: function() {
                 return Array.prototype.slice.call(arguments, 0, arguments.length - 1).some(Boolean);
             },
-            inc: function(v) { // https://stackoverflow.com/a/22103990
+            inc: function(v) {
+                // https://stackoverflow.com/a/22103990
                 return parseInt(v) + 1;
             }
         }

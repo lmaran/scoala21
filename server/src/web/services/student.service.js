@@ -29,7 +29,7 @@ exports.getStudentsPerClass = async classId => {
     const db = await mongoHelper.getDb();
     const studentsPerClass = await db
         .collection("studentsAndClasses")
-        .find({ "class.id": classId }, { projection: { "_id":0, "student":1} })
+        .find({ "class.id": classId }, { projection: { _id: 0, student: 1 } })
         .sort({ "student.lastName": 1 })
         .toArray();
 
@@ -39,7 +39,7 @@ exports.getStudentsPerClass = async classId => {
             id: x.student.id,
             firstName: x.student.firstName,
             lastName: x.student.lastName
-        }
+        };
     });
 };
 
@@ -47,7 +47,7 @@ exports.getStudentsIdsPerClass = async classId => {
     const db = await mongoHelper.getDb();
     const studentsPerClass = await db
         .collection("studentsAndClasses")
-        .find({ "class.id": classId }, { projection: { "_id":0, "student.id":1} })
+        .find({ "class.id": classId }, { projection: { _id: 0, "student.id": 1 } })
         // .sort({ "student.lastName": 1 })
         .toArray();
 
@@ -59,11 +59,11 @@ exports.getClassesPerStudent = async studentId => {
     const db = await mongoHelper.getDb();
     const classesPerStudent = await db
         .collection("studentsAndClasses")
-        .find({ "student.id": studentId }, { projection: { "_id":0, "academicYear":1, "class":1} })
+        .find({ "student.id": studentId }, { projection: { _id: 0, academicYear: 1, class: 1 } })
         .sort({ "class.grade": -1 })
         .toArray();
 
-        return classesPerStudent;
+    return classesPerStudent;
 
     // flatten result
     // return classesPerStudent.map(x => {
@@ -83,14 +83,13 @@ exports.getAll = async () => {
         .toArray();
 };
 
-exports.getStudentsByIds = async (ids) => {
-
+exports.getStudentsByIds = async ids => {
     const idsAsObjectID = ids.map(x => new ObjectID(x));
 
     const db = await mongoHelper.getDb();
     return await db
         .collection("students")
-        .find({_id: {$in: idsAsObjectID}})
+        .find({ _id: { $in: idsAsObjectID } })
         .toArray();
 };
 

@@ -1,23 +1,22 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="#">Acasa</a></li>
-    <li class="breadcrumb-item"><a href="/parinti">Parinti</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{parent.lastName}} {{parent.firstNameFirstChar}}.</li>
+    {{!-- <li class="breadcrumb-item"><a href="/parinti">Parinti</a></li> --}}
+    <li class="breadcrumb-item active" aria-current="page">Pagina mea</li>
   </ol>
 </nav>
 
 <h1>{{parent.lastName}} {{parent.firstName}}</h1>
 
-<h5 class="mt-4">Profil:</h5>
-<div class="ml-4">
-  <span class="font-weight-bold">Nume:</span> {{parent.firstName}} {{parent.lastName}} <button type="button"
-    class="btn btn-link">modifica nume</button>
+{{!-- <h5 class="mt-4">Profil:</h5>
+<div class="ml-5">
+    <span class="font-weight-bold">Nume:</span> {{parent.firstName}} {{parent.lastName}} <button type="button" class="btn btn-link">modifica nume</button>
 </div>
-<div class="ml-4"><span class="font-weight-bold">Email:</span> {{parent.email}}
-  <button type="button" class="btn btn-link">
-    {{#if parent.email}}modifica email{{else}}adauga email{{/if}}
-  </button></div>
-{{!-- <div class="ml-5"><span class="font-weight-bold">Tel. (WhatsApp):</span> {{parent.phone}}
+<div class="ml-5"><span class="font-weight-bold">Email:</span> {{parent.email}} 
+    <button type="button" class="btn btn-link">
+        {{#if parent.email}}modifica email{{else}}adauga email{{/if}}
+    </button></div>
+<div class="ml-5"><span class="font-weight-bold">Tel. (WhatsApp):</span> {{parent.phone}}
     <button type="button" class="btn btn-link">
         {{#if parent.phone}}modifica telefon{{else}}adauga telefon{{/if}}
     </button></div>
@@ -45,7 +44,7 @@
   </div>
 </div> --}}
 
-<h5 class="mt-4">Parinte / tutor pt. elevii:</h5>
+<h5 class="mt-4">Parinte/tutor pt. elevii:</h5>
 
 <ul>
   {{#each parent.students }}
