@@ -1,0 +1,44 @@
+{{!-- <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}">Clasa {{currentClass.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item"><a href="/elevi/{{student._id}}">{{student.lastName}}
+                {{student.firstNameFirstChar}}.</a></li>
+        <li class="breadcrumb-item active" aria-current="page">catalog</li>
+    </ol>
+</nav>
+
+<h1>{{student.lastName}} {{student.firstName}} </h1>
+
+<h5 class="mt-4">Clasa:
+    <a href="/clase/{{currentClass.id}}">{{currentClass.name}}</a>
+</h5> --}}
+
+{{!-- <div id="app" data-component="{{ $student.lastName }}" data-props="{{ json_encode($data) }}"></div> --}}
+
+<div id="app">
+    {{!-- \{{ message }} --}}
+    {{!-- <button-counter></button-counter> --}}
+</div>
+
+{{!-- {{#section 'script'}}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+{{/section}} --}}
+
+{{#section 'script-after'}}
+
+{{!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script> --}}
+
+{{!-- <script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            message: "Hello Vue!"
+        }
+    });
+</script> --}}
+
+<script src="/views/student/student.vue.js"></script>
+{{/section}}

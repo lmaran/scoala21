@@ -42,6 +42,7 @@ router.get("/pagina-mea", meController.getMyPage);
 // router.get("/elevi/import", studentController.import);
 // router.get("/elevi/addStudentsPerClass", studentController.addStudentsPerClass);
 router.get("/elevi/:studentId", studentController.getStudent);
+router.get("/elevi/:studentId/catalog", studentController.getStudentCatalog);
 
 router.get("/parinti", parentController.getAll);
 router.get("/parinti/:parentId", parentController.getParent);

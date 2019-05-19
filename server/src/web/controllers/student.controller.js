@@ -110,6 +110,39 @@ exports.getStudent = async (req, res) => {
     res.render("student/student", data);
 };
 
+exports.getStudentCatalog = async (req, res) => {
+    const studentId = req.params.studentId;
+    // const student = await studentService.getOneById2(studentId);
+    const academicYear = "201819";
+
+    const [student, classesPerStudent, lastGradebookItems] = await Promise.all([
+        await studentService.getOneById2(studentId),
+        await studentService.getClassesPerStudent(studentId),
+        await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
+    ]);
+
+    student.firstNameFirstChar = student.firstName.charAt(0);
+
+    const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
+    const currentClass = (currentClassWithYear && currentClassWithYear.class) || "graduated";
+
+    const lastAbsences = lastGradebookItems.filter(x => x.itemType === "absence");
+    // const lastMarks = lastGradebookItems.filter(x => x.itemType !== "absence");
+    const lastMarks = lastGradebookItems;
+
+    const data = {
+        student,
+        classesPerStudent,
+        currentClass,
+        lastMarks,
+        lastAbsences,
+        ctx: req.ctx
+    };
+
+    // res.send(data);
+    res.render("student/student-catalog", data);
+};
+
 const getClassAndGrade = (classType, classLetter, classesAsObject) => {
     let cls = null;
     // const grade = null;
