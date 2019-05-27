@@ -1,44 +1,170 @@
-{{!-- <nav aria-label="breadcrumb">
+<style>
+    .btn-link {
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
+</style>
+
+<nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}">Clasa {{currentClass.name}}</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}/elevi">Elevi</a></li>
-        <li class="breadcrumb-item"><a href="/elevi/{{student._id}}">{{student.lastName}}
-                {{student.firstNameFirstChar}}.</a></li>
-        <li class="breadcrumb-item active" aria-current="page">catalog</li>
+        <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{student.firstNameFirstChar}}.</li>
     </ol>
 </nav>
 
-<h1>{{student.lastName}} {{student.firstName}} </h1>
+<h1 data-student='{{{toJSON student}}}'>{{student.lastName}} {{student.firstName}} </h1>
 
-<h5 class="mt-4">Clasa:
+<h5 data-class2='{{{toJSON currentClass}}}' class="mt-4">Clasa:
     <a href="/clase/{{currentClass.id}}">{{currentClass.name}}</a>
-</h5> --}}
+</h5>
 
-{{!-- <div id="app" data-component="{{ $student.lastName }}" data-props="{{ json_encode($data) }}"></div> --}}
+{{!-- <h5 class="mt-4">Note / Absente <span class="font-weight-light text-secondary">(ultimele 2 sapt.)</span>:</h5>
+<table class="table thead-light table-bordered table-light2 table-hover">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Materia</th>
+            <th>Nota / Absenta</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each lastMarks}}
+        <tr>
+            <td>
+                {{#if itemDate}}
+                {{itemDate}}
+                {{else}}
+                sem.{{semester}}
+                {{/if}}
+            </td>
+            <td>{{subject.name}}
+            </td>
+            <td>
 
-<div id="app">
-    {{!-- \{{ message }} --}}
-    {{!-- <button-counter></button-counter> --}}
+                {{#if (eq itemType "absence")}}
+                {{#if itemIsExcused}}
+                <span style="color:green">absent motivat</span>
+                {{else}}
+                <span style="color:red">absent</span>
+                {{/if}}
+                {{else}}
+                {{itemValue}}
+
+                {{#if (eq itemType "semestrialTestPaper")}}
+                (teza)
+                {{else if (eq itemType "semestrialAverage")}}
+                (media)
+                {{/if}}
+
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table> --}}
+
+{{#each allSubjects}}
+
+{{!-- {{{toJSON this}}}
+<div>--------</div>
+{{toJSON this}} --}}
+<div class="subject-container" data-subject-id="{{subject.id}}" data-subject-name="{{subject.name}}">
+    <h3 class="font-weight-normal mt-5">{{subject.name}}</h3>
+
+    <div class="absences-container ml-4 mt-4">
+        <div class="font-weight-bold">Absente:</div>
+
+        <ul class="absences-list-container">
+            {{#each absences}}
+            <li>
+                <span {{#if itemIsExcused}} class="text-success" {{/if}}>{{itemDate}}</span>
+                {{#unless itemIsExcused}}
+                <button type="button" class="btn btn-link">Motiveza</button> |
+                {{/unless}}
+                <button class="btn btn-link">Sterge</button>
+            </li>
+            {{/each}}
+        </ul>
+
+        <div class="absences-create-container ml-4">
+            <div class="form-inline">
+                <input type="text" class="form-control form-control-sm mr-2" style="width:70px">
+
+                <div class="form-check mb-2 mr-sm-2" style="width:90px">
+                    <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                    <label class="form-check-label" for="inlineFormCheck">
+                        Motivata
+                    </label>
+                </div>
+
+                <button class="btn btn-primary btn-sm">Adaga absenta</button>
+            </div>
+            <small class="text-muted">Ex: 17.04 / bifeaza daca e abs. motivata</small>
+        </div>
+    </div>
+
+    <div class="marks-container ml-4 mt-4">
+        <div class="font-weight-bold">Note:</div>
+
+        <ul class="marks-list-container">
+            {{#each marks}}
+            <li>
+                <span>{{itemValue}}</span>
+                <span class="text-muted">/ {{itemDate}}</span>
+                <button type="button" class="btn btn-link">Sterge</button>
+            </li>
+            {{/each}}
+        </ul>
+
+        <div class="marks-create-container ml-4">
+            <div class="form-inline">
+                <input type="number" class="form-control form-control-sm" style="width:50px">
+                <span class="text-muted text-center" style="width:12px"> / </span>
+                <input type="number" class="form-control form-control-sm" style="width:100px">
+                <button class="btn btn-primary btn-sm ml-2 add-mark-btn">Adauga nota</button>
+            </div>
+            <small class="text-muted">Ex: 8 / 17.04</small>
+        </div>
+    </div>
+
+    <div class="sem-test-paper-container  ml-4 mt-4">
+        <div class="font-weight-bold">Teza:</div>
+        <div class="ml-4 form-inline">
+            <input type="number" class="form-control form-control-sm" style="width:50px">
+            <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga teza</button>
+        </div>
+    </div>
+
+    <div class="sem-average-container  ml-4 mt-4">
+        <div class="font-weight-bold">Media:</div>
+        <div class="ml-4 form-inline">
+            <input type="number" class="form-control form-control-sm" style="width:50px">
+            <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga media</button>
+        </div>
+    </div>
+
+    <hr class="mt-5" />
 </div>
+{{/each}}
+
+{{!-- <script type="text/x-template" id="app-data-template">
+{{{toJSON this }}}
+</script> --}}
+
+<script type="text/x-template" id="app-data-student">{{{toJSON student }}}</script>
+<script type="text/x-template" id="app-data-class">{{{toJSON currentClass }}}</script>
 
 {{!-- {{#section 'script'}}
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 {{/section}} --}}
 
-{{#section 'script-after'}}
-
-{{!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script> --}}
-
-{{!-- <script>
-    const app = new Vue({
-        el: "#app",
-        data: {
-            message: "Hello Vue!"
-        }
-    });
-</script> --}}
-
-<script src="/views/student/student.vue.js"></script>
+{{#section 'script'}}
+<script type="text/javascript" src="/views/student/student.js" defer></script>
 {{/section}}

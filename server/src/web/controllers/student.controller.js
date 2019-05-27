@@ -1,6 +1,7 @@
 const studentService = require("../services/student.service");
 const classService = require("../services/class.service");
 const gradebookService = require("../services/gradebook.service");
+const lessonService = require("../services/lesson.service");
 
 // const lessonService = require("../services/lesson.service");
 // const matemaratonService = require("../services/matemaraton.service");
@@ -126,16 +127,56 @@ exports.getStudentCatalog = async (req, res) => {
     const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
     const currentClass = (currentClassWithYear && currentClassWithYear.class) || "graduated";
 
-    const lastAbsences = lastGradebookItems.filter(x => x.itemType === "absence");
-    // const lastMarks = lastGradebookItems.filter(x => x.itemType !== "absence");
-    const lastMarks = lastGradebookItems;
+    const allLessons = await lessonService.getLessonsForClass(currentClass.id);
+
+    // const allSubjects = allLessons.map(x => x.subject);
+    const allSubjectsObj = allLessons.reduce((acc, crt) => {
+        acc[crt.subject.id] = { subject: crt.subject };
+        return acc;
+    }, {});
+
+    // const lastAbsences = lastGradebookItems.filter(x => x.itemType === "absence");
+    // const lastMarks = lastGradebookItems;
+
+    // const subjectsObj = {};
+    // populate lastSubjectObj with items from catalog
+    lastGradebookItems.forEach(x => {
+        const subjectObj = allSubjectsObj[x.subject.id]; // shortcut
+        if (subjectObj) {
+            if (x.itemType === "absence") {
+                if (!subjectObj["absences"]) {
+                    subjectObj["absences"] = [];
+                }
+                subjectObj["absences"].push({
+                    itemDate: x.itemDate,
+                    itemIsExcused: x.itemIsExcused
+                });
+            } else if (x.itemType === "mark") {
+                if (!subjectObj["marks"]) {
+                    subjectObj["marks"] = [];
+                }
+                subjectObj["marks"].push({
+                    itemDate: x.itemDate,
+                    itemValue: x.itemValue
+                });
+            } else if (x.itemType === "semestrialTestPaper") {
+                subjectObj["semestrialTestPaper"] = x.itemValue;
+            } else if (x.itemType === "semestrialAverage") {
+                subjectObj["semestrialAverage"] = x.itemValue;
+            }
+        }
+    });
+
+    const allSubjects = arrayHelper.objectToArray(allSubjectsObj);
 
     const data = {
         student,
         classesPerStudent,
         currentClass,
-        lastMarks,
-        lastAbsences,
+        // lastMarks,
+        // lastAbsences,
+        allSubjects,
+        // allSubjectsObj,
         ctx: req.ctx
     };
 

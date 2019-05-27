@@ -62,7 +62,7 @@ app.engine(
                 this._sections[name] = options.fn(this);
                 return null;
             },
-            toJson: function(object) {
+            toJSON: function(object) {
                 return JSON.stringify(object);
             },
             eq: function(v1, v2) {
