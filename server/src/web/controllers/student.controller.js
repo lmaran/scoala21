@@ -149,25 +149,40 @@ exports.getStudentCatalog = async (req, res) => {
                 }
                 subjectObj["absences"].push({
                     itemDate: x.itemDate,
-                    itemIsExcused: x.itemIsExcused
+                    itemIsExcused: x.itemIsExcused,
+                    itemId: x._id.toString()
                 });
             } else if (x.itemType === "mark") {
                 if (!subjectObj["marks"]) {
                     subjectObj["marks"] = [];
                 }
+                // console.log(x);
                 subjectObj["marks"].push({
                     itemDate: x.itemDate,
-                    itemValue: x.itemValue
+                    itemValue: x.itemValue,
+                    itemId: x._id.toString() // toString() -> convers from ObjectId to string
                 });
             } else if (x.itemType === "semestrialTestPaper") {
-                subjectObj["semestrialTestPaper"] = x.itemValue;
+                subjectObj["semestrialTestPaper"] = {
+                    itemValue: x.itemValue,
+                    itemId: x._id.toString() // toString() -> convers from ObjectId to string
+                };
             } else if (x.itemType === "semestrialAverage") {
-                subjectObj["semestrialAverage"] = x.itemValue;
+                subjectObj["semestrialAverage"] = {
+                    itemValue: x.itemValue,
+                    itemId: x._id.toString() // toString() -> convers from ObjectId to string
+                };
             }
         }
     });
 
     const allSubjects = arrayHelper.objectToArray(allSubjectsObj);
+
+    const newStudent = {
+        id: student._id,
+        firstName: student.firstName,
+        lastName: student.lastName
+    };
 
     const data = {
         student,
@@ -177,7 +192,13 @@ exports.getStudentCatalog = async (req, res) => {
         // lastAbsences,
         allSubjects,
         // allSubjectsObj,
-        ctx: req.ctx
+        ctx: req.ctx,
+        uiData: {
+            academicYear: currentClassWithYear.academicYear,
+            semester: 1,
+            class: currentClassWithYear.class,
+            student: newStudent
+        }
     };
 
     // res.send(data);

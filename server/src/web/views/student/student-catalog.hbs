@@ -110,12 +110,12 @@
         </div>
     </div>
 
-    <div class="marks-container ml-4 mt-4">
+    <div class="marks-container ml-4 mt-4" data-test="aaa">
         <div class="font-weight-bold">Note:</div>
 
-        <ul class="marks-list-container">
+        <ul class="marks-list-container" data-test="bbb">
             {{#each marks}}
-            <li>
+            <li id={{itemId}}>
                 <span>{{itemValue}}</span>
                 <span class="text-muted">/ {{itemDate}}</span>
                 <button type="button" class="btn btn-link">Sterge</button>
@@ -125,9 +125,9 @@
 
         <div class="marks-create-container ml-4">
             <div class="form-inline">
-                <input type="number" class="form-control form-control-sm" style="width:50px">
+                <input type="number" class="form-control form-control-sm mark-value" style="width:50px">
                 <span class="text-muted text-center" style="width:12px"> / </span>
-                <input type="number" class="form-control form-control-sm" style="width:100px">
+                <input type="number" class="form-control form-control-sm mark-date" style="width:100px">
                 <button class="btn btn-primary btn-sm ml-2 add-mark-btn">Adauga nota</button>
             </div>
             <small class="text-muted">Ex: 8 / 17.04</small>
@@ -158,8 +158,22 @@
 {{{toJSON this }}}
 </script> --}}
 
-<script type="text/x-template" id="app-data-student">{{{toJSON student }}}</script>
-<script type="text/x-template" id="app-data-class">{{{toJSON currentClass }}}</script>
+<script type="text/x-template" id="ui-data">{{{toJSON uiData }}}</script>
+{{!-- <script type="text/x-template" id="app-data-class">{{{toJSON currentClass }}}</script> --}}
+
+{{!-- <script type="text/x-template" id="new-mark">
+    <span>${x1}</span> 
+    <span class='text-muted'>/ ${x2}</span>
+    <button type='button' class='btn btn-link'>Sterge</button>
+</script> --}}
+
+{{!-- <template id="new-mark">
+    <span>${x1}</span>
+    <span class='text-muted'>/ ${x2}</span>
+    <button type='button' class='btn btn-link'>Sterge</button>
+</template> --}}
+
+
 
 {{!-- {{#section 'script'}}
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>

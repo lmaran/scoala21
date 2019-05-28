@@ -13,6 +13,7 @@ const matemaratonController = require("./controllers/matemaraton.controller");
 const pageController = require("./controllers/page.controller");
 const pdfController = require("./controllers/pdf.controller");
 const auth = require("./user/login/loginService");
+const gradebookController = require("./controllers/gradebook.controller");
 
 // home
 router.get("/", homeController.getHomePage);
@@ -51,6 +52,9 @@ router.get("/parinti/:parentId", parentController.getParent);
 router.get("/profesori", teacherController.getAll);
 router.get("/profesori/:teacherId", teacherController.getTeacher);
 router.get("/profesori/:teacherId/orar", teacherController.getTimetable);
+
+// gradebook
+router.post("/catalog", gradebookController.createGradebookItem);
 
 // class
 router.get("/clase", classController.getAll);
