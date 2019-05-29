@@ -5,7 +5,7 @@
     // });
 
     const uiDataTemplate = document.getElementById("ui-data");
-    console.log(uiDataTemplate.innerHTML);
+    // console.log(uiDataTemplate.innerHTML);
     // const classTemplate = document.getElementById("app-data-class");
     // console.log(classTemplate.innerHTML);
 
@@ -42,16 +42,22 @@
                 alert("Lipseste nota!");
                 return false;
             }
-            const markValue = parseInt(markValueEl.value);
+            const markValue = Number(markValueEl.value);
             if (!markValue) {
                 alert("Nota trebuie sa fie un numar!");
                 return false;
             }
 
+            // const o = { aa: 1, bb: 1.1, cc: "1.2", dd: markValue };
+
+            // console.log(markValue);
+            // console.log(JSON.stringify(o));
+            // return false;
+            // onst markValue = markValueEl.value;
+
             const markDateEl = closestMarkParent.querySelector(".mark-date");
             const markDate = markDateEl.value;
             // const markId = closestMarkParent.queryElementById();
-            const markId = "123";
 
             // const newMarkTemplate = document.getElementById("new-mark");
             // li.innerHTML = newMarkTemplate.innerHTML;
@@ -77,38 +83,55 @@
                 }
             })
                 .then(res => res.json())
-                .then(response => console.log("Success:", JSON.stringify(response)))
+                // .then(response => console.log("Success:", JSON.stringify(response)))
+                .then(response => {
+                    // update DOM
+                    const newLi = document.createElement("li");
+                    newLi.setAttribute("id", response._id);
+
+                    newLi.innerHTML = `
+                        <span>${response.itemValue}</span>
+                        <span class='text-muted'>/ ${response.itemDate}</span>
+                        <button type='button' class='btn btn-link'>Sterge</button>
+                    `;
+
+                    newLi.addEventListener("click", deleteGradebookItem);
+
+                    closestMarkListChild.appendChild(newLi);
+
+                    // clear input elements
+                    markValueEl.value = "";
+                    markDateEl.value = "";
+                })
                 .catch(error => console.error("Error:", error));
-
-            const newLi = document.createElement("li");
-            newLi.setAttribute("id", markId);
-
-            newLi.innerHTML = `
-                <span>${markValue}</span>
-                <span class='text-muted'>/ ${markDate}</span>
-                <button type='button' class='btn btn-link'>Sterge</button>
-            `;
-
-            // const newLi = `
-            //     <li id=${markId}>
-            //         <span>${markValue}</span>
-            //         <span class='text-muted'>/ ${markDate}</span>
-            //         <button type='button' class='btn btn-link'>Sterge</button>
-            //     </li>
-            // `;
-
-            closestMarkListChild.appendChild(newLi);
-
-            // clear input elements
-            markValueEl.value = "";
-            markDateEl.value = "";
 
             // console.log(closestMarkListChild.dataset.test);
 
             // alert(JSON.stringify(data));
         });
     }
-    // addMarkBtns[0].addEventListener("click", function() {
-    //     alert(112);
-    // });
+
+    // const deleteButtons = document.querySelectorAll("button.btn-delete");
+    const deleteButtons = document.getElementsByClassName("btn-delete");
+
+    const deleteGradebookItem = function(event) {
+        const deleteButton = event.target;
+        const parentLi = deleteButton.closest("li");
+        const itemId = parentLi.id;
+        // alert(itemId);
+
+        const url = `/catalog/${itemId}`;
+        fetch(url, { method: "DELETE" })
+            .then(() => {
+                // update DOM
+
+                parentLi.remove();
+                // parentLi.parentNode.removeChild(parentLi); // https://stackoverflow.com/a/8830882 (for better compatibility)
+            })
+            .catch(error => console.error("Error:", error));
+    };
+
+    for (const deleteButton of deleteButtons) {
+        deleteButton.addEventListener("click", deleteGradebookItem);
+    }
 })();

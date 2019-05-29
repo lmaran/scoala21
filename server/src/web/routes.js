@@ -55,6 +55,7 @@ router.get("/profesori/:teacherId/orar", teacherController.getTimetable);
 
 // gradebook
 router.post("/catalog", gradebookController.createGradebookItem);
+router.delete("/catalog/:id", gradebookController.deleteGradebookItem);
 
 // class
 router.get("/clase", classController.getAll);
