@@ -111,6 +111,45 @@
         });
     }
 
+    const showAbsenceBtns = document.getElementsByClassName("show-absence-btn");
+    for (const showAbsenceBtn of showAbsenceBtns) {
+        showAbsenceBtn.addEventListener("click", function(event) {
+            showAbsenceBtn.style.display = "none";
+            const closestSubjectParent = showAbsenceBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
+
+            // const subject = {
+            //     id: closestSubjectParent.dataset.subjectId,
+            //     name: closestSubjectParent.dataset.subjectName
+            // };
+            // console.log(subject.name);
+
+            const closestAbsenceParent = closestSubjectParent.querySelector(".absence-create-container"); // find the closest ancestor which matches the selectors
+            // console.log(closestAbsenceParent.dataset.test);
+            closestAbsenceParent.style.display = "block";
+        });
+    }
+
+    const hideAbsenceBtns = document.getElementsByClassName("hide-absence-btn");
+    for (const hideAbsenceBtn of hideAbsenceBtns) {
+        hideAbsenceBtn.addEventListener("click", function(event) {
+            // showAbsenceBtn.style.display = "none";
+            const closestSubjectParent = hideAbsenceBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
+
+            // const subject = {
+            //     id: closestSubjectParent.dataset.subjectId,
+            //     name: closestSubjectParent.dataset.subjectName
+            // };
+            // console.log(subject.name);
+
+            const closestShowAbsenceBtn = closestSubjectParent.querySelector(".show-absence-btn");
+            closestShowAbsenceBtn.style.display = "block";
+
+            const closestAbsenceParent = closestSubjectParent.querySelector(".absence-create-container"); // find the closest ancestor which matches the selectors
+            // console.log(closestAbsenceParent.dataset.test);
+            closestAbsenceParent.style.display = "none";
+        });
+    }
+
     // const deleteButtons = document.querySelectorAll("button.btn-delete");
     const deleteButtons = document.getElementsByClassName("btn-delete");
 

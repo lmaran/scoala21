@@ -7,6 +7,20 @@
     ul {
         margin-bottom: 0;
     }
+
+    .btn-group-toggle>label {
+        width: 40px;
+    }
+
+    .btn-light:not(:disabled):not(.disabled).active {
+        _background-color: #dae0e5;
+        _border-color: #d3d9df;
+        _background-color: #d39e00;
+        _border-color: #c69500;
+        background-color: #ffc107;
+        border-color: #ffc107;
+
+    }
 </style>
 
 <nav aria-label="breadcrumb">
@@ -93,8 +107,196 @@
             {{/each}}
         </ul>
 
-        <div class="absences-create-container ml-4">
-            <div class="form-inline">
+        <button class="btn btn-sm btn-info ml-4 show-absence-btn">Adauga absenta</button>
+
+        <div class="absence-create-container ml-4" data-test="bbb" style="display:none">
+
+
+            <br>
+            Ziua:
+            <br>
+
+            <div data-toggle="buttons">
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option1" autocomplete="off"> 1
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option2" autocomplete="off"> 2
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 3
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 4
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 5
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 6
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 7
+                    </label>
+
+
+                </div>
+                <br>
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 8
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 9
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 10
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option2" autocomplete="off"> 11
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option2" autocomplete="off"> 12
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 13
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 14
+                    </label>
+
+
+                </div>
+                <br>
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 15
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 16
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 17
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 18
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 19
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 20
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option2" autocomplete="off"> 21
+                    </label>
+
+
+
+                </div>
+
+                <br>
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option2" autocomplete="off"> 22
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 23
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 24
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 25
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 26
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 27
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 28
+                    </label>
+                </div>
+
+                <br>
+                <div class="btn-group btn-group-toggle">
+
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 29
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 30
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="checkbox" name="options" id="option3" autocomplete="off"> 31
+                    </label>
+                </div>
+            </div>
+            <small class="text-muted">Poti selecta mai multe absente pt. aceeasi luna!</small>
+
+
+            <br>
+            <br>
+            Luna:
+            <br>
+            <div data-toggle="buttons">
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option1" autocomplete="off"> I
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> II
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> III
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> IV
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> V
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> VI
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> VII
+                    </label>
+
+                </div>
+                <br>
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> VIII
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> IX
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> X
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> XI
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> XII
+                    </label>
+                </div>
+
+            </div>
+
+            <br>
+            <div class="form-check mb-2 mr-sm-2" style2="width:90px">
+                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                <label class="form-check-label" for="inlineFormCheck">
+                    Absente motivate
+                </label>
+            </div>
+
+            {{!-- <div class="form-inline">
                 <input type="text" class="form-control form-control-sm mr-2" style="width:70px">
 
                 <div class="form-check mb-2 mr-sm-2" style="width:90px">
@@ -104,9 +306,11 @@
                     </label>
                 </div>
 
-                <button class="btn btn-primary btn-sm">Adaga absenta</button>
-            </div>
-            <small class="text-muted">Ex: 17.04 / bifeaza daca e abs. motivata</small>
+            </div> --}}
+            {{!-- <small class="text-muted">Ex: 17.04 / bifeaza daca e abs. motivata</small> --}}
+            <br>
+            <button class="btn btn-sm btn-success">Salveaza absente</button>
+            <button class="btn btn-sm btn-link hide-absence-btn">Renunta</button>
         </div>
     </div>
 
