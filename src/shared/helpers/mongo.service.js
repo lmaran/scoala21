@@ -5,7 +5,7 @@
     mongoService.getQuery = function(odataQuery) {
         //console.log(req.params);
         const parser = require("odata-parser");
-        const queryTransform = require("./queryTransform.js");
+        const queryTransform = require("./queryTransform.js.js");
         const querystring = require("querystring"); // internal node module
 
         let queryOptions = { $filter: {} };

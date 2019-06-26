@@ -1,9 +1,6 @@
-client/node_modules
-client/dist
-
-server/src/shared/config/development.ts
-server/node_modules
-server/dist
+src/shared/config/development.ts
+node_modules
+dist
 
 
 
