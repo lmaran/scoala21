@@ -114,7 +114,6 @@
     const showAbsenceBtns = document.getElementsByClassName("show-absence-btn");
     for (const showAbsenceBtn of showAbsenceBtns) {
         showAbsenceBtn.addEventListener("click", function(event) {
-            showAbsenceBtn.style.display = "none";
             const closestSubjectParent = showAbsenceBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
             // const subject = {
@@ -125,6 +124,15 @@
 
             const closestAbsenceParent = closestSubjectParent.querySelector(".absence-create-container"); // find the closest ancestor which matches the selectors
             // console.log(closestAbsenceParent.dataset.test);
+
+            // showAbsenceBtn.style.display = "none";
+            if (closestAbsenceParent.style.display === "none") {
+                // showAbsenceBtn.innerHTML = "Adauga absenta";
+            } else {
+                // showAbsenceBtn.innerHTML = "Renunta";
+                // showAbsenceBtn.classList.add("disabled");
+            }
+            showAbsenceBtn.classList.add("disabled");
             closestAbsenceParent.style.display = "block";
         });
     }
@@ -142,11 +150,53 @@
             // console.log(subject.name);
 
             const closestShowAbsenceBtn = closestSubjectParent.querySelector(".show-absence-btn");
-            closestShowAbsenceBtn.style.display = "block";
+            // closestShowAbsenceBtn.style.display = "block";
+            closestShowAbsenceBtn.classList.remove("disabled");
 
             const closestAbsenceParent = closestSubjectParent.querySelector(".absence-create-container"); // find the closest ancestor which matches the selectors
             // console.log(closestAbsenceParent.dataset.test);
             closestAbsenceParent.style.display = "none";
+        });
+    }
+
+    const saveAbsencesBtns = document.getElementsByClassName("save-absences-btn");
+    for (const saveAbsencesBtn of saveAbsencesBtns) {
+        saveAbsencesBtn.addEventListener("click", function(event) {
+            const closestSubjectParent = saveAbsencesBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
+
+            // const subject = {
+            //     id: closestSubjectParent.dataset.subjectId,
+            //     name: closestSubjectParent.dataset.subjectName
+            // };
+            // console.log(subject.name);
+
+            const isExcusedInput = closestSubjectParent.querySelector(".is-excused-input");
+            const isExcused = isExcusedInput.checked;
+
+            const monthLabel = closestSubjectParent.querySelector(".month-input label.active");
+            const month = monthLabel.innerText;
+
+            const dayLabels = closestSubjectParent.querySelectorAll(".day-input label.active");
+
+            for (const dayLabel of dayLabels) {
+                console.log(dayLabel.innerText);
+            }
+
+            const resultDiv = closestSubjectParent.querySelector(".result"); // find the closest ancestor which matches the selectors
+            // resultDiv.innerHTML = isExcusedInput.checked;
+            resultDiv.innerHTML = monthLabel.innerText;
+
+            // // console.log(closestAbsenceParent.dataset.test);
+
+            // // showAbsenceBtn.style.display = "none";
+            // if (closestAbsenceParent.style.display === "none") {
+            //     // showAbsenceBtn.innerHTML = "Adauga absenta";
+            // } else {
+            //     // showAbsenceBtn.innerHTML = "Renunta";
+            //     // showAbsenceBtn.classList.add("disabled");
+            // }
+            // showAbsenceBtn.classList.add("disabled");
+            // closestAbsenceParent.style.display = "block";
         });
     }
 

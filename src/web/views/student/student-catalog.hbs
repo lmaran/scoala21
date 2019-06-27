@@ -13,13 +13,19 @@
     }
 
     .btn-light:not(:disabled):not(.disabled).active {
-        _background-color: #dae0e5;
-        _border-color: #d3d9df;
-        _background-color: #d39e00;
-        _border-color: #c69500;
         background-color: #ffc107;
         border-color: #ffc107;
+    }
 
+    .absence-create-container {
+        _border-left: 1px solid green;
+        padding-left: 10px;
+        background: #ffe6cb;
+    }
+
+
+    .btn-group>.btn {
+        border-radius: 0;
     }
 </style>
 
@@ -107,16 +113,58 @@
             {{/each}}
         </ul>
 
-        <button class="btn btn-sm btn-info ml-4 show-absence-btn">Adauga absenta</button>
+        <button class="btn btn-sm btn-primary ml-4 show-absence-btn">Adauga absenta</button>
+        {{!-- <button class="btn btn-sm btn-primary ml-4 hide-absence-btn">Renunta</button> --}}
 
-        <div class="absence-create-container ml-4" data-test="bbb" style="display:none">
+        <div class="absence-create-container ml-4 mt-1" data-test="bbb" style="display:none">
+            <div>Luna:</div>
+            <div data-toggle="buttons" class="mb-3 month-input">
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option1" autocomplete="off"> I
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option2" autocomplete="off"> II
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> III
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> IV
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> V
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> VI
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> VII
+                    </label>
 
+                </div>
+                <br>
+                <div class="btn-group btn-group-toggle">
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> VIII
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> IX
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> X
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> XI
+                    </label>
+                    <label class="btn btn-light">
+                        <input type="radio" name="options" id="option3" autocomplete="off"> XII
+                    </label>
+                </div>
+            </div>
 
-            <br>
-            Ziua:
-            <br>
-
-            <div data-toggle="buttons">
+            <div>Ziua:</div>
+            <div data-toggle="buttons" class="mb-3 day-input">
                 <div class="btn-group btn-group-toggle">
                     <label class="btn btn-light">
                         <input type="checkbox" name="options" id="option1" autocomplete="off"> 1
@@ -195,7 +243,6 @@
 
 
                 </div>
-
                 <br>
                 <div class="btn-group btn-group-toggle">
                     <label class="btn btn-light">
@@ -220,7 +267,6 @@
                         <input type="checkbox" name="options" id="option3" autocomplete="off"> 28
                     </label>
                 </div>
-
                 <br>
                 <div class="btn-group btn-group-toggle">
 
@@ -234,65 +280,14 @@
                         <input type="checkbox" name="options" id="option3" autocomplete="off"> 31
                     </label>
                 </div>
-            </div>
-            <small class="text-muted">Poti selecta mai multe absente pt. aceeasi luna!</small>
-
-
-            <br>
-            <br>
-            Luna:
-            <br>
-            <div data-toggle="buttons">
-                <div class="btn-group btn-group-toggle">
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option1" autocomplete="off"> I
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option2" autocomplete="off"> II
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> III
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> IV
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> V
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> VI
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> VII
-                    </label>
-
-                </div>
                 <br>
-                <div class="btn-group btn-group-toggle">
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> VIII
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> IX
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> X
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> XI
-                    </label>
-                    <label class="btn btn-light">
-                        <input type="radio" name="options" id="option3" autocomplete="off"> XII
-                    </label>
-                </div>
-
+                <small class="text-muted">Poti selecta mai multe absente pt. aceeasi luna!</small>
             </div>
 
-            <br>
-            <div class="form-check mb-2 mr-sm-2" style2="width:90px">
-                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+            <div class="form-check mb-3 mr-sm-2" style2="width:90px">
+                <input class="form-check-input is-excused-input" type="checkbox" id="inlineFormCheck">
                 <label class="form-check-label" for="inlineFormCheck">
-                    Absente motivate
+                    Absentele selectate sunt motivate
                 </label>
             </div>
 
@@ -308,9 +303,15 @@
 
             </div> --}}
             {{!-- <small class="text-muted">Ex: 17.04 / bifeaza daca e abs. motivata</small> --}}
-            <br>
-            <button class="btn btn-sm btn-success">Salveaza absente</button>
-            <button class="btn btn-sm btn-link hide-absence-btn">Renunta</button>
+
+            <div class="pb-3">
+                <button class="btn btn-sm btn-success save-absences-btn">Salveaza absente</button>
+                {{!-- <button class="btn btn-sm btn-success">Salveaza si inchide</button> --}}
+                <button class="btn btn-sm btn-link hide-absence-btn">Renunta</button>
+            </div>
+
+            <div class="result"></div>
+
         </div>
     </div>
 
