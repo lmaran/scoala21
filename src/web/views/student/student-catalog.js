@@ -1,4 +1,4 @@
-(function() {
+(function () {
     // don't have to explicitly wait for DOM ready as "defer" script are only executed after the entire document has been loaded
     // document.addEventListener("DOMContentLoaded", () => {
     //     // DOM ready
@@ -14,7 +14,7 @@
     const addMarkBtns = document.getElementsByClassName("add-mark-btn");
 
     for (const addMarkBtn of addMarkBtns) {
-        addMarkBtn.addEventListener("click", function(event) {
+        addMarkBtn.addEventListener("click", function (event) {
             const closestSubjectParent = addMarkBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
             // const dataset = closestParent.dataset;
             // console.log(closestSubjectParent.dataset.subjectId);
@@ -113,7 +113,7 @@
 
     const showAbsenceBtns = document.getElementsByClassName("show-absence-btn");
     for (const showAbsenceBtn of showAbsenceBtns) {
-        showAbsenceBtn.addEventListener("click", function(event) {
+        showAbsenceBtn.addEventListener("click", function (event) {
             const closestSubjectParent = showAbsenceBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
             // const subject = {
@@ -139,7 +139,7 @@
 
     const hideAbsenceBtns = document.getElementsByClassName("hide-absence-btn");
     for (const hideAbsenceBtn of hideAbsenceBtns) {
-        hideAbsenceBtn.addEventListener("click", function(event) {
+        hideAbsenceBtn.addEventListener("click", function (event) {
             // showAbsenceBtn.style.display = "none";
             const closestSubjectParent = hideAbsenceBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
@@ -161,7 +161,7 @@
 
     const saveAbsencesBtns = document.getElementsByClassName("save-absences-btn");
     for (const saveAbsencesBtn of saveAbsencesBtns) {
-        saveAbsencesBtn.addEventListener("click", function(event) {
+        saveAbsencesBtn.addEventListener("click", function (event) {
             const closestSubjectParent = saveAbsencesBtn.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
             // const subject = {
@@ -173,10 +173,10 @@
             const isExcusedInput = closestSubjectParent.querySelector(".is-excused-input");
             const isExcused = isExcusedInput.checked;
 
-            const monthLabel = closestSubjectParent.querySelector(".month-input label.active");
+            const monthLabel = closestSubjectParent.querySelector(".month-container label.active");
             const month = monthLabel.innerText;
 
-            const dayLabels = closestSubjectParent.querySelectorAll(".day-input label.active");
+            const dayLabels = closestSubjectParent.querySelectorAll(".day-container label.active");
 
             for (const dayLabel of dayLabels) {
                 console.log(dayLabel.innerText);
@@ -200,10 +200,10 @@
         });
     }
 
-    // const deleteButtons = document.querySelectorAll("button.btn-delete");
-    const deleteButtons = document.getElementsByClassName("btn-delete");
+    // const deleteButtons = document.querySelectorAll("button.delete-btn");
+    const deleteButtons = document.getElementsByClassName("delete-btn");
 
-    const deleteGradebookItem = function(event) {
+    const deleteGradebookItem = function (event) {
         const deleteButton = event.target;
         const parentLi = deleteButton.closest("li");
         const itemId = parentLi.id;

@@ -113,12 +113,12 @@
             {{/each}}
         </ul>
 
-        <button class="btn btn-sm btn-primary ml-4 show-absence-btn">Adauga absenta</button>
+        <button class="show-absence-btn btn btn-sm btn-primary ml-4">Adauga absente</button>
         {{!-- <button class="btn btn-sm btn-primary ml-4 hide-absence-btn">Renunta</button> --}}
 
         <div class="absence-create-container ml-4 mt-1" data-test="bbb" style="display:none">
             <div>Luna:</div>
-            <div data-toggle="buttons" class="mb-3 month-input">
+            <div class="month-container mb-3" data-toggle="buttons">
                 <div class="btn-group btn-group-toggle">
                     <label class="btn btn-light">
                         <input type="radio" name="options" id="option1" autocomplete="off"> I
@@ -164,7 +164,7 @@
             </div>
 
             <div>Ziua:</div>
-            <div data-toggle="buttons" class="mb-3 day-input">
+            <div class="day-container mb-3" data-toggle="buttons">
                 <div class="btn-group btn-group-toggle">
                     <label class="btn btn-light">
                         <input type="checkbox" name="options" id="option1" autocomplete="off"> 1
@@ -187,8 +187,6 @@
                     <label class="btn btn-light">
                         <input type="checkbox" name="options" id="option3" autocomplete="off"> 7
                     </label>
-
-
                 </div>
                 <br>
                 <div class="btn-group btn-group-toggle">
@@ -284,7 +282,7 @@
                 <small class="text-muted">Poti selecta mai multe absente pt. aceeasi luna!</small>
             </div>
 
-            <div class="form-check mb-3 mr-sm-2" style2="width:90px">
+            <div class="form-check mb-3 mr-sm-2">
                 <input class="form-check-input is-excused-input" type="checkbox" id="inlineFormCheck">
                 <label class="form-check-label" for="inlineFormCheck">
                     Absentele selectate sunt motivate
@@ -305,9 +303,9 @@
             {{!-- <small class="text-muted">Ex: 17.04 / bifeaza daca e abs. motivata</small> --}}
 
             <div class="pb-3">
-                <button class="btn btn-sm btn-success save-absences-btn">Salveaza absente</button>
+                <button class="save-absences-btn btn btn-sm btn-success">Salveaza absente</button>
                 {{!-- <button class="btn btn-sm btn-success">Salveaza si inchide</button> --}}
-                <button class="btn btn-sm btn-link hide-absence-btn">Renunta</button>
+                <button class="hide-absence-btn btn btn-sm btn-link">Renunta</button>
             </div>
 
             <div class="result"></div>
@@ -323,203 +321,58 @@
             <li id={{itemId}}>
                 <span>{{itemValue}}</span>
                 <span class="text-muted">/ {{itemDate}}</span>
-                <button type="button" class="btn btn-link btn-delete">Sterge</button>
+                <button type="button" class="delete-btn btn btn-link">Sterge</button>
             </li>
             {{/each}}
         </ul>
 
         <div class="marks-create-container ml-4">
             <div class="form-inline">
-                <input type="number" class="form-control form-control-sm mark-value" style="width:70px">
+                <input type="number" class="mark-value form-control form-control-sm" style="width:70px">
                 <span class="text-muted text-center" style="width:12px"> / </span>
-                <input type="number" class="form-control form-control-sm mark-date" style="width:100px">
-                <button class="btn btn-primary btn-sm ml-2 add-mark-btn">Adauga nota</button>
+                <input type="number" class="mark-date form-control form-control-sm" style="width:100px">
+                <button class="add-mark-btn btn btn-primary btn-sm ml-2">Adauga nota</button>
             </div>
             <small class="text-muted">Ex: 8 / 17.04</small>
             <br>
-            Nota:
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-warning active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> 1
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> 2
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 3
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 4
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 5
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 6
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 7
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 8
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 9
-                </label>
-                <label class="btn btn-warning">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 10
-                </label>
-            </div>
 
-            <br>
-            <br>
-            Ziua:
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-light active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> 1
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> 2
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 3
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 4
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 5
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 6
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 7
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 8
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 9
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 10
-                </label>
+        </div>
 
-
-
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option1" autocomplete="off"> 1
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> 2
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 3
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 4
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 5
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 6
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 7
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 8
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 9
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> 10
-                </label>
-
-            </div>
-
-
-            <br>
-            <br>
-            Luna:
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-light active">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked> I
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option2" autocomplete="off"> II
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> III
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> IV
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> V
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> VI
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> VII
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> VIII
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> IX
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> X
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> XI
-                </label>
-                <label class="btn btn-light">
-                    <input type="radio" name="options" id="option3" autocomplete="off"> XII
-                </label>
+        <div class="sem-test-paper-container  ml-4 mt-4">
+            <div class="font-weight-bold">Teza:</div>
+            <div class="ml-4 form-inline">
+                <input type="number" class="form-control form-control-sm" style="width:70px">
+                <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga teza</button>
             </div>
         </div>
-    </div>
 
-    <div class="sem-test-paper-container  ml-4 mt-4">
-        <div class="font-weight-bold">Teza:</div>
-        <div class="ml-4 form-inline">
-            <input type="number" class="form-control form-control-sm" style="width:70px">
-            <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga teza</button>
+        <div class="sem-average-container  ml-4 mt-4">
+            <div class="font-weight-bold">Media:</div>
+            <div class="ml-4 form-inline">
+                <input type="number" class="form-control form-control-sm" style="width:70px">
+                <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga media</button>
+            </div>
         </div>
+
+        <hr class="mt-5" />
     </div>
+    {{/each}}
 
-    <div class="sem-average-container  ml-4 mt-4">
-        <div class="font-weight-bold">Media:</div>
-        <div class="ml-4 form-inline">
-            <input type="number" class="form-control form-control-sm" style="width:70px">
-            <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga media</button>
-        </div>
-    </div>
 
-    <hr class="mt-5" />
-</div>
-{{/each}}
-
-{{!-- <script type="text/x-template" id="app-data-template">
+    {{!-- <script type="text/x-template" id="app-data-template">
 {{{toJSON this }}}
 </script> --}}
 
-<script type="text/x-template" id="ui-data">{{{toJSON uiData }}}</script>
-{{!-- <script type="text/x-template" id="app-data-class">{{{toJSON currentClass }}}</script> --}}
+    <script type="text/x-template" id="ui-data">{{{toJSON uiData }}}</script>
+    {{!-- <script type="text/x-template" id="app-data-class">{{{toJSON currentClass }}}</script> --}}
 
-{{!-- <script type="text/x-template" id="new-mark">
+    {{!-- <script type="text/x-template" id="new-mark">
     <span>${x1}</span> 
     <span class='text-muted'>/ ${x2}</span>
     <button type='button' class='btn btn-link'>Sterge</button>
 </script> --}}
 
-{{!-- <template id="new-mark">
+    {{!-- <template id="new-mark">
     <span>${x1}</span>
     <span class='text-muted'>/ ${x2}</span>
     <button type='button' class='btn btn-link'>Sterge</button>
@@ -527,10 +380,21 @@
 
 
 
-{{!-- {{#section 'script'}}
+    {{!-- {{#section 'script'}}
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 {{/section}} --}}
 
-{{#section 'script'}}
-<script type="text/javascript" src="/views/student/student.js" defer></script>
-{{/section}}
+    {{#section 'script'}}
+    <script type="text/javascript" src="/views/student/student-catalog.js" defer></script>
+    {{/section}}
+
+    <script type="module">
+        // import { html, render } from '/lit-html/lit-html.js';
+        import { html, render } from '/scripts/lit-html/lit-html.js';
+        // Define a template
+        // const myTemplate = (name) => html`<p>Hello ${name}</p>`;
+
+        // Render the template to the document
+        // render(myTemplate('World'), document.body);
+        alert(123);
+    </script>

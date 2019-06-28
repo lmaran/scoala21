@@ -55,41 +55,41 @@ app.engine(
         // http://stackoverflow.com/a/25307270, http://stackoverflow.com/a/21740214
         helpers: {
             // tslint:disable-next-line:object-literal-shorthand
-            section: function(name, options) {
+            section: function (name, options) {
                 if (!this._sections) {
                     this._sections = {};
                 }
                 this._sections[name] = options.fn(this);
                 return null;
             },
-            toJSON: function(object) {
+            toJSON: function (object) {
                 return JSON.stringify(object);
             },
-            eq: function(v1, v2) {
+            eq: function (v1, v2) {
                 return v1 === v2;
             },
-            ne: function(v1, v2) {
+            ne: function (v1, v2) {
                 return v1 !== v2;
             },
-            lt: function(v1, v2) {
+            lt: function (v1, v2) {
                 return v1 < v2;
             },
-            gt: function(v1, v2) {
+            gt: function (v1, v2) {
                 return v1 > v2;
             },
-            lte: function(v1, v2) {
+            lte: function (v1, v2) {
                 return v1 <= v2;
             },
-            gte: function(v1, v2) {
+            gte: function (v1, v2) {
                 return v1 >= v2;
             },
-            and: function() {
+            and: function () {
                 return Array.prototype.slice.call(arguments, 0, arguments.length - 1).every(Boolean);
             },
-            or: function() {
+            or: function () {
                 return Array.prototype.slice.call(arguments, 0, arguments.length - 1).some(Boolean);
             },
-            inc: function(v) {
+            inc: function (v) {
                 // https://stackoverflow.com/a/22103990
                 return parseInt(v) + 1;
             }
@@ -108,6 +108,8 @@ app.use(passport.initialize());
 app.use("/admin", express.static(path.join(__dirname, "../../../client/dist")));
 
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use('/scripts/lit-html', express.static(path.join(__dirname, "../../node_modules/lit-html")));
 
 // for js files used by some server views
 app.use("/views", express.static(path.join(__dirname, "views")));
