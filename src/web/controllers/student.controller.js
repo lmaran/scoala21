@@ -197,7 +197,8 @@ exports.getStudentCatalog = async (req, res) => {
             academicYear: currentClassWithYear.academicYear,
             semester: 1,
             class: currentClassWithYear.class,
-            student: newStudent
+            student: newStudent,
+            allSubjects
         }
     };
 

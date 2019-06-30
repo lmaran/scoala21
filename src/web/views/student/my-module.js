@@ -125,7 +125,7 @@ const saveAbsenceHandler = event => {
     renderAbsenceList(data, absenceListContainer2);
 };
 
-export function renderAbsenceList(data, container) {
+export function renderAbsenceList2(data, container) {
     render(absenceListTemplate(data), container);
 }
 

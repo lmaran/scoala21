@@ -68,19 +68,20 @@
 {{!-- {{{toJSON this}}}
 <div>--------</div>
 {{toJSON this}} --}}
-<div class="subject-container" data-subject-id="{{subject.id}}" data-subject-name="{{subject.name}}">
+<div id="{{subject.id}}" class="subject-container" data-subject-id="{{subject.id}}"
+    data-subject-name="{{subject.name}}">
     <h3 class="font-weight-normal mt-5">{{subject.name}}</h3>
 
     <div class="absences-container ml-4 mt-4">
         <div class="font-weight-bold">Absente:</div>
         <ul class="absence-list-container">
             {{#each absences}}
-            <li>
+            <li id={{itemId}}>
                 <span {{#if itemIsExcused}} class="text-success" {{/if}}>{{itemDate}}</span>
                 {{#unless itemIsExcused}}
-                <button type="button" class="btn btn-link">Motiveza</button> |
+                <button class="excuse-btn btn btn-link">Motiveza</button> |
                 {{/unless}}
-                <button class="btn btn-link">Sterge</button>
+                <button class="delete-btn btn btn-link">Sterge</button>
             </li>
             {{/each}}
         </ul>
