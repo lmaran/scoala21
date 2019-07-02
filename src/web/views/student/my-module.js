@@ -129,6 +129,10 @@ export function renderAbsenceList2(data, container) {
     render(absenceListTemplate(data), container);
 }
 
+export function renderAbsenceList(data, container) {
+    render(absenceListTemplate(data), container);
+}
+
 export function renderAbsenceCreate(data, container, absenceListContainer) {
     console.log(absenceListContainer);
     absenceListContainer2 = absenceListContainer;

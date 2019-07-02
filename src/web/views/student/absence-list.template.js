@@ -1,7 +1,6 @@
 import { html, render } from "/scripts/lit-html/lit-html.js";
-import eventEmitter from "/views/student/event-emitter.js";
+import { deleteAbsenceClickHandler, excuseAbsenceClickHandler } from "/views/student/catalog.ui-event-handlers.js";
 
-// view (as template)
 const absenceListTemplate = data =>
     html`
         ${data.absences.map(
@@ -11,30 +10,17 @@ const absenceListTemplate = data =>
                         <span class=${absence.itemIsExcused ? "text-success" : ""}>${absence.itemDate}</span>
                         ${!absence.itemIsExcused
                             ? html`
-                                  <button class="btn btn-link" @click=${excuseAbsence}>Motiveza</button> |
+                                  <button class="btn btn-link" @click=${excuseAbsenceClickHandler}>Motiveza</button> |
                               `
                             : html``}
-                        <button class="btn btn-link" @click=${deleteAbsence}>Sterge</button>
+                        <button class="btn btn-link" @click=${deleteAbsenceClickHandler}>Sterge</button>
                     </li>
                 `
         )}
     `;
 
-// input
 export function renderAbsenceList(data, subjectId) {
     // cannot combine these 2 selectors inside "querySelector" as long as "id" starts with a number !!!
     const absenceListContainer = document.getElementById(`${subjectId}`).querySelector(".absence-list-container");
     render(absenceListTemplate(data), absenceListContainer);
 }
-
-// output
-const deleteAbsence = event => {
-    const absenceId = event.target.closest("li").id;
-    eventEmitter.dispatchEvent(new CustomEvent("DELETE_ABSENCE", { detail: absenceId })); // "detail" is a reserved word
-};
-
-// output
-const excuseAbsence = event => {
-    const absenceId = event.target.closest("li").id;
-    eventEmitter.dispatchEvent(new CustomEvent("EXCUSE_ABSENCE", { detail: absenceId })); // "detail" is a reserved word
-};
