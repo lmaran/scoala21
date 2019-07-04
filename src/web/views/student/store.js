@@ -1,7 +1,7 @@
 // dan abramov: https://egghead.io/lessons/react-redux-implementing-store-from-scratch
 // https://github.com/saigowthamr/React-Store/blob/master/src/store.js
 
-const createStore = (reducer, initialState) => {
+export const createStore = (reducer, initialState) => {
     let state = initialState;
     let listeners = [];
 

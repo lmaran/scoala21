@@ -1,9 +1,10 @@
 import eventEmitter from "/views/student/event-emitter.js";
 import { renderAbsenceList } from "/views/student/absence-list.template.js";
-import { PI, renderAbsenceList2, renderAbsenceCreate } from "/views/student/my-module.js";
+import { renderAbsenceCreate } from "/views/student/my-module.js";
 
 export const deleteAbsenceClickHandler = event => {
     const absenceId = event.target.closest("li").id;
+    alert("delete: " + absenceId);
     eventEmitter.dispatchEvent(new CustomEvent("DELETE_ABSENCE", { detail: absenceId })); // "detail" is a reserved word
 };
 
