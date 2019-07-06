@@ -121,7 +121,7 @@ export const showAbsenceClickHandler = event => {
     const absenceListContainer = subjectContainer.querySelector(".absence-list-container");
 
     // var data = "blabla";
-    var data = {
+    const data = {
         absences: [
             {
                 itemId: "111",
