@@ -1,5 +1,4 @@
 import { html, render } from "/scripts/lit-html/lit-html.js";
-// import { classMap } from "/scripts/lit-html/directives/class-map.js";
 
 const ALL_MONTHS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 const ALL_DAYS = [...Array(31)].map((crt, i) => i + 1); // [1, 2, 3 ... 31]
@@ -57,7 +56,5 @@ const template = props =>
     `;
 
 export function renderComponent(props, container) {
-    // console.log("container in absence-add-template:");
-    // console.log(container);
     render(template(props), container);
 }

@@ -13,14 +13,16 @@ export const reducer = (state = getInitialState(), action) => {
         case "EXPAND_ADD_ABSENCE": {
             const nextState = {
                 ...state,
-                ui: { ...state.ui, isAddAbsenceExpanded: true, selectedSubjectId: action.subjectId }
+                ui: { ...state.ui, isAddAbsenceExpanded: true, selectedSubjectId: action.subjectId },
+                absences: []
             };
             return nextState;
         }
         case "COLLAPSE_ADD_ABSENCE": {
             const nextState = {
                 ...state,
-                ui: { ...state.ui, isAddAbsenceExpanded: false, selectedSubjectId: action.subjectId }
+                ui: { ...state.ui, isAddAbsenceExpanded: false, selectedSubjectId: action.subjectId },
+                absences: []
             };
             return nextState;
         }
@@ -37,7 +39,26 @@ export const reducer = (state = getInitialState(), action) => {
             const nextState = {
                 ...state,
                 ui: { ...state.ui, isAddAbsenceExpanded: false, selectedSubjectId: subjectId },
-                absences
+                absences,
+                counter: ++state.counter
+            };
+            return nextState;
+        }
+        case "EXCUSE_ABSENCE": {
+            const subjectId = getSubjectIdByAbsenceId(action.absenceId);
+
+            const absences = getAbsencesBySubjectId(subjectId)
+                // .filter(x => x.itemId !== action.absenceId)
+                .map(x => x); // immutable
+
+            // update main data
+            uiData.allSubjects.find(x => x.subject.id === subjectId).absences = absences;
+
+            const nextState = {
+                ...state,
+                ui: { ...state.ui, isAddAbsenceExpanded: false, selectedSubjectId: subjectId },
+                absences,
+                counter: ++state.counter
             };
             return nextState;
         }
