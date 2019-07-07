@@ -2,22 +2,25 @@ import {
     // deleteAbsenceClickHandler,
     // excuseAbsenceClickHandler,
     // addMarkClickHandler,
-    expandAddAbsenceClickHandler
+    // expandAddAbsenceClickHandler,
+    getEventHandlers
     // hideAbsenceClickHandler,
     // saveAbsenceClickHandler
     // } from "/views/catalog/containers/ui-event-handlers.container.js";
 } from "/views/catalog/catalog.hbs-event-handlers.js";
 
 // ui event binders (attach events to DOM elements)
-export const initHbsEventBinders = () => {
+export const initHbsEventBinders = store => {
     // const addMarkBtns = document.getElementsByClassName("add-mark-btn");
     // for (const addMarkBtn of addMarkBtns) {
     //     addMarkBtn.addEventListener("click", addMarkClickHandler);
     // }
 
+    const handlers = getEventHandlers(store);
+
     const expandAddAbsenceBtns = document.getElementsByClassName("expand-add-absence-btn");
     for (const expandAddAbsenceBtn of expandAddAbsenceBtns) {
-        expandAddAbsenceBtn.addEventListener("click", expandAddAbsenceClickHandler);
+        expandAddAbsenceBtn.addEventListener("click", handlers.expandAddAbsenceClickHandler);
     }
 
     // const hideAbsenceBtns = document.getElementsByClassName("hide-absence-btn");

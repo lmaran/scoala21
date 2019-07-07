@@ -1,6 +1,6 @@
-import { renderAbsenceCreate } from "/views/catalog/components/absence-add.template.js";
+import { renderComponent } from "/views/catalog/components/absence-add.template.js";
 
-import { expandAddAbsenceClickHandler, test } from "/views/catalog/catalog.hbs-event-handlers.js";
+import { getEventHandlers } from "/views/catalog/catalog.hbs-event-handlers.js";
 
 // 1. INPUT = Actions(events)
 // import store from "/views/catalog/store/store.js";
@@ -46,52 +46,31 @@ import { expandAddAbsenceClickHandler, test } from "/views/catalog/catalog.hbs-e
 // };
 
 export const render = store => {
-    // ---------
-
-    // const expandAddAbsenceClickHandler = event => {
-    //     const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
-
-    //     store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId: subjectContainer.id });
-    //     alert(123);
-    // };
-
-    // -------------
+    const handlers = getEventHandlers(store);
 
     const state = store.getState();
-    // console.log(state);
 
-    // const xxx = init(store);
-    // console.log(xxx);
-    // const yyy = xxx.init;
-    // console.log(yyy);
+    // console.log("state in absence-add-render:");
+    // console.log(state);
 
     const props = {
         subjectId: state.ui.selectedSubjectId,
-        test: test
+        test: handlers.test
     };
 
     if (state.ui.selectedSubjectId && state.ui.isAddAbsenceExpanded) {
-        renderAddAbsenceContainer(props);
+        renderAbsenceAddContainer(props);
     }
     if (!state.ui.isAddAbsenceExpanded && state.ui.selectedSubjectId) {
-        renderAddAbsenceContainer(state.ui.selectedSubjectId);
+        renderAbsenceAddContainer(props);
     }
 };
 
-// export const renderAddAbsenceContainer = subjectId => {
-//     const subjectContainer = document.getElementById(subjectId);
-//     const absenceCreateContainer = subjectContainer.querySelector(".absence-create-container");
-
-//     // const absenceCreateContainer = document.querySelector(`#${subjectId} .absence-create-container`);
-
-//     // event.target.classList.add("disabled");
-//     // absenceCreateContainer.style.display = "block";
-//     renderAbsenceCreate({}, absenceCreateContainer);
-// };
-
-export const renderAddAbsenceContainer = props => {
+export const renderAbsenceAddContainer = props => {
+    // console.log("props in absence-add-component:");
+    // console.log(props);
     const subjectContainer = document.getElementById(props.subjectId);
     const absenceCreateContainer = subjectContainer.querySelector(".absence-create-container");
 
-    renderAbsenceCreate(props, absenceCreateContainer);
+    renderComponent(props, absenceCreateContainer);
 };

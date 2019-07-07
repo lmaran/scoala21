@@ -11,5 +11,6 @@ const initialState = {
     ui: {} // keep ui-specific state in a dedicated section
 };
 const store = createStore(reducer, initialState);
-
 export default store;
+
+// export const configStore = initialState => createStore(reducer, initialState);

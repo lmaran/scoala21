@@ -1,15 +1,20 @@
-import store from "/views/catalog/store/store.js";
+export const getEventHandlers = store => {
+    const test = event => {
+        // const state = store.getState();
+        // console.log(state);
 
-export const expandAddAbsenceClickHandler = event => {
-    const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
+        const subjectContainer = event.target.closest(".subject-container");
+        alert("bbb-111 " + subjectContainer.id);
+    };
 
-    store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId: subjectContainer.id });
-};
+    const expandAddAbsenceClickHandler = event => {
+        const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
-export const test = event => {
-    // const state = store.getState();
-    // console.log(state);
+        store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId: subjectContainer.id });
+    };
 
-    const subjectContainer = event.target.closest(".subject-container");
-    alert("aaa " + subjectContainer.id);
+    return {
+        test,
+        expandAddAbsenceClickHandler
+    };
 };

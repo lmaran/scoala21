@@ -2,6 +2,8 @@
 // https://github.com/saigowthamr/React-Store/blob/master/src/store.js
 
 export const createStore = (reducer, initialState) => {
+    // console.log("initialState in Store inside:");
+    // console.log(initialState);
     let state = initialState;
     let listeners = [];
 
