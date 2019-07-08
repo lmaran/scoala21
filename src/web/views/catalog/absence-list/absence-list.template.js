@@ -22,5 +22,5 @@ const template = props =>
     `;
 
 export const component = {
-    render: (props, container) => render(template(props), container)
-}
+    render: (props, domContainer) => render(template(props), domContainer)
+};

@@ -1,5 +1,5 @@
 // ui event binders (attach events to DOM elements)
-export const absenceListHbsEventBinders = {
+export const eventBinders = {
     init: eventHandlers => {
         const deleteButtons = document.getElementsByClassName("delete-btn");
         for (const deleteButton of deleteButtons) {
@@ -11,4 +11,4 @@ export const absenceListHbsEventBinders = {
             excuseButton.addEventListener("click", eventHandlers.excuseAbsenceClickHandler);
         }
     }
-}
+};
