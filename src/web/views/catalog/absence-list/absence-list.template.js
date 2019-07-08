@@ -21,6 +21,6 @@ const template = props =>
         )}
     `;
 
-export function renderComponent(props, container) {
-    render(template(props), container);
+export const component = {
+    render: (props, container) => render(template(props), container)
 }

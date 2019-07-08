@@ -1,16 +1,20 @@
-import { renderComponent } from "/views/catalog/absence-list/absence-list.template.js";
-import { getEventHandlers } from "/views/catalog/absence-list/absence-list.event-handlers.js";
+import { component } from "/views/catalog/absence-list/absence-list.template.js";
 
-export const renderAbsenceList = store => {
-    const handlers = getEventHandlers(store);
-    const state = store.getState();
+export const absenceListContainer = {
+    init: (store, eventHandlers) => {
+        const renderComponent = () => {
+            const state = store.getState();
 
-    // combine input and output props
-    const props = { ...mapStateToProps(state), ...mapDispatchToProps(handlers) };
+            const props = { ...mapStateToProps(state), ...mapDispatchToProps(eventHandlers) };
 
-    const container = getOutputContainer(props.subjectId);
-    renderComponent(props, container);
-};
+            const container = getOutputContainer(props.subjectId);
+            component.render(props, container);
+        }
+
+        store.subscribe(renderComponent);
+    }
+}
+
 
 //
 //  ************ helpers ************
@@ -27,7 +31,7 @@ const mapStateToProps = state => ({
 });
 
 // set OUTPUT data for the component (event handlers)
-const mapDispatchToProps = handlers => ({
-    deleteAbsenceClickHandler: handlers.deleteAbsenceClickHandler,
-    excuseAbsenceClickHandler: handlers.excuseAbsenceClickHandler
+const mapDispatchToProps = eventHandlers => ({
+    deleteAbsenceClickHandler: eventHandlers.deleteAbsenceClickHandler,
+    excuseAbsenceClickHandler: eventHandlers.excuseAbsenceClickHandler
 });

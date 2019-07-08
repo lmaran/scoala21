@@ -1,4 +1,4 @@
-export const getEventHandlers = store => {
+export const getAbsenceListEventHandlers = store => {
     const deleteAbsenceClickHandler = event => {
         const absenceId = event.target.closest("li").id;
         store.dispatch({ type: "DELETE_ABSENCE", absenceId: absenceId });
