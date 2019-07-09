@@ -1,43 +1,19 @@
-import { eventBinders } from "/views/catalog/absence-list/absence-list.hbs-event-binders.js";
-import { getAbsenceListEventHandlers } from "/views/catalog/absence-list/absence-list.event-handlers.js";
-import { component } from "/views/catalog/absence-list/absence-list.template.js";
+import { getEventHandlers } from "/views/catalog/absence-list/absence-list.smart-event-handlers.js";
+import { eventBinders } from "/views/catalog/absence-list/absence-list.dumb-event-binders.js";
+import { component } from "/views/catalog/absence-list/absence-list.dumb-component.js";
+import { renderController } from "/views/catalog/absence-list/absence-list.smart-render-controller.js";
 
 export const absenceListContainer = {
     init: store => {
-        const eventHandlers = getAbsenceListEventHandlers(store);
+        const eventHandlers = getEventHandlers(store);
 
-        // init event binders - initial all events come from server rendered html (.hbs file)
+        // init event binders - initial all events come handlebar DOM elements
         eventBinders.init(eventHandlers);
 
-        const renderComponent = () => {
-            const state = store.getState();
+        // init component
+        component.init(eventHandlers);
 
-            const props = { ...mapStateToProps(state), ...mapDispatchToProps(eventHandlers) };
-
-            const domContainer = getDomContainer(props.subjectId);
-            component.render(props, domContainer);
-        };
-
-        store.subscribe(renderComponent);
+        // init the OUTPUT part of the container
+        renderController.init(store);
     }
 };
-
-//
-//  ************ helpers ************
-//
-const getDomContainer = subjectId => {
-    const subjectContainer = document.getElementById(subjectId);
-    return subjectContainer.querySelector(".absence-list-container");
-};
-
-// set INPUT data for the component (from state)
-const mapStateToProps = state => ({
-    subjectId: state.ui.selectedSubjectId,
-    absences: state.absences
-});
-
-// set OUTPUT data for the component (event handlers)
-const mapDispatchToProps = eventHandlers => ({
-    deleteAbsenceClickHandler: eventHandlers.deleteAbsenceClickHandler,
-    excuseAbsenceClickHandler: eventHandlers.excuseAbsenceClickHandler
-});

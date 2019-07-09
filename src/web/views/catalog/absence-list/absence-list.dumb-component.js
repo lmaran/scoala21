@@ -1,26 +1,29 @@
 import { html, render } from "/scripts/lit-html/lit-html.js";
 
-const template = props =>
+const template = (data, methods) =>
     html`
-        ${props.absences.map(
+        ${data.absences.map(
             absence =>
                 html`
                     <li id=${absence.itemId} style="background-color:yellow">
                         <span class=${absence.itemIsExcused ? "text-success" : ""}>${absence.itemDate}</span>
                         ${!absence.itemIsExcused
                             ? html`
-                                  <button class="btn btn-link" @click=${props.excuseAbsenceClickHandler}>
+                                  <button class="btn btn-link" @click=${methods.excuseAbsenceClickHandler}>
                                       Motiveza
                                   </button>
                                   |
                               `
                             : html``}
-                        <button class="btn btn-link" @click=${props.deleteAbsenceClickHandler}>Sterge</button>
+                        <button class="btn btn-link" @click=${methods.deleteAbsenceClickHandler}>Sterge</button>
                     </li>
                 `
         )}
     `;
 
+let methods;
+
 export const component = {
-    render: (props, domContainer) => render(template(props), domContainer)
+    init: eventHandlers => (methods = eventHandlers),
+    render: (data, domElement) => render(template(data, methods), domElement)
 };
