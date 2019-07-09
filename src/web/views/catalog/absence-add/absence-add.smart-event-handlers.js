@@ -1,4 +1,4 @@
-export const getAbsenceAddEventHandlers = store => {
+export const getEventHandlers = store => {
     const test = event => {
         const subjectContainer = event.target.closest(".subject-container");
         alert("bbb-111 " + subjectContainer.id);

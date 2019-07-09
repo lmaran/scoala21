@@ -1,4 +1,4 @@
-// ui event binders (attach events to DOM elements)
+// ui event binders (attach events to DOM elements that come from server, via handlebar)
 export const eventBinders = {
     init: eventHandlers => {
         const expandAddAbsenceBtns = document.getElementsByClassName("expand-add-absence-btn");

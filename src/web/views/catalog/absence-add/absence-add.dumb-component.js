@@ -3,7 +3,7 @@ import { html, render } from "/scripts/lit-html/lit-html.js";
 const ALL_MONTHS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 const ALL_DAYS = [...Array(31)].map((crt, i) => i + 1); // [1, 2, 3 ... 31]
 
-const template = props =>
+const template = (data, methods) =>
     html`
         <div>Luna:</div>
         <div class="month-container btn-group btn-group-toggle flex-wrap mb-3" data-toggle="buttons">
@@ -49,12 +49,15 @@ const template = props =>
         <div class="pb-3">
             <!-- <button class="save-absences-btn btn btn-sm btn-success" a@click={saveAbsenceHandler}>Salveaza</button> -->
             <button class="save-absences-btn btn btn-sm btn-success">Salveaza si cont.</button>
-            <button class="collapse-add-absence-btn btn btn-sm btn-link" @click="${props.test}">Renunta</button>
+            <button class="collapse-add-absence-btn btn btn-sm btn-link" @click="${methods.test}">Renunta</button>
         </div>
 
         <div class="result"></div>
     `;
 
+let methods;
+
 export const component = {
-    render: (props, domContainer) => render(template(props), domContainer)
+    init: eventHandlers => (methods = eventHandlers),
+    render: (data, domElement) => render(template(data, methods), domElement)
 };
