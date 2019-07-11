@@ -21,9 +21,7 @@ export const renderController = {
 };
 
 //
-//  ************ helpers (mapStateToProps, getDomContainers etc ) ************
-//
-//  ************ Absence-add ************
+//  ************ Absence-add-helpers ************
 //
 
 const getAbsenceAddDomContainer = subjectId => {
@@ -32,12 +30,11 @@ const getAbsenceAddDomContainer = subjectId => {
 };
 
 const getAbsenceAddData = state => ({
-    // mapStateToProps
     subjectId: state.ui.selectedSubjectId
 });
 
 //
-//  ************ Absence-list ************
+//  ************ Absence-list-helpers ************
 //
 
 const getAbsenceListDomContainer = subjectId => {
