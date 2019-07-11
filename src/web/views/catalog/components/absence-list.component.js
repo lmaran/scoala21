@@ -23,7 +23,7 @@ const template = (data, methods) =>
 
 let methods;
 
-export const component = {
+export const absenceListComponent = {
     init: eventHandlers => (methods = eventHandlers),
     render: (data, domElement) => render(template(data, methods), domElement)
 };
