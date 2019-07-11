@@ -1,22 +1,19 @@
-import { absenceAddComponent } from "/views/catalog/components/absence-add.component.js";
-import { absenceListComponent } from "/views/catalog/components/absence-list.component.js";
+import { components } from "/views/catalog/catalog.components.js";
 
 export const renderController = {
     init: store => {
         const renderComponent = () => {
             const state = store.getState();
 
-            // const props = { ...mapStateToProps(state), ...mapDispatchToProps(eventHandlers) };
-
             // render absenceAdd
-            const data = { ...mapStateToProps(state) };
-            const domElement = getDomElement(data.subjectId);
-            absenceAddComponent.render(data, domElement);
+            const absenceAddData = { ...getAbsenceAddData(state) };
+            const absenceAddDomContainer = getAbsenceAddDomContainer(state.ui.selectedSubjectId);
+            components.renderAbsenceAdd(absenceAddData, absenceAddDomContainer);
 
             // render absenceList
-            const data2 = { ...mapStateToProps2(state) };
-            const domElement2 = getDomElement2(data.subjectId);
-            absenceListComponent.render(data2, domElement2);
+            const absenceListData = { ...getAbsenceListData(state) };
+            const absenceListDomContainer = getAbsenceListDomContainer(state.ui.selectedSubjectId);
+            components.renderAbsenceList(absenceListData, absenceListDomContainer);
         };
 
         store.subscribe(renderComponent);
@@ -24,26 +21,31 @@ export const renderController = {
 };
 
 //
-//  ************ helpers ************
+//  ************ helpers (mapStateToProps, getDomContainers etc ) ************
 //
-const getDomElement = subjectId => {
+//  ************ Absence-add ************
+//
+
+const getAbsenceAddDomContainer = subjectId => {
     const subjectContainer = document.getElementById(subjectId);
-    return subjectContainer.querySelector(".absence-create-container");
+    return subjectContainer.querySelector(".absence-add-container");
 };
 
-// set INPUT data for the component (from state)
-const mapStateToProps = state => ({
+const getAbsenceAddData = state => ({
+    // mapStateToProps
     subjectId: state.ui.selectedSubjectId
 });
 
+//
+//  ************ Absence-list ************
+//
 
-const getDomElement2 = subjectId => {
+const getAbsenceListDomContainer = subjectId => {
     const subjectContainer = document.getElementById(subjectId);
     return subjectContainer.querySelector(".absence-list-container");
 };
 
-// set INPUT data for the component (from state)
-const mapStateToProps2 = state => ({
+const getAbsenceListData = state => ({
     subjectId: state.ui.selectedSubjectId,
     absences: state.absences
 });

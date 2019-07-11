@@ -1,7 +1,7 @@
 export const getEventHandlers = store => {
-    // 
-    //  ******************** Absence-add ********************
-    //  
+    //
+    //  ************ Absence-add ************
+    //
     const test = event => {
         const subjectContainer = event.target.closest(".subject-container");
         alert("bbb-111 " + subjectContainer.id);
@@ -13,7 +13,7 @@ export const getEventHandlers = store => {
     };
 
     //
-    // ******************** Absence-list ********************
+    // ************ Absence-list ************
     //
     const deleteAbsenceClickHandler = event => {
         const absenceId = event.target.closest("li").id;

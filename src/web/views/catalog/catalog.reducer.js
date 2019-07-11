@@ -1,12 +1,7 @@
-// This will be fed into the reducer when the app loads to initialize the state
-const getInitialState = () => ({
-    // counter: 0
-});
-
 const uiDataTemplate = document.getElementById("ui-data");
 const uiData = JSON.parse(uiDataTemplate.innerHTML);
 
-export const reducer = (state = getInitialState(), action) => {
+export const reducer = (state, action) => {
     // console.log("action:");
     // console.log(action);
     switch (action.type) {

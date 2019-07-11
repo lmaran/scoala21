@@ -1,16 +1,16 @@
 // ui event binders (attach events to DOM elements that come from server, via handlebar)
 export const eventBinders = {
     init: eventHandlers => {
-        // 
-        //  ******************** Absence-add ********************
-        // 
+        //
+        //  ************ Absence-add ************
+        //
         const expandAddAbsenceBtns = document.getElementsByClassName("expand-add-absence-btn");
         for (const expandAddAbsenceBtn of expandAddAbsenceBtns) {
             expandAddAbsenceBtn.addEventListener("click", eventHandlers.expandAddAbsenceClickHandler);
         }
 
         //
-        // ******************** Absence-list ********************
+        // ************ Absence-list ************
         //
         const deleteButtons = document.getElementsByClassName("delete-btn");
         for (const deleteButton of deleteButtons) {

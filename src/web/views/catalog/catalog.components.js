@@ -3,7 +3,28 @@ import { html, render } from "/scripts/lit-html/lit-html.js";
 const ALL_MONTHS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 const ALL_DAYS = [...Array(31)].map((crt, i) => i + 1); // [1, 2, 3 ... 31]
 
-const template = (data, methods) =>
+const templateAbsenceList = (data, methods) =>
+    html`
+        ${data.absences.map(
+            absence =>
+                html`
+                    <li id=${absence.itemId} style="background-color:yellow">
+                        <span class=${absence.itemIsExcused ? "text-success" : ""}>${absence.itemDate}</span>
+                        ${!absence.itemIsExcused
+                            ? html`
+                                  <button class="btn btn-link" @click=${methods.excuseAbsenceClickHandler}>
+                                      Motiveza
+                                  </button>
+                                  |
+                              `
+                            : html``}
+                        <button class="btn btn-link" @click=${methods.deleteAbsenceClickHandler}>Sterge</button>
+                    </li>
+                `
+        )}
+    `;
+
+const templateAbsenceAdd = (data, methods) =>
     html`
         <div>Luna:</div>
         <div class="month-container btn-group btn-group-toggle flex-wrap mb-3" data-toggle="buttons">
@@ -57,7 +78,8 @@ const template = (data, methods) =>
 
 let methods;
 
-export const absenceAddComponent = {
+export const components = {
     init: eventHandlers => (methods = eventHandlers),
-    render: (data, domElement) => render(template(data, methods), domElement)
+    renderAbsenceList: (data, domElement) => render(templateAbsenceList(data, methods), domElement),
+    renderAbsenceAdd: (data, domElement) => render(templateAbsenceAdd(data, methods), domElement)
 };
