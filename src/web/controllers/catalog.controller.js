@@ -21,14 +21,16 @@ exports.getStudentCatalog = async (req, res) => {
 
     const allLessons = await lessonService.getLessonsForClass(currentClass._id);
 
+    // console.log(allLessons);
     const allSubjectsObj = allLessons.reduce((acc, crt) => {
-        acc[crt.subject._id] = { subject: crt.subject };
+        acc[crt.subject.id] = { id: crt.subject.id, name: crt.subject.name };
         return acc;
     }, {});
+    // console.log(lastGradebookItems);
 
     // populate lastSubjectObj with items from catalog
     lastGradebookItems.forEach(x => {
-        const subjectObj = allSubjectsObj[x.subject._id]; // shortcut
+        const subjectObj = allSubjectsObj[x.subject.id]; // shortcut
         if (subjectObj) {
             if (x.type === "absence") {
                 if (!subjectObj["absences"]) {
@@ -62,7 +64,7 @@ exports.getStudentCatalog = async (req, res) => {
         }
     });
 
-    const allSubjects = arrayHelper.objectToArray(allSubjectsObj);
+    const subjects = arrayHelper.objectToArray(allSubjectsObj);
 
     const newStudent = {
         id: student._id,
@@ -73,17 +75,17 @@ exports.getStudentCatalog = async (req, res) => {
     const data = {
         student,
         currentClass,
-        allSubjects,
+        subjects,
         ctx: req.ctx,
         uiData: {
             academicYear,
             semester: 1,
-            class: currentClass,
+            currentClass,
             student: newStudent,
-            allSubjects
+            subjects
         }
     };
 
-    // res.send(data);
+    //res.send(data);
     res.render("catalog/catalog", data);
 };
