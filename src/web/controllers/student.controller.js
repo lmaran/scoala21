@@ -1,7 +1,8 @@
 const studentService = require("../services/student.service");
 const classService = require("../services/class.service");
 const gradebookService = require("../services/gradebook.service");
-const lessonService = require("../services/lesson.service");
+// const lessonService = require("../services/lesson.service");
+const studentsAndClassesService = require("../services/studentsAndClasses.service");
 
 // const lessonService = require("../services/lesson.service");
 // const matemaratonService = require("../services/matemaraton.service");
@@ -51,48 +52,22 @@ exports.import = async (req, res) => {
     res.send(data);
 };
 
-exports.addStudentsPerClass = async (req, res) => {
-    const students = await studentService.getAll();
-    const studentsPerClass = students.map(student => {
-        //return student;
-        return {
-            academicYear: "201819",
-            class: student.class,
-            student: {
-                id: student._id.toString(), // toString() -> convers from ObjectId to string
-                firstName: student.firstName,
-                lastName: student.lastName
-            }
-        };
-    });
-
-    studentService.insertManyStudentsPerClass(studentsPerClass);
-
-    // const data = {
-    //     // studentsFromSiiir,
-    //     // classes,
-    //     studentsPerClass,
-    //     ctx: req.ctx
-    // };
-
-    res.send(studentsPerClass);
-};
-
 exports.getStudent = async (req, res) => {
     const studentId = req.params.studentId;
-    // const student = await studentService.getOneById2(studentId);
+    // const student = await studentService.getOneById(studentId);
     const academicYear = "201819";
 
-    const [student, classesPerStudent, lastGradebookItems] = await Promise.all([
-        await studentService.getOneById2(studentId),
-        await studentService.getClassesPerStudent(studentId),
+    const [student, currentClassId, lastGradebookItems] = await Promise.all([
+        await studentService.getOneById(studentId),
+        await studentsAndClassesService.getCurrentClassIdByStudentAndYear(studentId, academicYear),
         await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
+    const currentClass = await classService.getOneById(currentClassId);
     student.firstNameFirstChar = student.firstName.charAt(0);
 
-    const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
-    const currentClass = (currentClassWithYear && currentClassWithYear.class) || "graduated";
+    // const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
+    // const currentClass = (currentClassWithYear && currentClassWithYear.class) || "graduated";
 
     const lastAbsences = lastGradebookItems.filter(x => x.itemType === "absence");
     // const lastMarks = lastGradebookItems.filter(x => x.itemType !== "absence");
@@ -100,7 +75,7 @@ exports.getStudent = async (req, res) => {
 
     const data = {
         student,
-        classesPerStudent,
+        // classesPerStudent,
         currentClass,
         lastMarks,
         lastAbsences,

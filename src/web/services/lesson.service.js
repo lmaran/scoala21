@@ -6,7 +6,7 @@ exports.getLessonsForClass = async classId => {
     const db = await mongoHelper.getDb();
     return await db
         .collection(collection)
-        .find({ "class.id": classId })
+        .find({ "class.id": classId.toString() })
         .sort({ "teacher.name": 1 })
         .toArray();
 };

@@ -13,13 +13,13 @@
 </h4>
 <h3 class="mt-4">Elevii clasei:</h3>
 <ol>
-{{#each students }}
-<li class="mt-1"><a href="/elevi/{{id}}">{{lastName}} {{firstName}}</a>
-    {{!-- <div class="mb-3">
+    {{#each students }}
+    <li class="mt-1"><a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a>
+        {{!-- <div class="mb-3">
         <a href="#">elevi</a> |
         <a href="/clase/{{_id}}/profesori">profesori</a> |
         <a href="#">orar</a>
     </div> --}}
-</li>
-{{/each}}
+    </li>
+    {{/each}}
 </ol>

@@ -23,7 +23,7 @@ exports.getParent = async (req, res) => {
     // const student = await studentService.getOneById2(studentId);
 
     const [parent] = await Promise.all([
-        await parentService.getOneById(parentId),
+        await parentService.getOneById(parentId)
         // await studentService.getClassesPerStudent(studentId)
     ]);
 
@@ -31,7 +31,6 @@ exports.getParent = async (req, res) => {
 
     // const currentClassWithYear = classesPerStudent.find(x=> x.academicYear === "201819");
     // const currentClass = currentClassWithYear && currentClassWithYear.class || "graduated";
-
 
     const data = {
         parent,
@@ -86,33 +85,6 @@ exports.getParent = async (req, res) => {
 //     res.send(data);
 // };
 
-// exports.addStudentsPerClass = async (req, res) => {
-//     const students = await studentService.getAll();
-//     const studentsPerClass = students.map(student => {
-//         //return student;
-//         return {
-//             academicYear: "201819",
-//             class: student.class,
-//             student: {
-//                 id: student._id.toString(), // toString() -> convers from ObjectId to string
-//                 firstName: student.firstName,
-//                 lastName: student.lastName
-//             }
-//         }
-//     });
-
-//     studentService.insertManyStudentsPerClass(studentsPerClass);
-
-//     // const data = {
-//     //     // studentsFromSiiir,
-//     //     // classes,
-//     //     studentsPerClass,
-//     //     ctx: req.ctx
-//     // };
-
-//     res.send(studentsPerClass);
-// }
-
 // exports.getStudent = async (req, res) => {
 //     const studentId = req.params.studentId;
 //     // const student = await studentService.getOneById2(studentId);
@@ -126,7 +98,6 @@ exports.getParent = async (req, res) => {
 
 //     const currentClassWithYear = classesPerStudent.find(x=> x.academicYear === "201819");
 //     const currentClass = currentClassWithYear && currentClassWithYear.class || "graduated";
-
 
 //     const data = {
 //         student,

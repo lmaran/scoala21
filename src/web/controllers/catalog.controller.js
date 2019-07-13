@@ -2,38 +2,33 @@ const studentService = require("../services/student.service");
 const gradebookService = require("../services/gradebook.service");
 const lessonService = require("../services/lesson.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
+const studentsAndClassesService = require("../services/studentsAndClasses.service");
+const classService = require("../services/class.service");
 
 exports.getStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
     // const student = await studentService.getOneById2(studentId);
     const academicYear = "201819";
 
-    const [student, classesPerStudent, lastGradebookItems] = await Promise.all([
-        await studentService.getOneById2(studentId),
-        await studentService.getClassesPerStudent(studentId),
+    const [student, currentClassId, lastGradebookItems] = await Promise.all([
+        await studentService.getOneById(studentId),
+        await studentsAndClassesService.getCurrentClassIdByStudentAndYear(studentId, academicYear),
         await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
+    const currentClass = await classService.getOneById(currentClassId);
     student.firstNameFirstChar = student.firstName.charAt(0);
 
-    const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
-    const currentClass = (currentClassWithYear && currentClassWithYear.class) || "graduated";
+    const allLessons = await lessonService.getLessonsForClass(currentClass._id);
 
-    const allLessons = await lessonService.getLessonsForClass(currentClass.id);
-
-    // const allSubjects = allLessons.map(x => x.subject);
     const allSubjectsObj = allLessons.reduce((acc, crt) => {
-        acc[crt.subject.id] = { subject: crt.subject };
+        acc[crt.subject._id] = { subject: crt.subject };
         return acc;
     }, {});
 
-    // const lastAbsences = lastGradebookItems.filter(x => x.type === "absence");
-    // const lastMarks = lastGradebookItems;
-
-    // const subjectsObj = {};
     // populate lastSubjectObj with items from catalog
     lastGradebookItems.forEach(x => {
-        const subjectObj = allSubjectsObj[x.subject.id]; // shortcut
+        const subjectObj = allSubjectsObj[x.subject._id]; // shortcut
         if (subjectObj) {
             if (x.type === "absence") {
                 if (!subjectObj["absences"]) {
@@ -48,21 +43,20 @@ exports.getStudentCatalog = async (req, res) => {
                 if (!subjectObj["marks"]) {
                     subjectObj["marks"] = [];
                 }
-                // console.log(x);
                 subjectObj["marks"].push({
                     date: x.date,
                     value: x.value,
-                    id: x._id.toString() // toString() -> convers from ObjectId to string
+                    id: x._id.toString() // toString() -> converts from ObjectId to string
                 });
             } else if (x.type === "semestrialTestPaper") {
                 subjectObj["semestrialTestPaper"] = {
                     value: x.value,
-                    id: x._id.toString() // toString() -> convers from ObjectId to string
+                    id: x._id.toString() // toString() -> converts from ObjectId to string
                 };
             } else if (x.type === "semestrialAverage") {
                 subjectObj["semestrialAverage"] = {
                     value: x.value,
-                    id: x._id.toString() // toString() -> convers from ObjectId to string
+                    id: x._id.toString() // toString() -> converts from ObjectId to string
                 };
             }
         }
@@ -78,17 +72,13 @@ exports.getStudentCatalog = async (req, res) => {
 
     const data = {
         student,
-        classesPerStudent,
         currentClass,
-        // lastMarks,
-        // lastAbsences,
         allSubjects,
-        // allSubjectsObj,
         ctx: req.ctx,
         uiData: {
-            academicYear: currentClassWithYear.academicYear,
+            academicYear,
             semester: 1,
-            class: currentClassWithYear.class,
+            class: currentClass,
             student: newStudent,
             allSubjects
         }
