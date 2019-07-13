@@ -1,32 +1,32 @@
-const studentService = require("../services/student.service");
+// const studentService = require("../services/student.service");
 const gradebookService = require("../services/gradebook.service");
 const lessonService = require("../services/lesson.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 const studentsAndClassesService = require("../services/studentsAndClasses.service");
-const classService = require("../services/class.service");
+// const classService = require("../services/class.service");
 
 exports.getStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
     // const student = await studentService.getOneById2(studentId);
     const academicYear = "201819";
 
-    const [student, currentClassId, lastGradebookItems] = await Promise.all([
-        await studentService.getOneById(studentId),
-        await studentsAndClassesService.getCurrentClassIdByStudentAndYear(studentId, academicYear),
+    const [studentAndClass, lastGradebookItems] = await Promise.all([
+        // await studentService.getOneById(studentId),
+        await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
         await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
-    const currentClass = await classService.getOneById(currentClassId);
-    student.firstNameFirstChar = student.firstName.charAt(0);
+    const student = studentAndClass.student;
+    const class2 = studentAndClass.class;
 
-    const allLessons = await lessonService.getLessonsForClass(currentClass._id);
+    // student.firstNameFirstChar = student.firstName.charAt(0);
 
-    // console.log(allLessons);
+    const allLessons = await lessonService.getLessonsForClass(class2.id);
+
     const allSubjectsObj = allLessons.reduce((acc, crt) => {
         acc[crt.subject.id] = { id: crt.subject.id, name: crt.subject.name };
         return acc;
     }, {});
-    // console.log(lastGradebookItems);
 
     // populate lastSubjectObj with items from catalog
     lastGradebookItems.forEach(x => {
@@ -66,26 +66,20 @@ exports.getStudentCatalog = async (req, res) => {
 
     const subjects = arrayHelper.objectToArray(allSubjectsObj);
 
-    const newStudent = {
-        id: student._id,
-        firstName: student.firstName,
-        lastName: student.lastName
-    };
-
     const data = {
         student,
-        currentClass,
+        class: class2,
         subjects,
         ctx: req.ctx,
         uiData: {
             academicYear,
             semester: 1,
-            currentClass,
-            student: newStudent,
+            class: class2,
+            student,
             subjects
         }
     };
 
-    //res.send(data);
+    // res.send(data);
     res.render("catalog/catalog", data);
 };

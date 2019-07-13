@@ -57,13 +57,13 @@ exports.getStudent = async (req, res) => {
     // const student = await studentService.getOneById(studentId);
     const academicYear = "201819";
 
-    const [student, currentClassId, lastGradebookItems] = await Promise.all([
+    const [student, studentAndClass, lastGradebookItems] = await Promise.all([
         await studentService.getOneById(studentId),
-        await studentsAndClassesService.getCurrentClassIdByStudentAndYear(studentId, academicYear),
+        await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
         await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
-    const currentClass = await classService.getOneById(currentClassId);
+    const currentClass = await classService.getOneById(studentAndClass.class.id);
     student.firstNameFirstChar = student.firstName.charAt(0);
 
     // const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
@@ -78,11 +78,10 @@ exports.getStudent = async (req, res) => {
         // classesPerStudent,
         currentClass,
         lastMarks,
-        lastAbsences,
-        ctx: req.ctx
+        lastAbsences
     };
 
-    // res.send(data);
+    //res.send(data);
     res.render("student/student", data);
 };
 

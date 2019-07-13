@@ -6,25 +6,25 @@ exports.getStudentsIdsPerClass = async classId => {
     const db = await mongoHelper.getDb();
     const result = await db
         .collection(collection)
-        .find({ classId: classId }, { projection: { _id: 0, studentId: 1 } })
+        .find({ "class.id": classId }, { projection: { _id: 0, student: 1 } })
         .toArray();
 
     // flatten the result
-    return result.map(x => x.studentId);
+    // console.log(result);
+    return result.map(x => x.student.id);
 };
 
-exports.getAllClassesIdPerStudent = async studentId => {
-    const db = await mongoHelper.getDb();
-    return await db
-        .collection(collection)
-        .find({ studentId: studentId })
-        .toArray();
-};
+// exports.getAllClassesIdPerStudent = async studentId => {
+//     const db = await mongoHelper.getDb();
+//     return await db
+//         .collection(collection)
+//         .find({ studentId: studentId })
+//         .toArray();
+// };
 
-exports.getCurrentClassIdByStudentAndYear = async (studentId, academicYear) => {
+exports.getStudentAndClassByStudentIdAndYear = async (studentId, academicYear) => {
     const db = await mongoHelper.getDb();
-    const result = await db.collection(collection).findOne({ studentId: studentId, academicYear: academicYear });
-    return result.classId;
+    return await db.collection(collection).findOne({ "student.id": studentId, academicYear });
 };
 
 exports.insertManyStudentsPerClass = async studentsPerClass => {
