@@ -27,7 +27,7 @@ exports.getStudentCatalog = async (req, res) => {
         return acc;
     }, {});
 
-    // const lastAbsences = lastGradebookItems.filter(x => x.itemType === "absence");
+    // const lastAbsences = lastGradebookItems.filter(x => x.type === "absence");
     // const lastMarks = lastGradebookItems;
 
     // const subjectsObj = {};
@@ -35,34 +35,34 @@ exports.getStudentCatalog = async (req, res) => {
     lastGradebookItems.forEach(x => {
         const subjectObj = allSubjectsObj[x.subject.id]; // shortcut
         if (subjectObj) {
-            if (x.itemType === "absence") {
+            if (x.type === "absence") {
                 if (!subjectObj["absences"]) {
                     subjectObj["absences"] = [];
                 }
                 subjectObj["absences"].push({
-                    itemDate: x.itemDate,
-                    itemIsExcused: x.itemIsExcused,
-                    itemId: x._id.toString()
+                    date: x.date,
+                    isExcused: x.isExcused,
+                    id: x._id.toString()
                 });
-            } else if (x.itemType === "mark") {
+            } else if (x.type === "mark") {
                 if (!subjectObj["marks"]) {
                     subjectObj["marks"] = [];
                 }
                 // console.log(x);
                 subjectObj["marks"].push({
-                    itemDate: x.itemDate,
-                    itemValue: x.itemValue,
-                    itemId: x._id.toString() // toString() -> convers from ObjectId to string
+                    date: x.date,
+                    value: x.value,
+                    id: x._id.toString() // toString() -> convers from ObjectId to string
                 });
-            } else if (x.itemType === "semestrialTestPaper") {
+            } else if (x.type === "semestrialTestPaper") {
                 subjectObj["semestrialTestPaper"] = {
-                    itemValue: x.itemValue,
-                    itemId: x._id.toString() // toString() -> convers from ObjectId to string
+                    value: x.value,
+                    id: x._id.toString() // toString() -> convers from ObjectId to string
                 };
-            } else if (x.itemType === "semestrialAverage") {
+            } else if (x.type === "semestrialAverage") {
                 subjectObj["semestrialAverage"] = {
-                    itemValue: x.itemValue,
-                    itemId: x._id.toString() // toString() -> convers from ObjectId to string
+                    value: x.value,
+                    id: x._id.toString() // toString() -> convers from ObjectId to string
                 };
             }
         }

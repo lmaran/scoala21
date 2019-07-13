@@ -27,34 +27,34 @@
         {{#each lastMarks}}
         <tr>
             <td>
-                {{!-- {{itemDate}} --}}
-                {{#if itemDate}}
-                {{itemDate}}
+                {{!-- {{date}} --}}
+                {{#if date}}
+                {{date}}
                 {{else}}
                 sem.{{semester}}
                 {{/if}}
             </td>
             <td>{{subject.name}}
-                {{!-- {{#if (eq itemType "semestrialTestPaper")}}
+                {{!-- {{#if (eq type "semestrialTestPaper")}}
                 (teza)
-                {{else if (eq itemType "semestrialAverage")}}
+                {{else if (eq type "semestrialAverage")}}
                 (media)
                 {{/if}} --}}
             </td>
             <td>
 
-                {{#if (eq itemType "absence")}}
-                {{#if itemIsExcused}}
+                {{#if (eq type "absence")}}
+                {{#if isExcused}}
                 <span style="color:green">absent motivat</span>
                 {{else}}
                 <span style="color:red">absent</span>
                 {{/if}}
                 {{else}}
-                {{itemValue}}
+                {{value}}
 
-                {{#if (eq itemType "semestrialTestPaper")}}
+                {{#if (eq type "semestrialTestPaper")}}
                 (teza)
-                {{else if (eq itemType "semestrialAverage")}}
+                {{else if (eq type "semestrialAverage")}}
                 (media)
                 {{/if}}
 
@@ -81,17 +81,17 @@
         {{#each lastAbsences}}
         <tr>
             <td>
-                {{itemDate}}
+                {{date}}
             </td>
             <td>{{subject.name}}
-                {{#if (eq itemType "semestrialTestPaper")}}
+                {{#if (eq type "semestrialTestPaper")}}
                 (teza, sem. {{semester}})
-                {{else if (eq itemType "semestrialAverage")}}
+                {{else if (eq type "semestrialAverage")}}
                 (media, sem. {{semester}})
                 {{/if}}
             </td>
             <td>
-                {{itemIsExcused}}
+                {{isExcused}}
             </td>
         </tr>
         {{/each}}

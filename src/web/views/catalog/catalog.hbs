@@ -76,9 +76,9 @@
         <div class="font-weight-bold">Absente:</div>
         <ul class="absence-list-container">
             {{#each absences}}
-            <li id={{itemId}}>
-                <span {{#if itemIsExcused}} class="text-success" {{/if}}>{{itemDate}}</span>
-                {{#unless itemIsExcused}}
+            <li id={{id}}>
+                <span {{#if isExcused}} class="text-success" {{/if}}>{{date}}</span>
+                {{#unless isExcused}}
                 <button class="excuse-btn btn btn-link">Motiveza</button> |
                 {{/unless}}
                 <button class="delete-btn btn btn-link">Sterge</button>
@@ -96,9 +96,9 @@
 
         <ul class="marks-list-container" data-test="bbb">
             {{#each marks}}
-            <li id={{itemId}}>
-                <span>{{itemValue}}</span>
-                <span class="text-muted">/ {{itemDate}}</span>
+            <li id={{id}}>
+                <span>{{value}}</span>
+                <span class="text-muted">/ {{date}}</span>
                 <button type="button" class="delete-btn btn btn-link">Sterge</button>
             </li>
             {{/each}}
