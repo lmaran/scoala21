@@ -2,7 +2,7 @@
 
 // convert an array to an object by specified key
 // https://medium.com/dailyjs/rewriting-javascript-converting-an-array-of-objects-to-an-object-ec579cafbfc7
-exports.arrayToObject = (array, keyField) =>
+export const arrayToObject = (array, keyField) =>
     array.reduce((acc, crt) => {
         acc[crt[keyField]] = crt;
         return acc;
@@ -11,7 +11,7 @@ exports.arrayToObject = (array, keyField) =>
 // object must have a key-value format
 // input: {"1": {age:23}, "2": {age:31}}
 // output: [{age:23},{age:31}]
-exports.objectToArray = object => Object.keys(object).map(key => object[key]);
+export const objectToArray = object => Object.keys(object).map(key => object[key]);
 // or:
 // object => Object.keys(object).reduce((acc, key) => {
 //     acc.push(object[key]);
@@ -20,7 +20,7 @@ exports.objectToArray = object => Object.keys(object).map(key => object[key]);
 
 // console.log(groupBy(['one', 'two', 'three'], 'length'));
 // => {3: ["one", "two"], 5: ["three"]}
-exports.groupBy = (array, key) => {
+export const groupBy = (array, key) => {
     return array.reduce((acc, crt) => {
         (acc[crt[key]] = acc[crt[key]] || []).push(crt);
         return acc;

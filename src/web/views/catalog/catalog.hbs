@@ -17,8 +17,7 @@
         border-color: #ffc107;
     }
 
-    .absence-add-container {
-        _border-left: 1px solid green;
+    .absence-add-form {
         padding-left: 8px;
         background: #ffe6cb;
     }
@@ -51,16 +50,16 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}">Clasa {{currentClass.name}}</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{currentClass.id}}/elevi">Elevi</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{student.firstNameFirstChar}}.</li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}">Clasa {{class.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{studentFirstNameFirstChar}}.</li>
     </ol>
 </nav>
 
 <h1 data-student='{{{toJSON student}}}'>{{student.lastName}} {{student.firstName}} </h1>
 
-<h5 data-class2='{{{toJSON currentClass}}}' class="mt-4">Clasa:
-    <a href="/clase/{{currentClass.id}}">{{currentClass.name}}</a>
+<h5 data-class2='{{{toJSON class}}}' class="mt-4">Clasa:
+    <a href="/clase/{{class.id}}">{{class.name}}</a>
 </h5>
 
 {{#each subjects}}
@@ -73,7 +72,7 @@
 
     <div class="absences-container ml-4 mt-4">
         <div class="font-weight-bold">Absente:</div>
-        <ul class="absence-list-container">
+        <ul>
             {{#each absences}}
             <li id={{id}}>
                 <span {{#if isExcused}} class="text-success" {{/if}}>{{date}}</span>
@@ -85,9 +84,9 @@
             {{/each}}
         </ul>
 
-        <button class="expand-add-absence-btn btn btn-sm btn-primary ml-4">Adauga absente</button>
-
-        <div class="absence-add-container ml-4 mt-1" data-test="bbb"></div>
+        <div class="ml-4 mt-1">
+            <button class="expand-add-absence-btn btn btn-sm btn-primary">Adauga absente</button>
+        </div>
     </div>
 
     <div class="marks-container ml-4 mt-4" data-test="aaa">
@@ -140,7 +139,7 @@
     {{{toJSON this }}}
     </script> --}}
 
-    <script type="text/x-template" id="ui-data">{{{toJSON uiData }}}</script>
+    <script type="text/x-template" id="ui-state">{{{toJSON uiState }}}</script>
     {{!-- <script type="text/x-template" id="app-data-class">{{{toJSON currentClass }}}</script> --}}
 
 

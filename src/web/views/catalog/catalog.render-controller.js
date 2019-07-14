@@ -5,15 +5,12 @@ export const renderController = {
         const renderComponent = () => {
             const state = store.getState();
 
-            // render absenceAdd
-            const absenceAddData = { ...getAbsenceAddData(state) };
-            const absenceAddDomContainer = getAbsenceAddDomContainer(state.ui.selectedSubjectId);
-            components.renderAbsenceAdd(absenceAddData, absenceAddDomContainer);
+            const selectedSubjectId = state.selectedSubjectId;
 
-            // render absenceList
-            const absenceListData = { ...getAbsenceListData(state) };
-            const absenceListDomContainer = getAbsenceListDomContainer(state.ui.selectedSubjectId);
-            components.renderAbsenceList(absenceListData, absenceListDomContainer);
+            // render absence
+            const absenceData = { ...getAbsenceData(state) };
+            const absenceDomContainer = getAbsenceDomContainer(selectedSubjectId);
+            components.renderAbsence(absenceData, absenceDomContainer);
         };
 
         store.subscribe(renderComponent);
@@ -21,28 +18,15 @@ export const renderController = {
 };
 
 //
-//  ************ Absence-add-helpers ************
+//  ************ Absence-helpers ************
 //
 
-const getAbsenceAddDomContainer = subjectId => {
+const getAbsenceDomContainer = subjectId => {
     const subjectContainer = document.getElementById(subjectId);
-    return subjectContainer.querySelector(".absence-add-container");
+    return subjectContainer.querySelector(".absences-container");
 };
 
-const getAbsenceAddData = state => ({
-    subjectId: state.ui.selectedSubjectId
-});
-
-//
-//  ************ Absence-list-helpers ************
-//
-
-const getAbsenceListDomContainer = subjectId => {
-    const subjectContainer = document.getElementById(subjectId);
-    return subjectContainer.querySelector(".absence-list-container");
-};
-
-const getAbsenceListData = state => ({
-    subjectId: state.ui.selectedSubjectId,
-    absences: state.absences
+const getAbsenceData = state => ({
+    absences: state.subjectsObj[state.selectedSubjectId].absences,
+    isAddAbsenceExpanded: state.subjectsObj[state.selectedSubjectId].isAddAbsenceExpanded
 });

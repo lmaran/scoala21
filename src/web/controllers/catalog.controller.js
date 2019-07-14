@@ -7,30 +7,28 @@ const studentsAndClassesService = require("../services/studentsAndClasses.servic
 
 exports.getStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
-    // const student = await studentService.getOneById2(studentId);
-    const academicYear = "201819";
 
-    const [studentAndClass, lastGradebookItems] = await Promise.all([
-        // await studentService.getOneById(studentId),
+    const academicYear = "201819";
+    const semester = "1";
+
+    const [studentAndClass, gradebookItems] = await Promise.all([
         await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
-        await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
+        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
     const student = studentAndClass.student;
     const class2 = studentAndClass.class;
 
-    // student.firstNameFirstChar = student.firstName.charAt(0);
-
     const allLessons = await lessonService.getLessonsForClass(class2.id);
 
-    const allSubjectsObj = allLessons.reduce((acc, crt) => {
+    const subjectsObj = allLessons.reduce((acc, crt) => {
         acc[crt.subject.id] = { id: crt.subject.id, name: crt.subject.name };
         return acc;
     }, {});
 
-    // populate lastSubjectObj with items from catalog
-    lastGradebookItems.forEach(x => {
-        const subjectObj = allSubjectsObj[x.subject.id]; // shortcut
+    // populate subjectObj with items from catalog
+    gradebookItems.forEach(x => {
+        const subjectObj = subjectsObj[x.subject.id]; // shortcut
         if (subjectObj) {
             if (x.type === "absence") {
                 if (!subjectObj["absences"]) {
@@ -64,22 +62,33 @@ exports.getStudentCatalog = async (req, res) => {
         }
     });
 
-    const subjects = arrayHelper.objectToArray(allSubjectsObj);
+    const subjects = arrayHelper.objectToArray(subjectsObj);
 
     const data = {
         student,
         class: class2,
         subjects,
-        ctx: req.ctx,
-        uiData: {
+        studentFirstNameFirstChar: student.firstName.charAt(0),
+        // ctx: req.ctx,
+        uiState: {
             academicYear,
-            semester: 1,
-            class: class2,
+            semester,
             student,
-            subjects
+            class: class2,
+            subjectsObj
+            // subjects: subjects.reduce((acc, crt) => {
+            //     if (crt.marks) {
+            //         crt.marks = arrayToObject(crt.marks, "id");
+            //     }
+            //     if (crt.absences) {
+            //         crt.absences = arrayToObject(crt.absences, "id");
+            //     }
+            //     acc[crt.id] = crt;
+            //     return acc;
+            // }, {})
         }
     };
 
-    // res.send(data);
+    //res.send(data);
     res.render("catalog/catalog", data);
 };

@@ -1,3 +1,4 @@
+import { arrayToObject } from "/helpers/array.helper.js";
 import { createStore } from "/lib/redux/store.js";
 import { reducer } from "/views/catalog/catalog.reducer.js";
 
@@ -6,11 +7,11 @@ import { eventBinders } from "/views/catalog/catalog.event-binders.js";
 import { components } from "/views/catalog/catalog.components.js";
 import { renderController } from "/views/catalog/catalog.render-controller.js";
 
-// keep ui-specific state in a dedicated section
-const initialState = {
-    ui: {},
-    counter: 0
-};
+const uiStateTemplate = document.getElementById("ui-state");
+const initialState = JSON.parse(uiStateTemplate.innerHTML);
+
+// console.log("initialState:");
+// console.log(initialState);
 
 const store = createStore(reducer, initialState);
 const evHandlers = eventHandlers.getEventHandlers(store);
