@@ -1,21 +1,18 @@
+import { createAbsences } from "/views/catalog/catalog.service.js";
 export const eventHandlers = {
     getEventHandlers: store => ({
         //
         //  ************ Absence-add ************
         //
-        test: event => {
-            const subjectContainer = event.target.closest(".subject-container");
-            alert("bbb-111 " + subjectContainer.id);
-        },
-        expandAddAbsenceClickHandler: event => {
+        expandAddAbsence: event => {
             const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
             store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId: subjectContainer.id });
         },
-        collapseAddAbsenceClickHandler: event => {
+        collapseAddAbsence: event => {
             const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
             store.dispatch({ type: "COLLAPSE_ADD_ABSENCE", subjectId: subjectContainer.id });
         },
-        saveAbsencesClickHandler: event => {
+        saveAbsences: async event => {
             const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
             const monthLabel = subjectContainer.querySelector(".month-container label.active");
@@ -30,27 +27,93 @@ export const eventHandlers = {
                 return false;
             }
 
+            const isExcusedInput = subjectContainer.querySelector(".is-excused-input");
+            const isExcused = isExcusedInput.checked;
+
             // convert NodeList into Array
             const dayLabelsArr = Array.from(dayLabels);
 
-            const absences = dayLabelsArr.map(dayLabel => ({
-                date: `${dayLabel.innerText}.${monthLabel.innerText}` // ["7.IV", "23.IV"]
-            }));
+            const absences = dayLabelsArr.map(dayLabel => {
+                const rez = {
+                    date: `${dayLabel.innerText}.${monthLabel.innerText}`, // ["7.IV", "23.IV"]
+                    id: `${randomInt(100, 999).toString()}` // some temporary IDs (between 100 and 999)
+                };
+                if (isExcused) {
+                    rez.isExcused = true;
+                }
+                return rez;
+            });
 
-            store.dispatch({ type: "SAVE_ABSENCES", subjectId: subjectContainer.id, absences });
+            const state = store.getState();
+
+            const selectedSubjectObj = state.subjectsObj[subjectContainer.id];
+
+            const selectedSubject = {
+                id: selectedSubjectObj.id,
+                name: selectedSubjectObj.name
+            };
+
+            // const data = {
+            //     academicYear: state.academicYear,
+            //     semester: state.semester,
+            //     class: state.class,
+            //     student: state.student,
+            //     subject: selectedSubject,
+            //     type: "absence",
+            //     date: "markDate"
+            // };
+
+            store.dispatch({ type: "SAVE_ABSENCES_REQUEST", subjectId: subjectContainer.id, absences });
+            try {
+                absences.forEach(async a => {
+                    const data = {
+                        academicYear: state.academicYear,
+                        semester: state.semester,
+                        class: state.class,
+                        student: state.student,
+                        subject: selectedSubject,
+                        type: "absence",
+                        date: a.date
+                    };
+                    if (isExcused) {
+                        data.isExcused = true;
+                    }
+                    const response = await createAbsences(data);
+                    // store.dispatch({ type: "SAVE_ABSENCES_SUCCESS", subjectId: subjectContainer.id, absences });
+                });
+            } catch (error) {
+                console.log(error);
+                // store.dispatch({ type: "SAVE_ABSENCES_FAILURE", subjectId: subjectContainer.id, absences });
+            }
+
+            // reset form
+            monthLabel.classList.remove("active");
+            dayLabelsArr.forEach(x => {
+                x.classList.remove("active");
+            });
+            isExcusedInput.checked = false;
         },
 
         //
         // ************ Absence-list ************
         //
-        deleteAbsenceClickHandler: event => {
+        deleteAbsence: event => {
+            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
+
             const absenceId = event.target.closest("li").id;
-            store.dispatch({ type: "DELETE_ABSENCE", absenceId: absenceId });
+            store.dispatch({ type: "DELETE_ABSENCE", subjectId: subjectContainer.id, absenceId: absenceId });
         },
 
-        excuseAbsenceClickHandler: event => {
+        excuseAbsence: event => {
+            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
+
             const absenceId = event.target.closest("li").id;
-            store.dispatch({ type: "EXCUSE_ABSENCE", absenceId: absenceId });
+            store.dispatch({ type: "EXCUSE_ABSENCE", subjectId: subjectContainer.id, absenceId: absenceId });
         }
     })
 };
+
+// https://blog.abelotech.com/posts/generate-random-values-nodejs-javascript/
+function randomInt(low, high) {
+    return Math.floor(Math.random() * (high - low) + low);
+}

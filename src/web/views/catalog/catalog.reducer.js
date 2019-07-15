@@ -19,7 +19,7 @@ export const reducer = (state, action) => {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
 
-            const nextState = {
+            return {
                 ...state,
                 subjectsObj: {
                     ...state.subjectsObj,
@@ -29,47 +29,47 @@ export const reducer = (state, action) => {
             };
             // console.log("nextState:");
             // console.log(nextState.subjectsObj);
-            return nextState;
         }
         case "DELETE_ABSENCE": {
-            // const subjectId = getSubjectIdByAbsenceId(action.absenceId);
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+            const selectedAbsences = selectedSubject.absences;
 
-            // const absences = getAbsencesBySubjectId(subjectId)
-            //     .filter(x => x.itemId !== action.absenceId)
-            //     .map(x => x); // immutable
-
-            // // update main data
-            // state.subjectsObj.find(x => x.subject.id === subjectId).absences = absences;
-
-            // const nextState = {
-            //     ...state,
-            //     ui: { ...state.ui, isAddAbsenceExpanded: false, selectedSubjectId: subjectId },
-            //     absences,
-            //     counter: ++state.counter
-            // };
-            // return nextState;
-            return state;
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        absences: selectedAbsences && selectedAbsences.filter(x => x.id !== action.absenceId)
+                    }
+                },
+                selectedSubjectId
+            };
         }
         case "EXCUSE_ABSENCE": {
-            // const subjectId = getSubjectIdByAbsenceId(action.absenceId);
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
 
-            // const absences = getAbsencesBySubjectId(subjectId)
-            //     // .filter(x => x.itemId !== action.absenceId)
-            //     .map(x => x); // immutable
+            selectedSubject.absences.forEach(x => {
+                if (x.id === action.absenceId) {
+                    x.isExcused = true;
+                }
+            });
 
-            // // update main data
-            // state.subjectsObj.find(x => x.subject.id === subjectId).absences = absences;
-
-            // const nextState = {
-            //     ...state,
-            //     ui: { ...state.ui, isAddAbsenceExpanded: false, selectedSubjectId: subjectId },
-            //     absences,
-            //     counter: ++state.counter
-            // };
-            // return nextState;
-            return state;
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        absences: selectedSubject.absences
+                    }
+                },
+                selectedSubjectId
+            };
         }
-        case "SAVE_ABSENCES": {
+        case "SAVE_ABSENCES_REQUEST": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
             const newAbsences = action.absences;

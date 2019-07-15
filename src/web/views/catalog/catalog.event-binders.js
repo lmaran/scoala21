@@ -6,7 +6,7 @@ export const eventBinders = {
         //
         const expandAddAbsenceBtns = document.getElementsByClassName("expand-add-absence-btn");
         for (const expandAddAbsenceBtn of expandAddAbsenceBtns) {
-            expandAddAbsenceBtn.addEventListener("click", eventHandlers.expandAddAbsenceClickHandler);
+            expandAddAbsenceBtn.addEventListener("click", eventHandlers.expandAddAbsence);
         }
 
         //
@@ -14,12 +14,12 @@ export const eventBinders = {
         //
         const deleteButtons = document.getElementsByClassName("delete-btn");
         for (const deleteButton of deleteButtons) {
-            deleteButton.addEventListener("click", eventHandlers.deleteAbsenceClickHandler);
+            deleteButton.addEventListener("click", eventHandlers.deleteAbsence);
         }
 
         const excuseButtons = document.getElementsByClassName("excuse-btn");
         for (const excuseButton of excuseButtons) {
-            excuseButton.addEventListener("click", eventHandlers.excuseAbsenceClickHandler);
+            excuseButton.addEventListener("click", eventHandlers.excuseAbsence);
         }
     }
 };

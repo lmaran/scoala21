@@ -10,16 +10,16 @@ const templateAbsenceList = (data, methods) =>
                 absence =>
                     html`
                         <li id=${absence.id}>
-                            <span class=${absence.itemIsExcused ? "text-success" : ""}>${absence.date}</span>
+                            <span class=${absence.isExcused ? "text-success" : ""}>${absence.date}</span>
                             ${!absence.isExcused
                                 ? html`
-                                      <button class="btn btn-link" @click=${methods.excuseAbsenceClickHandler}>
+                                      <button class="btn btn-link" @click=${methods.excuseAbsence}>
                                           Motiveza
                                       </button>
                                       |
                                   `
                                 : html``}
-                            <button class="btn btn-link" @click=${methods.deleteAbsenceClickHandler}>
+                            <button class="btn btn-link" @click=${methods.deleteAbsence}>
                                 Sterge
                             </button>
                         </li>
@@ -27,10 +27,10 @@ const templateAbsenceList = (data, methods) =>
             )}
         </ul>
     `;
-
+//const isChecked = false;
 const templateAbsenceAddForm = (data, methods) =>
     html`
-        <div class="absence-add-form mt-1">
+        <div class="absence-add-form ml-4 mt-1">
             <div>Luna:</div>
             <div class="month-container btn-group btn-group-toggle flex-wrap mb-3" data-toggle="buttons">
                 ${ALL_MONTHS.map(
@@ -74,13 +74,10 @@ const templateAbsenceAddForm = (data, methods) =>
             </div>
 
             <div class="pb-3">
-                <button class="save-absences-btn btn btn-sm btn-success" @click=${methods.saveAbsencesClickHandler}>
+                <button class="save-absences-btn btn btn-sm btn-success" @click=${methods.saveAbsences}>
                     Salveaza si cont.
                 </button>
-                <button
-                    class="collapse-add-absence-btn btn btn-sm btn-link"
-                    @click=${methods.collapseAddAbsenceClickHandler}
-                >
+                <button class="collapse-add-absence-btn btn btn-sm btn-link" @click=${methods.collapseAddAbsence}>
                     Renunta
                 </button>
             </div>
@@ -93,16 +90,11 @@ const templateAbsence = (data, methods) =>
 
         ${data.absences ? templateAbsenceList(data, methods) : html``}
 
-        <div class="ml-4 mt-1">
-            <button
-                class="expand-add-absence-btn btn btn-sm btn-primary"
-                @click=${methods.expandAddAbsenceClickHandler}
-            >
-                Adauga absente
-            </button>
+        <button class="expand-add-absence-btn btn btn-sm btn-primary ml-4 mt-1" @click=${methods.expandAddAbsence}>
+            Adauga absente
+        </button>
 
-            ${data.isAddAbsenceExpanded ? templateAbsenceAddForm(data, methods) : html``}
-        </div>
+        ${data.isAddAbsenceExpanded ? templateAbsenceAddForm(data, methods) : html``}
     `;
 
 let methods;
