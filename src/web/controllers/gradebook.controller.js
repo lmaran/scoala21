@@ -11,6 +11,38 @@ exports.createGradebookItem = async (req, res) => {
     res.status(201).json(createdItem);
 };
 
+exports.createAbsences = async (req, res) => {
+    // absencesObj signature
+    // {
+    //     academicYear,
+    //     semester,
+    //     class,
+    //     subject,
+    //     type,
+    //     isExcused,
+    //     absences: [{date}]
+    // }
+    const absencesObj = req.body;
+    const absences = absencesObj.absences.reduce((acc, crt) => {
+        acc.push({
+            academicYear: absencesObj.academicYear,
+            semester: absencesObj.semester,
+            class: absencesObj.class,
+            student: absencesObj.student,
+            subject: absencesObj.subject,
+            type: crt.type,
+            isExcused: crt.isExcused,
+            date: crt.date,
+            createdOn: new Date()
+        });
+        return acc;
+    }, []);
+
+    const response = await gradebookService.insertMany(absences);
+    const createdItems = response.ops;
+    res.status(201).json(createdItems);
+};
+
 exports.deleteGradebookItem = async (req, res) => {
     const gradebookItemId = req.params.id;
     await gradebookService.deleteOneById(gradebookItemId);

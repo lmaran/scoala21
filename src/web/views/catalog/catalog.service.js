@@ -1,9 +1,9 @@
-export const getAbsencesBySubjectId = async (subjectId, academicYear, semester) => {
-    return fetchHelpers.get(`https://api.github.com/users/${subjectId}/repos`);
-};
+// export const getAbsencesBySubjectId = async (subjectId, academicYear, semester) => {
+//     return fetchHelpers.get(`https://api.github.com/users/${subjectId}/repos`);
+// };
 
 export const createAbsences = async data => {
-    return fetchHelpers.post("/catalog", data);
+    return fetchHelpers.post("/catalog/absences", data);
 };
 
 // https://medium.com/yellowcode/download-api-files-with-react-fetch-393e4dae0d9e

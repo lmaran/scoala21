@@ -65,24 +65,28 @@ export const eventHandlers = {
 
             store.dispatch({ type: "SAVE_ABSENCES_REQUEST", subjectId: subjectContainer.id, absences });
             try {
+                const absencesObj = {
+                    academicYear: state.academicYear,
+                    semester: state.semester,
+                    class: state.class,
+                    student: state.student,
+                    subject: selectedSubject,
+                    absences: []
+                };
+
                 absences.forEach(async a => {
-                    const data = {
-                        academicYear: state.academicYear,
-                        semester: state.semester,
-                        class: state.class,
-                        student: state.student,
-                        subject: selectedSubject,
+                    absencesObj.absences.push({
                         type: "absence",
-                        date: a.date
-                    };
-                    if (isExcused) {
-                        data.isExcused = true;
-                    }
-                    const response = await createAbsences(data);
-                    // store.dispatch({ type: "SAVE_ABSENCES_SUCCESS", subjectId: subjectContainer.id, absences });
+                        date: a.date,
+                        isExcused
+                    });
                 });
+                // console.log(absencesObj);
+
+                const createdAbsences = await createAbsences(absencesObj);
+                store.dispatch({ type: "SAVE_ABSENCES_SUCCESS", subjectId: subjectContainer.id, createdAbsences });
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 // store.dispatch({ type: "SAVE_ABSENCES_FAILURE", subjectId: subjectContainer.id, absences });
             }
 

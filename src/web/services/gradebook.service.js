@@ -21,6 +21,11 @@ exports.insertOne = async item => {
     return await db.collection(collection).insertOne(item);
 };
 
+exports.insertMany = async items => {
+    const db = await mongoHelper.getDb();
+    return db.collection(collection).insertMany(items); // returns a Promise
+};
+
 exports.deleteOneById = async id => {
     const db = await mongoHelper.getDb();
     // id = mongoHelper.normalizedId(id);
