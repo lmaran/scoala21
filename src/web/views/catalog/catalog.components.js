@@ -10,7 +10,7 @@ const templateAbsenceList = (data, methods) =>
                 absence =>
                     html`
                         <li id=${absence.id}>
-                            <span class=${absence.isExcused ? "text-success" : ""}>${absence.date}</span>
+                            <span class="align-middle ${absence.isExcused ? "text-success" : ""}">${absence.date}</span>
                             ${!absence.isExcused
                                 ? html`
                                       <button class="btn btn-link" @click=${methods.excuseAbsence}>
@@ -22,6 +22,9 @@ const templateAbsenceList = (data, methods) =>
                             <button class="btn btn-link" @click=${methods.deleteAbsence}>
                                 Sterge
                             </button>
+                            <span class="spinner ${absence.deleteAbsenceIsInProgress ? "" : "d-none"}">
+                                <i class="fas fa-spinner spinning"></i>
+                            </span>
                         </li>
                     `
             )}
@@ -80,6 +83,9 @@ const templateAbsenceAddForm = (data, methods) =>
                 <button class="collapse-add-absence-btn btn btn-sm btn-link" @click=${methods.collapseAddAbsence}>
                     Renunta
                 </button>
+                <span class="spinner spinner-md ${data.addAbsenceIsInProgress ? "" : "d-none"}">
+                    <i class="fas fa-spinner spinning"></i>
+                </span>
             </div>
         </div>
     `;
@@ -94,7 +100,7 @@ const templateAbsence = (data, methods) =>
             Adauga absente
         </button>
 
-        ${data.isAddAbsenceExpanded ? templateAbsenceAddForm(data, methods) : html``}
+        ${data.addAbsenceIsExpanded ? templateAbsenceAddForm(data, methods) : html``}
     `;
 
 let methods;

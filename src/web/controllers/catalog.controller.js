@@ -35,28 +35,28 @@ exports.getStudentCatalog = async (req, res) => {
                     subjectObj["absences"] = [];
                 }
                 subjectObj["absences"].push({
+                    id: x._id.toString(), // toString() -> converts from ObjectId to string
                     date: x.date,
-                    isExcused: x.isExcused,
-                    id: x._id.toString()
+                    isExcused: x.isExcused
                 });
             } else if (x.type === "mark") {
                 if (!subjectObj["marks"]) {
                     subjectObj["marks"] = [];
                 }
                 subjectObj["marks"].push({
+                    id: x._id.toString(),
                     date: x.date,
-                    value: x.value,
-                    id: x._id.toString() // toString() -> converts from ObjectId to string
+                    value: x.value
                 });
             } else if (x.type === "semestrialTestPaper") {
                 subjectObj["semestrialTestPaper"] = {
-                    value: x.value,
-                    id: x._id.toString() // toString() -> converts from ObjectId to string
+                    id: x._id.toString(),
+                    value: x.value
                 };
             } else if (x.type === "semestrialAverage") {
                 subjectObj["semestrialAverage"] = {
-                    value: x.value,
-                    id: x._id.toString() // toString() -> converts from ObjectId to string
+                    id: x._id.toString(),
+                    value: x.value
                 };
             }
         }

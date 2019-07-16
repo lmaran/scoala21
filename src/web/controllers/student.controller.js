@@ -60,7 +60,7 @@ exports.getStudent = async (req, res) => {
     const [student, studentAndClass, lastGradebookItems] = await Promise.all([
         await studentService.getOneById(studentId),
         await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
-        await gradebookService.getLatestGradebookItemsPerStudent(studentId, academicYear)
+        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
     const currentClass = await classService.getOneById(studentAndClass.class.id);

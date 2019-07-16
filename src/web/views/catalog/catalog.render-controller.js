@@ -28,5 +28,6 @@ const getAbsenceDomContainer = subjectId => {
 
 const getAbsenceData = state => ({
     absences: state.subjectsObj[state.selectedSubjectId].absences,
-    isAddAbsenceExpanded: state.subjectsObj[state.selectedSubjectId].isAddAbsenceExpanded
+    addAbsenceIsExpanded: state.subjectsObj[state.selectedSubjectId].addAbsenceIsExpanded,
+    addAbsenceIsInProgress: state.subjectsObj[state.selectedSubjectId].addAbsenceIsInProgress
 });

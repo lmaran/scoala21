@@ -44,6 +44,43 @@
         visibility: hidden;
         padding: 0
     }
+
+    /* spinner icon: http://stackoverflow.com/a/26283602 */
+    .fas.spinning {
+        animation: spin 1s infinite linear;
+        -webkit-animation: spin2 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: scale(1) rotate(0deg);
+        }
+
+        to {
+            transform: scale(1) rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes spin2 {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    .spinner {
+        color: gray;
+        vertical-align: middle;
+    }
+
+    .spinner.spinner-md {
+        font-size: 1.4em;
+    }
+
+    /* end spinner icon */
 </style>
 
 <nav aria-label="breadcrumb">
@@ -75,7 +112,7 @@
         <ul>
             {{#each absences}}
             <li id={{id}}>
-                <span {{#if isExcused}} class="text-success" {{/if}}>{{date}}</span>
+                <span class="align-middle {{#if isExcused}}text-success{{/if}}">{{date}}</span>
                 {{#unless isExcused}}
                 <button class="excuse-btn btn btn-link">Motiveza</button> |
                 {{/unless}}

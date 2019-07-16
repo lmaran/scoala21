@@ -10,7 +10,7 @@ export const reducer = (state, action) => {
                 ...state,
                 subjectsObj: {
                     ...state.subjectsObj,
-                    [selectedSubjectId]: { ...selectedSubject, isAddAbsenceExpanded: true }
+                    [selectedSubjectId]: { ...selectedSubject, addAbsenceIsExpanded: true }
                 },
                 selectedSubjectId
             };
@@ -23,14 +23,36 @@ export const reducer = (state, action) => {
                 ...state,
                 subjectsObj: {
                     ...state.subjectsObj,
-                    [selectedSubjectId]: { ...selectedSubject, isAddAbsenceExpanded: false }
+                    [selectedSubjectId]: { ...selectedSubject, addAbsenceIsExpanded: false }
                 },
                 selectedSubjectId
             };
             // console.log("nextState:");
             // console.log(nextState.subjectsObj);
         }
-        case "DELETE_ABSENCE": {
+        case "DELETE_ABSENCE_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            selectedSubject.absences.forEach(x => {
+                if (x.id === action.absenceId) {
+                    x.deleteAbsenceIsInProgress = true;
+                }
+            });
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        absences: selectedSubject.absences
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "DELETE_ABSENCE_SUCCESS": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
             const selectedAbsences = selectedSubject.absences;
@@ -72,7 +94,20 @@ export const reducer = (state, action) => {
         case "SAVE_ABSENCES_REQUEST": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
-            const newAbsences = action.absences;
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addAbsenceIsInProgress: true }
+                },
+                selectedSubjectId
+            };
+        }
+        case "SAVE_ABSENCES_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+            const newAbsences = action.createdAbsences;
 
             const nextState = {
                 ...state,
@@ -80,6 +115,7 @@ export const reducer = (state, action) => {
                     ...state.subjectsObj,
                     [selectedSubjectId]: {
                         ...selectedSubject,
+                        addAbsenceIsInProgress: false,
                         absences: [...(selectedSubject.absences || []), ...newAbsences]
                     }
                 },

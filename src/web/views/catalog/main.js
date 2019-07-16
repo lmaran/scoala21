@@ -1,4 +1,3 @@
-import { arrayToObject } from "/helpers/array.helper.js";
 import { createStore } from "/lib/redux/store.js";
 import { reducer } from "/views/catalog/catalog.reducer.js";
 

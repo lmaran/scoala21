@@ -1,96 +1,69 @@
-import { createAbsences } from "/views/catalog/catalog.service.js";
+import { createAbsences, deleteGradebookItem } from "/views/catalog/catalog.service.js";
 export const eventHandlers = {
     getEventHandlers: store => ({
         //
         //  ************ Absence-add ************
         //
         expandAddAbsence: event => {
-            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
-            store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId: subjectContainer.id });
+            const subjectId = event.target.closest(".subject-container").id;
+            store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId });
         },
-        collapseAddAbsence: event => {
-            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
-            store.dispatch({ type: "COLLAPSE_ADD_ABSENCE", subjectId: subjectContainer.id });
-        },
-        saveAbsences: async event => {
-            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
 
+        collapseAddAbsence: event => {
+            const subjectId = event.target.closest(".subject-container").id;
+            store.dispatch({ type: "COLLAPSE_ADD_ABSENCE", subjectId });
+        },
+
+        saveAbsences: async event => {
+            // 1. get form elements:
+            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
             const monthLabel = subjectContainer.querySelector(".month-container label.active");
+            const dayLabels = subjectContainer.querySelectorAll(".day-container label.active");
+            const isExcusedInput = subjectContainer.querySelector(".is-excused-input");
+
+            // 2. validate form
             if (!monthLabel) {
                 alert("Selecteaza luna!");
                 return false;
             }
-
-            const dayLabels = subjectContainer.querySelectorAll(".day-container label.active");
             if (!dayLabels || dayLabels.length === 0) {
                 alert("Selecteaza una sau mai multe zile!");
                 return false;
             }
 
-            const isExcusedInput = subjectContainer.querySelector(".is-excused-input");
-            const isExcused = isExcusedInput.checked;
-
-            // convert NodeList into Array
-            const dayLabelsArr = Array.from(dayLabels);
-
-            const absences = dayLabelsArr.map(dayLabel => {
-                const rez = {
-                    date: `${dayLabel.innerText}.${monthLabel.innerText}`, // ["7.IV", "23.IV"]
-                    id: `${randomInt(100, 999).toString()}` // some temporary IDs (between 100 and 999)
-                };
-                if (isExcused) {
-                    rez.isExcused = true;
-                }
-                return rez;
-            });
-
+            // 3. prepare data
             const state = store.getState();
+            const subjectId = subjectContainer.id;
+            const selectedSubjectObj = state.subjectsObj[subjectId];
+            const dayLabelsArr = Array.from(dayLabels); // convert NodeList into Array
 
-            const selectedSubjectObj = state.subjectsObj[subjectContainer.id];
-
-            const selectedSubject = {
-                id: selectedSubjectObj.id,
-                name: selectedSubjectObj.name
+            const absencesObj = {
+                academicYear: state.academicYear,
+                semester: state.semester,
+                class: state.class,
+                student: state.student,
+                subject: {
+                    id: selectedSubjectObj.id,
+                    name: selectedSubjectObj.name
+                },
+                absences: dayLabelsArr.map(dayLabel => ({
+                    type: "absence",
+                    date: `${dayLabel.innerText}.${monthLabel.innerText}`, // ["7.IV", "23.IV"]
+                    isExcused: isExcusedInput.checked
+                }))
             };
 
-            // const data = {
-            //     academicYear: state.academicYear,
-            //     semester: state.semester,
-            //     class: state.class,
-            //     student: state.student,
-            //     subject: selectedSubject,
-            //     type: "absence",
-            //     date: "markDate"
-            // };
-
-            store.dispatch({ type: "SAVE_ABSENCES_REQUEST", subjectId: subjectContainer.id, absences });
+            // 4. save data
+            store.dispatch({ type: "SAVE_ABSENCES_REQUEST", subjectId });
             try {
-                const absencesObj = {
-                    academicYear: state.academicYear,
-                    semester: state.semester,
-                    class: state.class,
-                    student: state.student,
-                    subject: selectedSubject,
-                    absences: []
-                };
-
-                absences.forEach(async a => {
-                    absencesObj.absences.push({
-                        type: "absence",
-                        date: a.date,
-                        isExcused
-                    });
-                });
-                // console.log(absencesObj);
-
                 const createdAbsences = await createAbsences(absencesObj);
-                store.dispatch({ type: "SAVE_ABSENCES_SUCCESS", subjectId: subjectContainer.id, createdAbsences });
+                store.dispatch({ type: "SAVE_ABSENCES_SUCCESS", subjectId, createdAbsences });
             } catch (error) {
-                // console.log(error);
-                // store.dispatch({ type: "SAVE_ABSENCES_FAILURE", subjectId: subjectContainer.id, absences });
+                alert("Eroare la salvarea datelor!");
+                store.dispatch({ type: "SAVE_ABSENCES_FAILURE", subjectId });
             }
 
-            // reset form
+            // 5. clean up the form
             monthLabel.classList.remove("active");
             dayLabelsArr.forEach(x => {
                 x.classList.remove("active");
@@ -101,23 +74,31 @@ export const eventHandlers = {
         //
         // ************ Absence-list ************
         //
-        deleteAbsence: event => {
-            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
-
+        deleteAbsence: async event => {
+            const subjectId = event.target.closest(".subject-container").id;
             const absenceId = event.target.closest("li").id;
-            store.dispatch({ type: "DELETE_ABSENCE", subjectId: subjectContainer.id, absenceId: absenceId });
+
+            // 4. save data
+            store.dispatch({ type: "DELETE_ABSENCE_REQUEST", subjectId, absenceId });
+            try {
+                await deleteGradebookItem(absenceId);
+                store.dispatch({ type: "DELETE_ABSENCE_SUCCESS", subjectId, absenceId });
+            } catch (error) {
+                alert("Eroare la salvarea datelor!");
+                store.dispatch({ type: "DELETE_ABSENCE_FAILURE", subjectId, absenceId });
+            }
         },
 
         excuseAbsence: event => {
-            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
-
+            const subjectId = event.target.closest(".subject-container").id;
             const absenceId = event.target.closest("li").id;
-            store.dispatch({ type: "EXCUSE_ABSENCE", subjectId: subjectContainer.id, absenceId: absenceId });
+
+            store.dispatch({ type: "EXCUSE_ABSENCE", subjectId, absenceId });
         }
     })
 };
 
-// https://blog.abelotech.com/posts/generate-random-values-nodejs-javascript/
-function randomInt(low, high) {
-    return Math.floor(Math.random() * (high - low) + low);
-}
+// // https://blog.abelotech.com/posts/generate-random-values-nodejs-javascript/
+// function randomInt(low, high) {
+//     return Math.floor(Math.random() * (high - low) + low);
+// }

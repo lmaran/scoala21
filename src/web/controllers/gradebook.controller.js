@@ -31,16 +31,21 @@ exports.createAbsences = async (req, res) => {
             student: absencesObj.student,
             subject: absencesObj.subject,
             type: crt.type,
-            isExcused: crt.isExcused,
             date: crt.date,
-            createdOn: new Date()
+            createdOn: new Date(),
+            ...(crt.isExcused && { isExcused: true }) // add isExcused property (with value = true) only if crt.isExcused = true -->  https://stackoverflow.com/a/40560953
         });
         return acc;
     }, []);
 
     const response = await gradebookService.insertMany(absences);
-    const createdItems = response.ops;
-    res.status(201).json(createdItems);
+    const createdAbsences = response.ops;
+    const createdAbsencesWithRelevantFields = createdAbsences.map(x => ({
+        id: x._id,
+        date: x.date,
+        isExcused: x.isExcused
+    }));
+    res.status(201).json(createdAbsencesWithRelevantFields);
 };
 
 exports.deleteGradebookItem = async (req, res) => {
