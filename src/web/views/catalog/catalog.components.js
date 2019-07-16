@@ -10,7 +10,9 @@ const templateAbsenceList = (data, methods) =>
                 absence =>
                     html`
                         <li id=${absence.id}>
-                            <span class="align-middle ${absence.isExcused ? "text-success" : ""}">${absence.date}</span>
+                            <span class="absence-value-span ${absence.isExcused ? "text-success" : ""}"
+                                >${absence.friendlyDate}</span
+                            >
                             ${!absence.isExcused
                                 ? html`
                                       <button class="btn btn-link" @click=${methods.excuseAbsence}>

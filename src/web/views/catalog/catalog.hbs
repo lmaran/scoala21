@@ -80,6 +80,12 @@
         font-size: 1.4em;
     }
 
+    .absence-value-span {
+        display: inline-block;
+        width: 60px;
+        vertical-align: middle;
+    }
+
     /* end spinner icon */
 </style>
 
@@ -112,7 +118,7 @@
         <ul>
             {{#each absences}}
             <li id={{id}}>
-                <span class="align-middle {{#if isExcused}}text-success{{/if}}">{{date}}</span>
+                <span class="absence-value-span {{#if isExcused}}text-success{{/if}}">{{friendlyDate}}</span>
                 {{#unless isExcused}}
                 <button class="excuse-btn btn btn-link">Motiveza</button> |
                 {{/unless}}

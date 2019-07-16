@@ -8,6 +8,7 @@ exports.getGradebookItemsPerStudent = async (studentId, academicYear) => {
     return await db
         .collection(collection)
         .find({ academicYear, "student.id": studentId }, { projection: { class: 0, student: 0 } })
+        .sort({ date: 1 })
         .toArray();
 };
 

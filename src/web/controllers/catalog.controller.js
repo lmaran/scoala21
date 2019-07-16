@@ -3,6 +3,7 @@ const gradebookService = require("../services/gradebook.service");
 const lessonService = require("../services/lesson.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 const studentsAndClassesService = require("../services/studentsAndClasses.service");
+const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 // const classService = require("../services/class.service");
 
 exports.getStudentCatalog = async (req, res) => {
@@ -36,7 +37,8 @@ exports.getStudentCatalog = async (req, res) => {
                 }
                 subjectObj["absences"].push({
                     id: x._id.toString(), // toString() -> converts from ObjectId to string
-                    date: x.date,
+                    date: x.date, // 2019-03-04
+                    friendlyDate: dateTimeHelper.getMonthAndDayFomString(x.date), // 04-Mar
                     isExcused: x.isExcused
                 });
             } else if (x.type === "mark") {

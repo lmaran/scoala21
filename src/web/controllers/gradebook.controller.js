@@ -1,4 +1,5 @@
 const gradebookService = require("../services/gradebook.service");
+const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 
 exports.createGradebookItem = async (req, res) => {
     const gradebookItem = req.body;
@@ -42,7 +43,8 @@ exports.createAbsences = async (req, res) => {
     const createdAbsences = response.ops;
     const createdAbsencesWithRelevantFields = createdAbsences.map(x => ({
         id: x._id,
-        date: x.date,
+        date: x.date, // 2019-03-04
+        friendlyDate: dateTimeHelper.getMonthAndDayFomString(x.date), // 04-Mar
         isExcused: x.isExcused
     }));
     res.status(201).json(createdAbsencesWithRelevantFields);

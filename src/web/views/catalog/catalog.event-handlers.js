@@ -48,7 +48,7 @@ export const eventHandlers = {
                 },
                 absences: dayLabelsArr.map(dayLabel => ({
                     type: "absence",
-                    date: `${dayLabel.innerText}.${monthLabel.innerText}`, // ["7.IV", "23.IV"]
+                    date: getYMD(state.academicYear, monthLabel.innerText, dayLabel.innerText), // f(201819, IX, 4) = 2018-09-04
                     isExcused: isExcusedInput.checked
                 }))
             };
@@ -102,3 +102,27 @@ export const eventHandlers = {
 // function randomInt(low, high) {
 //     return Math.floor(Math.random() * (high - low) + low);
 // }
+
+// (201819, IX, 4) -> 2018-09-04
+// (201819, III, 7) -> 2019-03-07
+const getYMD = (academicYearStr, monthRoman, dayArabic) => {
+    const mapRomanToArabic = {
+        I: 1,
+        II: 2,
+        III: 3,
+        IV: 4,
+        V: 5,
+        VI: 6,
+        VII: 7,
+        VIII: 8,
+        IX: 9,
+        X: 10,
+        XI: 11,
+        XII: 12
+    };
+    const academicYearInt = parseInt(academicYearStr); // 201819
+    const firstYearInt = Math.floor(academicYearInt / 100); // 2018
+    const monthArabic = mapRomanToArabic[monthRoman]; // 9
+    const yearInt = monthArabic >= 9 && monthArabic <= 12 ? firstYearInt : firstYearInt + 1; // 2018
+    return `${yearInt.toString()}-${monthArabic.toString().padStart(2, 0)}-${dayArabic.toString().padStart(2, 0)}`; // "2018-09-04"
+};

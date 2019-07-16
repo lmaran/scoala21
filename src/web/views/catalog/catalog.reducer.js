@@ -107,7 +107,9 @@ export const reducer = (state, action) => {
         case "SAVE_ABSENCES_SUCCESS": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
-            const newAbsences = action.createdAbsences;
+            const absences = [...(selectedSubject.absences || []), ...action.createdAbsences].sort(
+                (a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0) // sort by date, asc
+            );
 
             const nextState = {
                 ...state,
@@ -116,7 +118,7 @@ export const reducer = (state, action) => {
                     [selectedSubjectId]: {
                         ...selectedSubject,
                         addAbsenceIsInProgress: false,
-                        absences: [...(selectedSubject.absences || []), ...newAbsences]
+                        absences
                     }
                 },
                 selectedSubjectId

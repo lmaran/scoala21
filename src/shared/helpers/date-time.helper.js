@@ -98,6 +98,13 @@ exports.getStringFromStringNoDay = function(dateStr) {
     return dateStrRo; // "07 Apr. 2015"
 };
 
+exports.getMonthAndDayFomString = function(dateStr) {
+    // "yyyy-mm-dd" --> 07.Mar
+    const date = this.getDateFromString(dateStr);
+    const f = this.getFriendlyDate(date);
+    return `${f.dayOfMonth}-${f.monthAsShortString}`;
+};
+
 exports.getStringFromDate = function(date) {
     // javascript date object
     return this.getFriendlyDate(date).ymd;
