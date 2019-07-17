@@ -1,7 +1,8 @@
 export const reducer = (state, action) => {
-    // console.log("action:");
-    // console.log(action);
     switch (action.type) {
+        //
+        //  ************ Absence ***********************************************************************
+        //
         case "EXPAND_ADD_ABSENCE": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
@@ -27,8 +28,6 @@ export const reducer = (state, action) => {
                 },
                 selectedSubjectId
             };
-            // console.log("nextState:");
-            // console.log(nextState.subjectsObj);
         }
         case "DELETE_ABSENCE_REQUEST": {
             const selectedSubjectId = action.subjectId;
@@ -136,6 +135,7 @@ export const reducer = (state, action) => {
                 selectedSubjectId
             };
         }
+
         case "SAVE_ABSENCES_REQUEST": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
@@ -149,6 +149,7 @@ export const reducer = (state, action) => {
                 selectedSubjectId
             };
         }
+
         case "SAVE_ABSENCES_SUCCESS": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
@@ -156,7 +157,7 @@ export const reducer = (state, action) => {
                 (a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0) // sort by date, asc
             );
 
-            const nextState = {
+            return {
                 ...state,
                 subjectsObj: {
                     ...state.subjectsObj,
@@ -168,9 +169,176 @@ export const reducer = (state, action) => {
                 },
                 selectedSubjectId
             };
-            // console.log("nextState:");
-            // console.log(nextState.subjectsObj);
-            return nextState;
+        }
+
+        //
+        //  ************ Mark ***********************************************************************
+        //
+        case "EXPAND_ADD_MARK": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addMarkIsExpanded: true }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "COLLAPSE_ADD_MARK": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addMarkIsExpanded: false }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "SAVE_MARK_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addMarkIsInProgress: true }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "SAVE_MARK_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+            const marks = [...(selectedSubject.marks || []), action.createdMark].sort(
+                (a, b) => (a.date > b.date ? 1 : b.date > a.date ? -1 : 0) // sort by date, asc
+            );
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        addMarkIsInProgress: false,
+                        marks
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "DELETE_MARK_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            selectedSubject.marks.forEach(x => {
+                if (x.id === action.markId) {
+                    x.deleteMarkIsInProgress = true;
+                }
+            });
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        marks: selectedSubject.marks
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "DELETE_MARK_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+            const selectedMarks = selectedSubject.marks;
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        marks: selectedMarks && selectedMarks.filter(x => x.id !== action.markId)
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+
+        //
+        //  ************ Semestrial Test Paper ************************************************************
+        //
+        case "EXPAND_ADD_SEMESTRIAL_TEST_PAPER": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addSemestrialTestPaperIsExpanded: true }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "COLLAPSE_ADD_SEMESTRIAL_TEST_PAPER": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addSemestrialTestPaperIsExpanded: false }
+                },
+                selectedSubjectId
+            };
+        }
+        case "SAVE_SEMESTRIAL_TEST_PAPER_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addSemestrialTestPaperIsInProgress: true }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "SAVE_SEMESTRIAL_TEST_PAPER_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+            const semestrialTestPaper = action.createdSemestrialTestPaper;
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        addSemestrialTestPaperIsExpanded: false,
+                        addSemestrialTestPaperIsInProgress: false,
+                        semestrialTestPaper
+                    }
+                },
+                selectedSubjectId
+            };
         }
         default:
             return state;

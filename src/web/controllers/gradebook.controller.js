@@ -9,20 +9,20 @@ exports.createGradebookItem = async (req, res) => {
 
     const response = await gradebookService.insertOne(gradebookItem);
     const createdItem = response.ops[0];
-    res.status(201).json(createdItem);
+    const createdItemWithRelevantFields = {
+        id: createdItem._id,
+        value: createdItem.value
+    };
+
+    if (createdItem.date) {
+        createdItemWithRelevantFields.date = createdItem.date; // 2019-03-04
+        createdItemWithRelevantFields.friendlyDate = dateTimeHelper.getMonthAndDayFomString(createdItem.date); // 04-Mar
+    }
+
+    res.status(201).json(createdItemWithRelevantFields);
 };
 
 exports.createAbsences = async (req, res) => {
-    // absencesObj signature
-    // {
-    //     academicYear,
-    //     semester,
-    //     class,
-    //     subject,
-    //     type,
-    //     isExcused,
-    //     absences: [{date}]
-    // }
     const absencesObj = req.body;
     const absences = absencesObj.absences.reduce((acc, crt) => {
         acc.push({

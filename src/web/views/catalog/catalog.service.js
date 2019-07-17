@@ -2,6 +2,10 @@ export const createAbsences = async data => {
     return fetchHelpers.post("/catalog/absences", data);
 };
 
+export const createGradebookItem = async data => {
+    return fetchHelpers.post("/catalog", data);
+};
+
 export const deleteGradebookItem = async itemId => {
     return fetchHelpers.delete(`/catalog/${itemId}`);
 };

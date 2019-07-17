@@ -1,8 +1,13 @@
-import { createAbsences, deleteGradebookItem, excuseAbsence } from "/views/catalog/catalog.service.js";
+import {
+    createAbsences,
+    deleteGradebookItem,
+    excuseAbsence,
+    createGradebookItem
+} from "/views/catalog/catalog.service.js";
 export const eventHandlers = {
     getEventHandlers: store => ({
         //
-        //  ************ Absence-add ************
+        //  ************ Absence ***********************************************************************
         //
         expandAddAbsence: event => {
             const subjectContainer = event.target.closest(".subject-container");
@@ -11,7 +16,8 @@ export const eventHandlers = {
 
             // set the current month as default (already selected);
             // TODO: set through Redux (unidirectional flow)
-            [...subjectContainer.querySelectorAll(".month-container label")]
+            const absencesContainer = subjectContainer.querySelector(".absences-container");
+            [...absencesContainer.querySelectorAll(".month-container label")]
                 .find(a => a.innerText === getCurrentRomanicMonth())
                 .classList.add("active");
         },
@@ -24,9 +30,10 @@ export const eventHandlers = {
         saveAbsences: async event => {
             // 1. get form elements:
             const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
-            const monthLabel = subjectContainer.querySelector(".month-container label.active");
-            const dayLabels = subjectContainer.querySelectorAll(".day-container label.active");
-            const isExcusedInput = subjectContainer.querySelector(".is-excused-input");
+            const absencesContainer = subjectContainer.querySelector(".absences-container");
+            const monthLabel = absencesContainer.querySelector(".month-container label.active");
+            const dayLabels = absencesContainer.querySelectorAll(".day-container label.active");
+            const isExcusedInput = absencesContainer.querySelector(".is-excused-input");
 
             // 2. validate form
             // TODO: set through Redux (unidirectional flow)
@@ -80,9 +87,6 @@ export const eventHandlers = {
             isExcusedInput.checked = false;
         },
 
-        //
-        // ************ Absence-list ************
-        //
         deleteAbsence: async event => {
             const subjectId = event.target.closest(".subject-container").id;
             const absenceId = event.target.closest("li").id;
@@ -111,6 +115,164 @@ export const eventHandlers = {
                 alert("Eroare la motivarea absentei!");
                 store.dispatch({ type: "EXCUSE_ABSENCE_FAILURE", subjectId, absenceId });
             }
+        },
+
+        //
+        //  ************ Mark ***********************************************************************
+        //
+        expandAddMark: event => {
+            const subjectContainer = event.target.closest(".subject-container");
+            const subjectId = subjectContainer.id;
+            store.dispatch({ type: "EXPAND_ADD_MARK", subjectId });
+
+            // // set the current month as default (already selected);
+            // // TODO: set through Redux (unidirectional flow)
+            const marksContainer = subjectContainer.querySelector(".marks-container");
+            [...marksContainer.querySelectorAll(".month-container label")]
+                .find(a => a.innerText === getCurrentRomanicMonth())
+                .classList.add("active");
+        },
+
+        collapseAddMark: event => {
+            const subjectId = event.target.closest(".subject-container").id;
+            store.dispatch({ type: "COLLAPSE_ADD_MARK", subjectId });
+        },
+
+        saveMark: async event => {
+            // 1. get form elements:
+            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
+            const marksContainer = subjectContainer.querySelector(".marks-container");
+            const monthLabel = marksContainer.querySelector(".month-container label.active");
+            const dayLabel = marksContainer.querySelector(".day-container label.active");
+            const markValueLabel = marksContainer.querySelector(".mark-value-container label.active");
+
+            // 2. validate form
+            // TODO: set through Redux (unidirectional flow)
+            if (!markValueLabel) {
+                alert("Selecteaza nota!");
+                return false;
+            }
+            if (!dayLabel) {
+                alert("Selecteaza ziua!");
+                return false;
+            }
+            if (!monthLabel) {
+                alert("Selecteaza luna!");
+                return false;
+            }
+
+            // 3. prepare data
+            const state = store.getState();
+            const subjectId = subjectContainer.id;
+            const selectedSubjectObj = state.subjectsObj[subjectId];
+
+            const gradebookItem = {
+                academicYear: state.academicYear,
+                semester: state.semester,
+                class: state.class,
+                student: state.student,
+                subject: {
+                    id: selectedSubjectObj.id,
+                    name: selectedSubjectObj.name
+                },
+                type: "mark",
+                date: getYMD(state.academicYear, monthLabel.innerText, dayLabel.innerText), // f(201819, IX, 4) = 2018-09-04
+                value: markValueLabel.innerText
+            };
+
+            // 4. save data
+            store.dispatch({ type: "SAVE_MARK_REQUEST", subjectId });
+            try {
+                const createdMark = await createGradebookItem(gradebookItem);
+                store.dispatch({ type: "SAVE_MARK_SUCCESS", subjectId, createdMark });
+            } catch (error) {
+                alert("Eroare la salvarea notei!");
+                store.dispatch({ type: "SAVE_MARK_FAILURE", subjectId });
+            }
+
+            // 5. clean up the form
+            // TODO: set through Redux (unidirectional flow)
+            // monthLabel.classList.remove("active"); // keep the user selected month as active
+
+            dayLabel.classList.remove("active");
+            markValueLabel.classList.remove("active");
+        },
+
+        deleteMark: async event => {
+            const subjectId = event.target.closest(".subject-container").id;
+            const markId = event.target.closest("li").id;
+
+            // save data
+            store.dispatch({ type: "DELETE_MARK_REQUEST", subjectId, markId });
+            try {
+                await deleteGradebookItem(markId);
+                store.dispatch({ type: "DELETE_MARK_SUCCESS", subjectId, markId });
+            } catch (error) {
+                alert("Eroare la stergerea notei!");
+                store.dispatch({ type: "DELETE_MARK_FAILURE", subjectId, markId });
+            }
+        },
+
+        //
+        //  ************ Semestrial Test Paper ***********************************************************
+        //
+        expandAddSemestrialTestPaper: event => {
+            const subjectContainer = event.target.closest(".subject-container");
+            const subjectId = subjectContainer.id;
+            store.dispatch({ type: "EXPAND_ADD_SEMESTRIAL_TEST_PAPER", subjectId });
+        },
+
+        collapseAddSemestrialTestPaper: event => {
+            const subjectId = event.target.closest(".subject-container").id;
+            store.dispatch({ type: "COLLAPSE_ADD_SEMESTRIAL_TEST_PAPER", subjectId });
+        },
+
+        saveSemestrialTestPaper: async event => {
+            // 1. get form elements:
+            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
+            const semestrialTestPaperContainer = subjectContainer.querySelector(".semestrial-test-paper-container");
+            const semestrialTestPaperValueLabel = semestrialTestPaperContainer.querySelector(
+                ".semestrial-test-paper-value-container label.active"
+            );
+
+            // 2. validate form
+            // TODO: set through Redux (unidirectional flow)
+            if (!semestrialTestPaperValueLabel) {
+                alert("Selecteaza nota!");
+                return false;
+            }
+
+            // 3. prepare data
+            const state = store.getState();
+            const subjectId = subjectContainer.id;
+            const selectedSubjectObj = state.subjectsObj[subjectId];
+
+            const gradebookItem = {
+                academicYear: state.academicYear,
+                semester: state.semester,
+                class: state.class,
+                student: state.student,
+                subject: {
+                    id: selectedSubjectObj.id,
+                    name: selectedSubjectObj.name
+                },
+                type: "semestrialTestPaper",
+                value: semestrialTestPaperValueLabel.innerText
+            };
+
+            // 4. save data
+            store.dispatch({ type: "SAVE_SEMESTRIAL_TEST_PAPER_REQUEST", subjectId });
+            try {
+                const createdSemestrialTestPaper = await createGradebookItem(gradebookItem);
+                store.dispatch({ type: "SAVE_SEMESTRIAL_TEST_PAPER_SUCCESS", subjectId, createdSemestrialTestPaper });
+            } catch (error) {
+                alert("Eroare la salvarea notei!");
+                //store.dispatch({ type: "SAVE_SEMESTRIAL_TEST_PAPER_FAILURE", subjectId });
+            }
+
+            // 5. clean up the form
+            // TODO: set through Redux (unidirectional flow)
+            semestrialTestPaperValueLabel.classList.remove("active");
         }
     })
 };

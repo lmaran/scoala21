@@ -48,6 +48,7 @@ exports.getStudentCatalog = async (req, res) => {
                 subjectObj["marks"].push({
                     id: x._id.toString(),
                     date: x.date,
+                    friendlyDate: dateTimeHelper.getMonthAndDayFomString(x.date), // 04-Mar
                     value: x.value
                 });
             } else if (x.type === "semestrialTestPaper") {
@@ -58,7 +59,8 @@ exports.getStudentCatalog = async (req, res) => {
             } else if (x.type === "semestrialAverage") {
                 subjectObj["semestrialAverage"] = {
                     id: x._id.toString(),
-                    value: x.value
+                    value: x.value, // 10
+                    valueAsText: getValueAsText(x.value) // zece
                 };
             }
         }
@@ -93,4 +95,20 @@ exports.getStudentCatalog = async (req, res) => {
 
     //res.send(data);
     res.render("catalog/catalog", data);
+};
+
+const getValueAsText = value => {
+    const mapValueToText = {
+        1: "unu",
+        2: "doi",
+        3: "trei",
+        4: "patru",
+        5: "cinci",
+        6: "sase",
+        7: "sapte",
+        8: "opt",
+        9: "noua",
+        10: "zece"
+    };
+    return mapValueToText[value];
 };
