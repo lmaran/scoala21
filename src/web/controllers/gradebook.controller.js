@@ -56,3 +56,18 @@ exports.deleteGradebookItem = async (req, res) => {
     // res.send("ok");
     res.status(204).send(); // or res.sendStatus(204)
 };
+
+exports.excuseAbsence = async (req, res) => {
+    const absenceId = req.params.id;
+    await gradebookService.updateOneSetFields(absenceId, { isExcused: true });
+    // console.log("response:");
+    // console.log(response);
+    // "200 ok" for successful PUT. No response body needed
+    res.status(200).send(); // or res.sendStatus(200)
+
+    // TODO: treat also other response codes: https://stackoverflow.com/a/827045
+    // "409 Conflict" for a PUT that is unsuccessful due to a 3rd-party modification, with a list of differences
+    // between the attempted update and the current resource in the response body
+
+    // "400 Bad Request" for an unsuccessful PUT, with text in the response body that explains why the PUT failed
+};

@@ -32,3 +32,8 @@ exports.deleteOneById = async id => {
     // id = mongoHelper.normalizedId(id);
     return await db.collection(collection).deleteOne({ _id: new ObjectID(id) });
 };
+
+exports.updateOneSetFields = async (id, fieldsObj) => {
+    const db = await mongoHelper.getDb();
+    return db.collection(collection).updateOne({ _id: new ObjectID(id) }, { $set: fieldsObj }); // returns a Promise
+};

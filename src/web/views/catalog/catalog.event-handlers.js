@@ -1,4 +1,4 @@
-import { createAbsences, deleteGradebookItem } from "/views/catalog/catalog.service.js";
+import { createAbsences, deleteGradebookItem, excuseAbsence } from "/views/catalog/catalog.service.js";
 export const eventHandlers = {
     getEventHandlers: store => ({
         //
@@ -59,7 +59,7 @@ export const eventHandlers = {
                 const createdAbsences = await createAbsences(absencesObj);
                 store.dispatch({ type: "SAVE_ABSENCES_SUCCESS", subjectId, createdAbsences });
             } catch (error) {
-                alert("Eroare la salvarea datelor!");
+                alert("Eroare la salvarea absentelor!");
                 store.dispatch({ type: "SAVE_ABSENCES_FAILURE", subjectId });
             }
 
@@ -78,22 +78,30 @@ export const eventHandlers = {
             const subjectId = event.target.closest(".subject-container").id;
             const absenceId = event.target.closest("li").id;
 
-            // 4. save data
+            // save data
             store.dispatch({ type: "DELETE_ABSENCE_REQUEST", subjectId, absenceId });
             try {
                 await deleteGradebookItem(absenceId);
                 store.dispatch({ type: "DELETE_ABSENCE_SUCCESS", subjectId, absenceId });
             } catch (error) {
-                alert("Eroare la salvarea datelor!");
+                alert("Eroare la stergerea absentei!");
                 store.dispatch({ type: "DELETE_ABSENCE_FAILURE", subjectId, absenceId });
             }
         },
 
-        excuseAbsence: event => {
+        excuseAbsence: async event => {
             const subjectId = event.target.closest(".subject-container").id;
             const absenceId = event.target.closest("li").id;
 
-            store.dispatch({ type: "EXCUSE_ABSENCE", subjectId, absenceId });
+            // save data
+            store.dispatch({ type: "EXCUSE_ABSENCE_REQUEST", subjectId, absenceId });
+            try {
+                await excuseAbsence(absenceId);
+                store.dispatch({ type: "EXCUSE_ABSENCE_SUCCESS", subjectId, absenceId });
+            } catch (error) {
+                alert("Eroare la motivarea absentei!");
+                store.dispatch({ type: "EXCUSE_ABSENCE_FAILURE", subjectId, absenceId });
+            }
         }
     })
 };

@@ -24,7 +24,11 @@ const templateAbsenceList = (data, methods) =>
                             <button class="btn btn-link" @click=${methods.deleteAbsence}>
                                 Sterge
                             </button>
-                            <span class="spinner ${absence.deleteAbsenceIsInProgress ? "" : "d-none"}">
+                            <span
+                                class="spinner ${absence.deleteAbsenceIsInProgress || absence.excuseAbsenceIsInProgress
+                                    ? ""
+                                    : "d-none"}"
+                            >
                                 <i class="fas fa-spinner spinning"></i>
                             </span>
                         </li>
@@ -32,7 +36,7 @@ const templateAbsenceList = (data, methods) =>
             )}
         </ul>
     `;
-//const isChecked = false;
+
 const templateAbsenceAddForm = (data, methods) =>
     html`
         <div class="absence-add-form ml-4 mt-1">

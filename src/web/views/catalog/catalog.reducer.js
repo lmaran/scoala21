@@ -69,13 +69,58 @@ export const reducer = (state, action) => {
                 selectedSubjectId
             };
         }
-        case "EXCUSE_ABSENCE": {
+        case "EXCUSE_ABSENCE_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            selectedSubject.absences.forEach(x => {
+                if (x.id === action.absenceId) {
+                    x.excuseAbsenceIsInProgress = true;
+                }
+            });
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        absences: selectedSubject.absences
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "EXCUSE_ABSENCE_SUCCESS": {
             const selectedSubjectId = action.subjectId;
             const selectedSubject = state.subjectsObj[selectedSubjectId];
 
             selectedSubject.absences.forEach(x => {
                 if (x.id === action.absenceId) {
                     x.isExcused = true;
+                    x.excuseAbsenceIsInProgress = false;
+                }
+            });
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        absences: selectedSubject.absences
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "EXCUSE_ABSENCE_FAILURE": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            selectedSubject.absences.forEach(x => {
+                if (x.id === action.absenceId) {
+                    x.excuseAbsenceIsInProgress = false;
                 }
             });
 
