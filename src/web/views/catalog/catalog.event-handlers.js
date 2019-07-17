@@ -5,8 +5,15 @@ export const eventHandlers = {
         //  ************ Absence-add ************
         //
         expandAddAbsence: event => {
-            const subjectId = event.target.closest(".subject-container").id;
+            const subjectContainer = event.target.closest(".subject-container");
+            const subjectId = subjectContainer.id;
             store.dispatch({ type: "EXPAND_ADD_ABSENCE", subjectId });
+
+            // set the current month as default (already selected);
+            // TODO: set through Redux (unidirectional flow)
+            [...subjectContainer.querySelectorAll(".month-container label")]
+                .find(a => a.innerText === getCurrentRomanicMonth())
+                .classList.add("active");
         },
 
         collapseAddAbsence: event => {
@@ -22,6 +29,7 @@ export const eventHandlers = {
             const isExcusedInput = subjectContainer.querySelector(".is-excused-input");
 
             // 2. validate form
+            // TODO: set through Redux (unidirectional flow)
             if (!monthLabel) {
                 alert("Selecteaza luna!");
                 return false;
@@ -35,7 +43,7 @@ export const eventHandlers = {
             const state = store.getState();
             const subjectId = subjectContainer.id;
             const selectedSubjectObj = state.subjectsObj[subjectId];
-            const dayLabelsArr = Array.from(dayLabels); // convert NodeList into Array
+            const dayLabelsArr = Array.from(dayLabels); // convert NodeList into Array (or [...dayLabels])
 
             const absencesObj = {
                 academicYear: state.academicYear,
@@ -64,7 +72,8 @@ export const eventHandlers = {
             }
 
             // 5. clean up the form
-            monthLabel.classList.remove("active");
+            // TODO: set through Redux (unidirectional flow)
+            // monthLabel.classList.remove("active"); // keep the user selected month as active
             dayLabelsArr.forEach(x => {
                 x.classList.remove("active");
             });
@@ -106,31 +115,39 @@ export const eventHandlers = {
     })
 };
 
-// // https://blog.abelotech.com/posts/generate-random-values-nodejs-javascript/
-// function randomInt(low, high) {
-//     return Math.floor(Math.random() * (high - low) + low);
-// }
+const mapRomanToArabic = {
+    I: 1,
+    II: 2,
+    III: 3,
+    IV: 4,
+    V: 5,
+    VI: 6,
+    VII: 7,
+    VIII: 8,
+    IX: 9,
+    X: 10,
+    XI: 11,
+    XII: 12
+};
 
 // (201819, IX, 4) -> 2018-09-04
 // (201819, III, 7) -> 2019-03-07
 const getYMD = (academicYearStr, monthRoman, dayArabic) => {
-    const mapRomanToArabic = {
-        I: 1,
-        II: 2,
-        III: 3,
-        IV: 4,
-        V: 5,
-        VI: 6,
-        VII: 7,
-        VIII: 8,
-        IX: 9,
-        X: 10,
-        XI: 11,
-        XII: 12
-    };
     const academicYearInt = parseInt(academicYearStr); // 201819
     const firstYearInt = Math.floor(academicYearInt / 100); // 2018
     const monthArabic = mapRomanToArabic[monthRoman]; // 9
     const yearInt = monthArabic >= 9 && monthArabic <= 12 ? firstYearInt : firstYearInt + 1; // 2018
     return `${yearInt.toString()}-${monthArabic.toString().padStart(2, 0)}-${dayArabic.toString().padStart(2, 0)}`; // "2018-09-04"
+};
+
+// (9) -> "IX"
+const getRomanFromArabicMonth = monthArabic => {
+    return Object.keys(mapRomanToArabic).find(key => mapRomanToArabic[key] === monthArabic); // IX
+};
+
+// Returns "IX" if the current month is Sep.
+const getCurrentRomanicMonth = () => {
+    const d = new Date();
+    const monthArabic = d.getMonth() + 1; // 1=January, 2=February etc.
+    return getRomanFromArabicMonth(monthArabic);
 };

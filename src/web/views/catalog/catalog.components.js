@@ -102,7 +102,11 @@ const templateAbsence = (data, methods) =>
 
         ${data.absences ? templateAbsenceList(data, methods) : html``}
 
-        <button class="expand-add-absence-btn btn btn-sm btn-primary ml-4 mt-1" @click=${methods.expandAddAbsence}>
+        <button
+            class="expand-add-absence-btn btn btn-sm btn-primary ml-4 mt-1"
+            ?disabled=${data.addAbsenceIsExpanded}
+            @click=${methods.expandAddAbsence}
+        >
             Adauga absente
         </button>
 
