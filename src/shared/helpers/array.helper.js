@@ -26,3 +26,11 @@ exports.groupBy = (array, key) => {
         return acc;
     }, {});
 };
+
+// see class.controller.js
+exports.groupBySubKey = (array, key, subKey) => {
+    return array.reduce((acc, crt) => {
+        (acc[crt[key][subKey]] = acc[crt[key][subKey]] || []).push(crt);
+        return acc;
+    }, {});
+};

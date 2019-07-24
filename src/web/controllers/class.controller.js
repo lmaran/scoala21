@@ -10,11 +10,8 @@ const arrayHelper = require("../../shared/helpers/array.helper");
 exports.getAll = async (req, res) => {
     const classes = await classService.getAll();
 
-    const classesByGradeAsObject = arrayHelper.groupBy(classes, "grade");
+    const classesByGradeAsObject = arrayHelper.groupBySubKey(classes, "grade", "name");
 
-    // classesByGrade: [
-    //      { grade: {"id": "5c88123e5926db0d231fa314", name: "5"}, classes:[] },
-    // etc ]
     const classesByGrade = Object.keys(classesByGradeAsObject)
         .map(key => {
             return {

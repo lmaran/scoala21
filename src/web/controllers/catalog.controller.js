@@ -79,16 +79,6 @@ exports.getStudentCatalog = async (req, res) => {
             student,
             class: class2,
             subjectsObj
-            // subjects: subjects.reduce((acc, crt) => {
-            //     if (crt.marks) {
-            //         crt.marks = arrayToObject(crt.marks, "id");
-            //     }
-            //     if (crt.absences) {
-            //         crt.absences = arrayToObject(crt.absences, "id");
-            //     }
-            //     acc[crt.id] = crt;
-            //     return acc;
-            // }, {})
         }
     };
 
