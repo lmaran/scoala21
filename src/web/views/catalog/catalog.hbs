@@ -160,25 +160,9 @@
 
         <button class="expand-add-mark-btn btn btn-sm btn-primary ml-4 mt-1">Adauga note</button>
 
-
-        {{!-- <div class="sem-test-paper-container  ml-4 mt-4">
-            <div class="font-weight-bold">Teza:</div>
-            <div class="ml-4 form-inline">
-                <input type="number" class="form-control form-control-sm" style="width:70px">
-                <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga teza</button>
-            </div>
-        </div>
-
-        <div class="sem-average-container  ml-4 mt-4">
-            <div class="font-weight-bold">Media:</div>
-            <div class="ml-4 form-inline">
-                <input type="number" class="form-control form-control-sm" style="width:70px">
-                <button type="submit" class="btn btn-primary btn-sm ml-2" style="width:120px">Adauga media</button>
-            </div>
-        </div> --}}
-
     </div>
 
+    {{#if hasSemestrialTestPaper}}
     <div class="semestrial-test-paper-container ml-4 mt-4">
         <span class="font-weight-bold">Teza:</span>
         {{#if semestrialTestPaper.value}}
@@ -189,6 +173,7 @@
         <button class="expand-add-semestrial-test-paper-btn btn btn-link">Adauga teza</button>
         {{/if}}
     </div>
+    {{/if}}
 
     <div id={{id}} class="semestrial-average-container ml-4 mt-4">
         <span class="font-weight-bold">Media:</span>
