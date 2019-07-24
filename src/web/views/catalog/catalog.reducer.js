@@ -340,6 +340,139 @@ export const reducer = (state, action) => {
                 selectedSubjectId
             };
         }
+        case "DELETE_SEMESTRIAL_TEST_PAPER_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            selectedSubject.semestrialTestPaper.deleteSemestrialTestPaperIsInProgress = true;
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        semestrialTestPaper: selectedSubject.semestrialTestPaper
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "DELETE_SEMESTRIAL_TEST_PAPER_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        semestrialTestPaper: undefined
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+
+        //
+        //  ************ Semestrial Average ************************************************************
+        //
+        case "EXPAND_ADD_SEMESTRIAL_AVERAGE": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addSemestrialAverageIsExpanded: true }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "COLLAPSE_ADD_SEMESTRIAL_AVERAGE": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addSemestrialAverageIsExpanded: false }
+                },
+                selectedSubjectId
+            };
+        }
+        case "SAVE_SEMESTRIAL_AVERAGE_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: { ...selectedSubject, addSemestrialAverageIsInProgress: true }
+                },
+                selectedSubjectId
+            };
+        }
+
+        case "SAVE_SEMESTRIAL_AVERAGE_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+            const semestrialAverage = action.createdSemestrialAverage;
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        addSemestrialAverageIsExpanded: false,
+                        addSemestrialAverageIsInProgress: false,
+                        semestrialAverage
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "DELETE_SEMESTRIAL_AVERAGE_REQUEST": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            selectedSubject.semestrialAverage.deleteSemestrialAverageIsInProgress = true;
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        semestrialAverage: selectedSubject.semestrialAverage
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+        case "DELETE_SEMESTRIAL_AVERAGE_SUCCESS": {
+            const selectedSubjectId = action.subjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
+
+            return {
+                ...state,
+                subjectsObj: {
+                    ...state.subjectsObj,
+                    [selectedSubjectId]: {
+                        ...selectedSubject,
+                        semestrialAverage: undefined
+                    }
+                },
+                selectedSubjectId
+            };
+        }
+
         default:
             return state;
     }

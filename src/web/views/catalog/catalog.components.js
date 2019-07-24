@@ -161,46 +161,35 @@ const semestrialTestPaperTemplate = (data, methods) =>
     html`
         <span class="font-weight-bold">Teza:</span>
 
-        <button
-            class="expand-add-semestrial-test-paper-btn btn btn-link"
-            ?disabled=${data.addSemestrialTestPaperIsExpanded}
-            @click=${methods.expandAddSemestrialTestPaper}
-        >
-            Adauga teza
-        </button>
-
-        ${data.marks ? semestrialTestPaperListTemplate(data, methods) : html``}
-
-        <!-- <button
-            class="expand-add-absence-btn btn btn-sm btn-primary ml-4 mt-1"
-            ?disabled=${data.addMarkIsExpanded}
-            @click=${methods.expandAddMark}
-        >
-            Adauga note
-        </button> -->
-
+        ${data.semestrialTestPaper
+            ? html`
+                  <span
+                      id=${data.semestrialTestPaper.id}
+                      class="semestrial-test-paper-value-span font-weight-bold text-danger"
+                      >${data.semestrialTestPaper.value}</span
+                  >
+                  <button
+                      class="delete-semestrial-test-paper-btn btn btn-link"
+                      @click=${methods.deleteSemestrialTestPaper}
+                  >
+                      Sterge
+                  </button>
+                  <span
+                      class="spinner ${data.semestrialTestPaper.deleteSemestrialTestPaperIsInProgress ? "" : "d-none"}"
+                  >
+                      <i class="fas fa-spinner spinning"></i>
+                  </span>
+              `
+            : html`
+                  <button
+                      class="expand-add-semestrial-test-paper-btn btn btn-link"
+                      ?disabled=${data.addSemestrialTestPaperIsExpanded}
+                      @click=${methods.expandAddSemestrialTestPaper}
+                  >
+                      Adauga teza
+                  </button>
+              `}
         ${data.addSemestrialTestPaperIsExpanded ? semestrialTestPaperAddTemplate(data, methods) : html``}
-    `;
-
-const semestrialTestPaperListTemplate = (data, methods) =>
-    html`
-        <ul>
-            ${data.marks.map(
-                mark =>
-                    html`
-                        <li id=${mark.id}>
-                            <span class="mark-value-span">${mark.value}</span>
-                            <span class="mark-date-span text-muted">/ ${mark.friendlyDate}</span>
-                            <button class="delete-mark-btn btn btn-link" @click=${methods.deleteMark}>
-                                Sterge
-                            </button>
-                            <span class="spinner ${mark.deleteMarkIsInProgress ? "" : "d-none"}">
-                                <i class="fas fa-spinner spinning"></i>
-                            </span>
-                        </li>
-                    `
-            )}
-        </ul>
     `;
 
 const semestrialTestPaperAddTemplate = (data, methods) =>
@@ -220,6 +209,64 @@ const semestrialTestPaperAddTemplate = (data, methods) =>
                     Renunta
                 </button>
                 <span class="spinner spinner-md ${data.addSemestrialTestPaperIsInProgress ? "" : "d-none"}">
+                    <i class="fas fa-spinner spinning"></i>
+                </span>
+            </div>
+        </div>
+    `;
+
+//
+//  ************ Semestrial Average *********************************************************************
+//
+
+const semestrialAverageTemplate = (data, methods) =>
+    html`
+        <span class="font-weight-bold">Media:</span>
+
+        ${data.semestrialAverage
+            ? html`
+                  <span
+                      id=${data.semestrialAverage.id}
+                      class="semestrial-average-value-span font-weight-bold text-danger"
+                      >${data.semestrialAverage.value}</span
+                  >
+                  <span class="text-danger">(${data.semestrialAverage.valueAsText})</span>
+                  <button class="delete-semestrial-average-btn btn btn-link" @click=${methods.deleteSemestrialAverage}>
+                      Sterge
+                  </button>
+                  <span class="spinner ${data.semestrialAverage.deleteSemestrialAverageIsInProgress ? "" : "d-none"}">
+                      <i class="fas fa-spinner spinning"></i>
+                  </span>
+              `
+            : html`
+                  <button
+                      class="expand-add-semestrial-average-btn btn btn-link"
+                      ?disabled=${data.addSemestrialAverageIsExpanded}
+                      @click=${methods.expandAddSemestrialAverage}
+                  >
+                      Adauga media
+                  </button>
+              `}
+        ${data.addSemestrialAverageIsExpanded ? semestrialAverageAddTemplate(data, methods) : html``}
+    `;
+
+const semestrialAverageAddTemplate = (data, methods) =>
+    html`
+        <div class="add-form ml-4 mt-1">
+            <div>Nota:</div>
+            ${getInputSelectionTemplate("semestrial-average-value")}
+
+            <div class="pb-3">
+                <button class="save-absences-btn btn btn-sm btn-success" @click=${methods.saveSemestrialAverage}>
+                    Salveaza
+                </button>
+                <button
+                    class="collapse-add-absence-btn btn btn-sm btn-link"
+                    @click=${methods.collapseAddSemestrialAverage}
+                >
+                    Renunta
+                </button>
+                <span class="spinner spinner-md ${data.addSemestrialAverageIsInProgress ? "" : "d-none"}">
                     <i class="fas fa-spinner spinning"></i>
                 </span>
             </div>
@@ -271,5 +318,6 @@ export const components = {
     init: eventHandlers => (methods = eventHandlers),
     renderAbsence: (data, domElement) => render(absenceTemplate(data, methods), domElement),
     renderMark: (data, domElement) => render(markTemplate(data, methods), domElement),
-    renderSemestrialTestPaper: (data, domElement) => render(semestrialTestPaperTemplate(data, methods), domElement)
+    renderSemestrialTestPaper: (data, domElement) => render(semestrialTestPaperTemplate(data, methods), domElement),
+    renderSemestrialAverage: (data, domElement) => render(semestrialAverageTemplate(data, methods), domElement)
 };

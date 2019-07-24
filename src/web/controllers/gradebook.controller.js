@@ -1,5 +1,6 @@
 const gradebookService = require("../services/gradebook.service");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
+const numberHelper = require("../../shared/helpers/number.helper");
 
 exports.createGradebookItem = async (req, res) => {
     const gradebookItem = req.body;
@@ -17,6 +18,10 @@ exports.createGradebookItem = async (req, res) => {
     if (createdItem.date) {
         createdItemWithRelevantFields.date = createdItem.date; // 2019-03-04
         createdItemWithRelevantFields.friendlyDate = dateTimeHelper.getMonthAndDayFomString(createdItem.date); // 04-Mar
+    }
+
+    if (createdItem.type === "semestrialAverage") {
+        createdItemWithRelevantFields.valueAsText = numberHelper.getValueAsText(createdItem.value); // "zece"
     }
 
     res.status(201).json(createdItemWithRelevantFields);

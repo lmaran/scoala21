@@ -267,12 +267,106 @@ export const eventHandlers = {
                 store.dispatch({ type: "SAVE_SEMESTRIAL_TEST_PAPER_SUCCESS", subjectId, createdSemestrialTestPaper });
             } catch (error) {
                 alert("Eroare la salvarea notei!");
-                //store.dispatch({ type: "SAVE_SEMESTRIAL_TEST_PAPER_FAILURE", subjectId });
+                store.dispatch({ type: "SAVE_SEMESTRIAL_TEST_PAPER_FAILURE", subjectId });
             }
 
             // 5. clean up the form
             // TODO: set through Redux (unidirectional flow)
             semestrialTestPaperValueLabel.classList.remove("active");
+        },
+
+        deleteSemestrialTestPaper: async event => {
+            const subjectContainer = event.target.closest(".subject-container");
+            const subjectId = subjectContainer.id;
+            const semestrialTestPaperId = subjectContainer.querySelector(".semestrial-test-paper-value-span").id;
+
+            // save data
+            store.dispatch({ type: "DELETE_SEMESTRIAL_TEST_PAPER_REQUEST", subjectId, semestrialTestPaperId });
+            try {
+                await deleteGradebookItem(semestrialTestPaperId);
+                store.dispatch({ type: "DELETE_SEMESTRIAL_TEST_PAPER_SUCCESS", subjectId, semestrialTestPaperId });
+            } catch (error) {
+                alert("Eroare la stergerea mediei!");
+                store.dispatch({ type: "DELETE_SEMESTRIAL_TEST_PAPER_FAILURE", subjectId, semestrialTestPaperId });
+            }
+        },
+
+        //
+        //  ************ Semestrial Average ***********************************************************
+        //
+        expandAddSemestrialAverage: event => {
+            const subjectContainer = event.target.closest(".subject-container");
+            const subjectId = subjectContainer.id;
+            store.dispatch({ type: "EXPAND_ADD_SEMESTRIAL_AVERAGE", subjectId });
+        },
+
+        collapseAddSemestrialAverage: event => {
+            const subjectId = event.target.closest(".subject-container").id;
+            store.dispatch({ type: "COLLAPSE_ADD_SEMESTRIAL_AVERAGE", subjectId });
+        },
+
+        saveSemestrialAverage: async event => {
+            // 1. get form elements:
+            const subjectContainer = event.target.closest(".subject-container"); // find the closest ancestor which matches the selectors
+            const semestrialAverageContainer = subjectContainer.querySelector(".semestrial-average-container");
+            const semestrialAverageValueLabel = semestrialAverageContainer.querySelector(
+                ".semestrial-average-value-container label.active"
+            );
+
+            // 2. validate form
+            // TODO: set through Redux (unidirectional flow)
+            if (!semestrialAverageValueLabel) {
+                alert("Selecteaza media!");
+                return false;
+            }
+
+            // 3. prepare data
+            const state = store.getState();
+            const subjectId = subjectContainer.id;
+            const selectedSubjectObj = state.subjectsObj[subjectId];
+
+            const gradebookItem = {
+                academicYear: state.academicYear,
+                semester: state.semester,
+                class: state.class,
+                student: state.student,
+                subject: {
+                    id: selectedSubjectObj.id,
+                    name: selectedSubjectObj.name
+                },
+                type: "semestrialAverage",
+                value: semestrialAverageValueLabel.innerText
+            };
+
+            // 4. save data
+            store.dispatch({ type: "SAVE_SEMESTRIAL_AVERAGE_REQUEST", subjectId });
+            try {
+                const createdSemestrialAverage = await createGradebookItem(gradebookItem);
+                store.dispatch({ type: "SAVE_SEMESTRIAL_AVERAGE_SUCCESS", subjectId, createdSemestrialAverage });
+            } catch (error) {
+                alert("Eroare la salvarea mediei!");
+                store.dispatch({ type: "SAVE_SEMESTRIAL_AVERAGE_FAILURE", subjectId });
+            }
+
+            // 5. clean up the form
+            // TODO: set through Redux (unidirectional flow)
+            semestrialAverageValueLabel.classList.remove("active");
+        },
+
+        deleteSemestrialAverage: async event => {
+            const subjectContainer = event.target.closest(".subject-container");
+            const subjectId = subjectContainer.id;
+            const semestrialAverageId = subjectContainer.querySelector(".semestrial-average-value-span").id;
+
+            // save data
+            store.dispatch({ type: "DELETE_SEMESTRIAL_AVERAGE_REQUEST", subjectId, semestrialAverageId });
+            try {
+                await deleteGradebookItem(semestrialAverageId);
+                store.dispatch({ type: "DELETE_SEMESTRIAL_AVERAGE_SUCCESS", subjectId, semestrialAverageId });
+            } catch (error) {
+                alert("Eroare la stergerea mediei!");
+                store.dispatch({ type: "DELETE_SEMESTRIAL_AVERAGE_FAILURE", subjectId, semestrialAverageId });
+            }
         }
     })
 };

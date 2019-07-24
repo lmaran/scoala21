@@ -21,6 +21,11 @@ export const renderController = {
             const semestrialTestPaperData = { ...getSemestrialTestPaperData(state) };
             const semestrialTestPaperDomContainer = getSemestrialTestPaperDomContainer(selectedSubjectId);
             components.renderSemestrialTestPaper(semestrialTestPaperData, semestrialTestPaperDomContainer);
+
+            // render Semestrial Average
+            const semestrialAverageData = { ...getSemestrialAverageData(state) };
+            const semestrialAverageDomContainer = getSemestrialAverageDomContainer(selectedSubjectId);
+            components.renderSemestrialAverage(semestrialAverageData, semestrialAverageDomContainer);
         };
 
         store.subscribe(renderComponent);
@@ -28,7 +33,7 @@ export const renderController = {
 };
 
 //
-//  ************ Absence-helpers ***********************************************************************
+//  ************ Absence ***********************************************************************
 //
 const getAbsenceDomContainer = subjectId => {
     const subjectContainer = document.getElementById(subjectId);
@@ -42,7 +47,7 @@ const getAbsenceData = state => ({
 });
 
 //
-//  ************ Mark-helpers ***********************************************************************
+//  ************ Mark ***********************************************************************
 //
 const getMarkDomContainer = subjectId => {
     const subjectContainer = document.getElementById(subjectId);
@@ -56,7 +61,7 @@ const getMarkData = state => ({
 });
 
 //
-//  ************ Semestrial TestPaper helpers *********************************************************
+//  ************ Semestrial TestPaper *********************************************************
 //
 const getSemestrialTestPaperDomContainer = subjectId => {
     const subjectContainer = document.getElementById(subjectId);
@@ -67,4 +72,18 @@ const getSemestrialTestPaperData = state => ({
     semestrialTestPaper: state.subjectsObj[state.selectedSubjectId].semestrialTestPaper,
     addSemestrialTestPaperIsExpanded: state.subjectsObj[state.selectedSubjectId].addSemestrialTestPaperIsExpanded,
     addSemestrialTestPaperIsInProgress: state.subjectsObj[state.selectedSubjectId].addSemestrialTestPaperIsInProgress
+});
+
+//
+//  ************ Semestrial Average *********************************************************
+//
+const getSemestrialAverageDomContainer = subjectId => {
+    const subjectContainer = document.getElementById(subjectId);
+    return subjectContainer.querySelector(".semestrial-average-container");
+};
+
+const getSemestrialAverageData = state => ({
+    semestrialAverage: state.subjectsObj[state.selectedSubjectId].semestrialAverage,
+    addSemestrialAverageIsExpanded: state.subjectsObj[state.selectedSubjectId].addSemestrialAverageIsExpanded,
+    addSemestrialAverageIsInProgress: state.subjectsObj[state.selectedSubjectId].addSemestrialAverageIsInProgress
 });

@@ -1,10 +1,9 @@
-// const studentService = require("../services/student.service");
 const gradebookService = require("../services/gradebook.service");
 const lessonService = require("../services/lesson.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 const studentsAndClassesService = require("../services/studentsAndClasses.service");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
-// const classService = require("../services/class.service");
+const numberHelper = require("../../shared/helpers/number.helper");
 
 exports.getStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
@@ -60,7 +59,7 @@ exports.getStudentCatalog = async (req, res) => {
                 subjectObj["semestrialAverage"] = {
                     id: x._id.toString(),
                     value: x.value, // 10
-                    valueAsText: getValueAsText(x.value) // zece
+                    valueAsText: numberHelper.getValueAsText(x.value) // "zece"
                 };
             }
         }
@@ -95,20 +94,4 @@ exports.getStudentCatalog = async (req, res) => {
 
     //res.send(data);
     res.render("catalog/catalog", data);
-};
-
-const getValueAsText = value => {
-    const mapValueToText = {
-        1: "unu",
-        2: "doi",
-        3: "trei",
-        4: "patru",
-        5: "cinci",
-        6: "sase",
-        7: "sapte",
-        8: "opt",
-        9: "noua",
-        10: "zece"
-    };
-    return mapValueToText[value];
 };

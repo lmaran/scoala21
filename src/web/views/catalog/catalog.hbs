@@ -99,7 +99,7 @@
     .excuse-absence-btn,
     .delete-mark-btn,
     .delete-semestrial-test-paper-btn,
-    .delete-semestrial-average,
+    .delete-semestrial-average-btn,
     .expand-add-semestrial-test-paper-btn,
     .expand-add-semestrial-average-btn {
         vertical-align: baseline;
@@ -182,17 +182,19 @@
     <div class="semestrial-test-paper-container ml-4 mt-4">
         <span class="font-weight-bold">Teza:</span>
         {{#if semestrialTestPaper.value}}
-        <span class="font-weight-bold text-danger">{{semestrialTestPaper.value}}</span>
+        <span id={{semestrialTestPaper.id}}
+            class="semestrial-test-paper-value-span font-weight-bold text-danger">{{semestrialTestPaper.value}}</span>
         <button class="delete-semestrial-test-paper-btn btn btn-link">Sterge</button>
         {{else}}
         <button class="expand-add-semestrial-test-paper-btn btn btn-link">Adauga teza</button>
         {{/if}}
     </div>
 
-    <div class="semestrial-average-container ml-4 mt-4">
+    <div id={{id}} class="semestrial-average-container ml-4 mt-4">
         <span class="font-weight-bold">Media:</span>
         {{#if semestrialAverage.value}}
-        <span class="font-weight-bold text-danger">{{semestrialAverage.value}}</span>
+        <span id={{semestrialAverage.id}}
+            class="semestrial-average-value-span font-weight-bold text-danger">{{semestrialAverage.value}}</span>
         <span class="text-danger">({{semestrialAverage.valueAsText}})</span>
         <button class="delete-semestrial-average-btn btn btn-link">Sterge</button>
         {{else}}
