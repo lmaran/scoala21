@@ -7,7 +7,7 @@ exports.getLessonsForClass = async classId => {
     return await db
         .collection(collection)
         .find({ "class.id": classId.toString() })
-        .sort({ "teacher.name": 1 })
+        .sort({ subjectOrderInGradebook: 1 })
         .toArray();
 };
 

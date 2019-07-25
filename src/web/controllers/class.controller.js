@@ -81,6 +81,13 @@ exports.getTeachers = async (req, res) => {
         await classService.getOneById(classId)
     ]);
 
+    // sort teachers by name
+    lessons.sort((a, b) => {
+        if (a.teacher.name > b.teacher.name) return 1;
+        else if (a.teacher.name < b.teacher.name) return -1;
+        else return 0;
+    });
+
     const data = {
         class: cls,
         lessons,
