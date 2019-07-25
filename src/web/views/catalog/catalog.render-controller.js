@@ -6,21 +6,31 @@ export const renderController = {
             const state = store.getState();
 
             const selectedSubjectId = state.selectedSubjectId;
+            const selectedSubject = state.subjectsObj[selectedSubjectId];
 
             // render Absences
-            const absenceData = { ...getAbsenceData(state) };
-            const absenceDomContainer = getAbsenceDomContainer(selectedSubjectId);
-            components.renderAbsence(absenceData, absenceDomContainer);
+            if (!selectedSubject.isEducationalClass) {
+                // ignore for "Dirigentie"
+                const absenceData = { ...getAbsenceData(state) };
+                const absenceDomContainer = getAbsenceDomContainer(selectedSubjectId);
+                components.renderAbsence(absenceData, absenceDomContainer);
+            }
 
             // render Marks
-            const markData = { ...getMarkData(state) };
-            const markDomContainer = getMarkDomContainer(selectedSubjectId);
-            components.renderMark(markData, markDomContainer);
+            if (!selectedSubject.isEducationalClass) {
+                // ignore for "Dirigentie"
+                const markData = { ...getMarkData(state) };
+                const markDomContainer = getMarkDomContainer(selectedSubjectId);
+                components.renderMark(markData, markDomContainer);
+            }
 
             // render Semestrial Test Paper
-            const semestrialTestPaperData = { ...getSemestrialTestPaperData(state) };
-            const semestrialTestPaperDomContainer = getSemestrialTestPaperDomContainer(selectedSubjectId);
-            components.renderSemestrialTestPaper(semestrialTestPaperData, semestrialTestPaperDomContainer);
+            if (!selectedSubject.isEducationalClass && selectedSubject.hasSemestrialTestPaper) {
+                // ignore for "Dirigentie" or for subjects without Semestrial Test Paper
+                const semestrialTestPaperData = { ...getSemestrialTestPaperData(state) };
+                const semestrialTestPaperDomContainer = getSemestrialTestPaperDomContainer(selectedSubjectId);
+                components.renderSemestrialTestPaper(semestrialTestPaperData, semestrialTestPaperDomContainer);
+            }
 
             // render Semestrial Average
             const semestrialAverageData = { ...getSemestrialAverageData(state) };

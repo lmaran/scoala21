@@ -19,9 +19,9 @@ exports.getStudentCatalog = async (req, res) => {
     const student = studentAndClass.student;
     const class2 = studentAndClass.class;
 
-    const allLessonsForClass = await lessonService.getLessonsForClass(class2.id);
+    const lessonsForClass = await lessonService.getLessonsForClass(class2.id);
 
-    const subjectsWithMandatorySemestrialTestPaper = allLessonsForClass
+    const subjectsWithMandatorySemestrialTestPaper = lessonsForClass
         .filter(x => x.hasMandatorySemestrialTestPaper)
         .map(x => x.subject);
 
@@ -33,11 +33,12 @@ exports.getStudentCatalog = async (req, res) => {
 
     const subjectsWithSemestrialTestPaperObj = arrayHelper.arrayToObject(subjectsWithSemestrialTestPaper, "id");
 
-    const subjectsObj = allLessonsForClass.reduce((acc, crt) => {
+    const subjectsObj = lessonsForClass.reduce((acc, crt) => {
         const hasSemestrialTestPaper = !!subjectsWithSemestrialTestPaperObj[crt.subject.id];
         acc[crt.subject.id] = {
             id: crt.subject.id,
-            name: crt.subject.name,
+            name: crt.isEducationalClass ? "Purtare" : crt.subject.name,
+            ...(crt.isEducationalClass && { isEducationalClass: true }), // add isEducationalClass property (with value = true) only if crt.isEducationalClass = true -->  https://stackoverflow.com/a/40560953
             ...(hasSemestrialTestPaper && { hasSemestrialTestPaper: true }) // add hasSemestrialTestPaper property (with value = true) only if hasSemestrialTestPaper = true -->  https://stackoverflow.com/a/40560953
         };
         return acc;
