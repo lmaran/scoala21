@@ -27,8 +27,8 @@ exports.getStudentCatalog = async (req, res) => {
 
     // merge the 2 lists of subjects with semestrial test paper (class and student level)
     const subjectsWithSemestrialTestPaper = [
-        ...subjectsWithMandatorySemestrialTestPaper,
-        ...studentAndClass.semestrialTestPaperStudentsChoice
+        ...(subjectsWithMandatorySemestrialTestPaper || []),
+        ...(studentAndClass.semestrialTestPaperStudentsChoice || [])
     ];
 
     const subjectsWithSemestrialTestPaperObj = arrayHelper.arrayToObject(subjectsWithSemestrialTestPaper, "id");
