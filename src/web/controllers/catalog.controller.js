@@ -4,7 +4,6 @@ const arrayHelper = require("../../shared/helpers/array.helper");
 const studentsAndClassesService = require("../services/studentsAndClasses.service");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const numberHelper = require("../../shared/helpers/number.helper");
-const gradeService = require("../services/grade.service");
 
 exports.getStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
@@ -12,27 +11,29 @@ exports.getStudentCatalog = async (req, res) => {
     const academicYear = "201819";
     const semester = "1";
 
-    const [studentAndClass, gradebookItems, grades] = await Promise.all([
+    const [studentAndClass, gradebookItems] = await Promise.all([
         await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
-        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear),
-        await gradeService.getAll()
+        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
     ]);
 
     const student = studentAndClass.student;
     const class2 = studentAndClass.class;
-    const grade = grades.find(x => x.name === class2.name.charAt(0));
+
+    const allLessonsForClass = await lessonService.getLessonsForClass(class2.id);
+
+    const subjectsWithMandatorySemestrialTestPaper = allLessonsForClass
+        .filter(x => x.hasMandatorySemestrialTestPaper)
+        .map(x => x.subject);
 
     // merge the 2 lists of subjects with semestrial test paper (class and student level)
     const subjectsWithSemestrialTestPaper = [
-        ...grade.subjectsWithSemestrialTestPaper,
+        ...subjectsWithMandatorySemestrialTestPaper,
         ...studentAndClass.semestrialTestPaperStudentsChoice
     ];
 
     const subjectsWithSemestrialTestPaperObj = arrayHelper.arrayToObject(subjectsWithSemestrialTestPaper, "id");
 
-    const allLessons = await lessonService.getLessonsForClass(class2.id);
-
-    const subjectsObj = allLessons.reduce((acc, crt) => {
+    const subjectsObj = allLessonsForClass.reduce((acc, crt) => {
         const hasSemestrialTestPaper = !!subjectsWithSemestrialTestPaperObj[crt.subject.id];
         acc[crt.subject.id] = {
             id: crt.subject.id,
