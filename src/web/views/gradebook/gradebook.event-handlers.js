@@ -3,7 +3,7 @@ import {
     deleteGradebookItem,
     excuseAbsence,
     createGradebookItem
-} from "/views/catalog/catalog.service.js";
+} from "/views/gradebook/gradebook.service.js";
 export const eventHandlers = {
     getEventHandlers: store => ({
         //

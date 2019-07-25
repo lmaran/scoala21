@@ -5,7 +5,6 @@ const homeController = require("./controllers/home.controller");
 const meController = require("./controllers/me.controller");
 const teacherController = require("./controllers/teacher.controller");
 const studentController = require("./controllers/student.controller");
-const catalogController = require("./controllers/catalog.controller");
 const parentController = require("./controllers/parent.controller");
 const classController = require("./controllers/class.controller");
 const staffController = require("./controllers/staff.controller");
@@ -43,7 +42,7 @@ router.get("/pagina-mea", meController.getMyPage);
 // uncomment this route in order to import students
 // router.get("/elevi/import", studentController.import);
 router.get("/elevi/:studentId", studentController.getStudent);
-router.get("/elevi/:studentId/catalog", catalogController.getStudentCatalog);
+router.get("/elevi/:studentId/catalog", gradebookController.getStudentCatalog);
 
 router.get("/parinti", parentController.getAll);
 router.get("/parinti/:parentId", parentController.getParent);
