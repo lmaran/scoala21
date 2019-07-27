@@ -19,7 +19,7 @@ exports.insertOne = async item => {
     }
 
     const db = await mongoHelper.getDb();
-    return await db.collection(collection).insertOne(item);
+    return db.collection(collection).insertOne(item);
 };
 
 exports.insertMany = async items => {
@@ -30,7 +30,7 @@ exports.insertMany = async items => {
 exports.deleteOneById = async id => {
     const db = await mongoHelper.getDb();
     // id = mongoHelper.normalizedId(id);
-    return await db.collection(collection).deleteOne({ _id: new ObjectID(id) });
+    return db.collection(collection).deleteOne({ _id: new ObjectID(id) });
 };
 
 exports.updateOneSetFields = async (id, fieldsObj) => {

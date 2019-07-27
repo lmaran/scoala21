@@ -132,7 +132,7 @@ exports.viewStudentCatalog = async (req, res) => {
 
     // const subjectsWithSemestrialTestPaperObj = arrayHelper.arrayToObject(subjectsWithSemestrialTestPaper, "id");
 
-    const subjectsObj = lessonsForClass.reduce((acc, crt) => {
+    let subjectsObj = lessonsForClass.reduce((acc, crt) => {
         // const hasSemestrialTestPaper = !!subjectsWithSemestrialTestPaperObj[crt.subject.id];
         acc[crt.subject.id] = {
             id: crt.subject.id,
@@ -182,24 +182,47 @@ exports.viewStudentCatalog = async (req, res) => {
         }
     });
 
+    // exclude "empty" subjects (subjects with no gradebook items)
+    subjectsObj = Object.keys(subjectsObj).reduce((acc, crt) => {
+        const subjectId = crt;
+        const subject = subjectsObj[subjectId];
+        let isEmptySubject = true;
+        if (subject.absences) {
+            subject.hasAbsences = true;
+            isEmptySubject = false;
+        }
+        if (subject.marks) {
+            subject.hasMarks = true;
+            isEmptySubject = false;
+        }
+        if (subject.semestrialTestPaper) {
+            subject.hasSemestrialTestPaper = true;
+            isEmptySubject = false;
+        }
+        if (subject.semestrialAverage) {
+            subject.hasSemestrialAverage = true;
+            isEmptySubject = false;
+        }
+        if (!isEmptySubject) {
+            acc[subjectId] = subject;
+            // return acc;
+        }
+        return acc;
+    }, {});
+
+    // console.log(subjectsObj);
+
     const subjects = arrayHelper.objectToArray(subjectsObj);
 
     const data = {
         student,
         class: class2,
         subjects,
-        studentFirstNameFirstChar: student.firstName.charAt(0),
+        studentFirstNameFirstChar: student.firstName.charAt(0)
         // ctx: req.ctx,
-        uiState: {
-            academicYear,
-            semester,
-            student,
-            class: class2,
-            subjectsObj
-        }
     };
 
-    // res.send(data);
+    //res.send(subjectsObj);
     res.render("gradebook/gradebook-view", data);
 };
 
@@ -281,23 +304,6 @@ exports.viewRecentStudentCatalog = async (req, res) => {
         }
     });
 
-    const subjects = arrayHelper.objectToArray(subjectsObj);
-
-    const data2 = {
-        student,
-        class: class2,
-        subjects,
-        studentFirstNameFirstChar: student.firstName.charAt(0),
-        // ctx: req.ctx,
-        uiState: {
-            academicYear,
-            semester,
-            student,
-            class: class2,
-            subjectsObj
-        }
-    };
-
     gradebookItems.forEach(
         x => (x.friendlyDate = x.date && dateTimeHelper.getMonthAndDayFomString(x.date)) // 04-Mar);
     );
@@ -327,7 +333,6 @@ exports.viewRecentStudentCatalog = async (req, res) => {
 exports.createGradebookItem = async (req, res) => {
     const gradebookItem = req.body;
 
-    // console.log(gradebookItem);
     gradebookItem.createdOn = new Date();
 
     const response = await gradebookService.insertOne(gradebookItem);

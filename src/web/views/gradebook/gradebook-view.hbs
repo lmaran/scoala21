@@ -119,9 +119,7 @@
     </ol>
 </nav>
 
-<h1>Catalog
-    <small>(complet)</small>
-</h1>
+<h1>Catalog</h1>
 
 <h5 class="mt-4">
     <a href="/elevi/{{student.id}}">{{student.lastName}} {{student.firstName}}</a>,
@@ -136,7 +134,7 @@
 <div id="{{id}}" class="subject-container  mt-5" data-subject-id="{{id}}" data-subject-name="{{name}}">
     <h4 class="font-weight-normal">{{name}}</h4>
 
-    {{#unless isEducationalClass}}
+    {{#if hasAbsences}}
     <div class="absences-container ml-4 mt-4">
         <div class="font-weight-bold">Absente:</div>
         <ul>
@@ -150,9 +148,9 @@
             {{/each}}
         </ul>
     </div>
-    {{/unless}}
+    {{/if}}
 
-    {{#unless isEducationalClass}}
+    {{#if hasMarks}}
     <div class="marks-container ml-4 mt-4">
         <div class="font-weight-bold">Note:</div>
         <ul>
@@ -164,7 +162,7 @@
             {{/each}}
         </ul>
     </div>
-    {{/unless}}
+    {{/if}}
 
     {{#if hasSemestrialTestPaper}}
     <div class="semestrial-test-paper-container ml-4 mt-4">
@@ -176,6 +174,7 @@
     </div>
     {{/if}}
 
+    {{#if hasSemestrialAverage}}
     <div id={{id}} class="semestrial-average-container ml-4 mt-4">
         <span class="font-weight-bold">Media:</span>
         {{#if semestrialAverage.value}}
@@ -184,6 +183,7 @@
         <span class="text-danger">({{semestrialAverage.valueAsText}})</span>
         {{/if}}
     </div>
+    {{/if}}
 
     <hr class="mt-5" />
     {{/each}}
@@ -195,9 +195,3 @@
     <p>
         <a href="/admin/elevi/{{student.id}}/catalog">Editeaza catalogul</a>
     </p>
-
-    <script type="text/x-template" id="ui-state">{{{toJSON uiState }}}</script>
-
-    {{#section 'script'}}
-    {{!-- <script type="module" src="/views/gradebook/main.js"></script> --}}
-    {{/section}}

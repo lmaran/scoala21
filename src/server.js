@@ -73,7 +73,8 @@ function onListening() {
             open: false,
             port: config.port + 1,
             proxy: "localhost:" + config.port,
-            ui: false
+            ui: false,
+            ghostMode: false // prevent Clicks, Scrolls & Form inputs on any device to be mirrored to all others. (otherwise strange behavior in edit catalog and multiple open tabs)
         });
     }
 }

@@ -102,7 +102,7 @@
 
     .date-span {
         display: inline-block;
-        width: 58px;
+        width: 55px;
     }
 
     .delete-absence-btn,
@@ -131,7 +131,7 @@
 </nav>
 
 <h1>Catalog
-    <small>(recent)</small>
+    {{!-- <small>(recent)</small> --}}
 </h1>
 
 <h5 class="mt-4">
@@ -163,7 +163,7 @@
     {{#each gradebookItems.marks}}
     <li>
         <span class="value-span font-weight-bold">{{value}}</span>
-        <span class="date-span">/ {{friendlyDate}}</span>
+        / <span class="date-span">{{friendlyDate}}</span>
         <span class="text-muted">- {{subject.name}}</span>
     </li>
 
@@ -211,11 +211,3 @@
 <p>
     <a href="/admin/elevi/{{student.id}}/catalog">Editeaza catalogul</a>
 </p>
-
-
-
-<script type="text/x-template" id="ui-state">{{{toJSON uiState }}}</script>
-
-{{#section 'script'}}
-{{!-- <script type="module" src="/views/gradebook/main.js"></script> --}}
-{{/section}}

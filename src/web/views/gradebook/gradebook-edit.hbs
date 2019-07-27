@@ -114,15 +114,20 @@
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{class.id}}">{{class.name}}</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{class.id}}/elevi">Elevi</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{studentFirstNameFirstChar}}.</li>
+        <li class="breadcrumb-item"><a href="/elevi/{{student.id}}">{{student.lastName}}
+                {{studentFirstNameFirstChar}}.</a></li>
     </ol>
 </nav>
 
-<h1 data-student='{{{toJSON student}}}'>{{student.lastName}} {{student.firstName}} </h1>
+<h1>Catalog</h1>
 
-<h5 data-class2='{{{toJSON class}}}' class="mt-4">Clasa:
+<h5 class="mt-4">
+    <a href="/elevi/{{student.id}}">{{student.lastName}} {{student.firstName}}</a>,
+    Clasa:
     <a href="/clase/{{class.id}}">{{class.name}}</a>
 </h5>
+
+<p>An scolar 2018-19, Semestrul 2:</p>
 
 {{#each subjects}}
 
