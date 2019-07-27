@@ -42,7 +42,10 @@ router.get("/pagina-mea", meController.getMyPage);
 // uncomment this route in order to import students
 // router.get("/elevi/import", studentController.import);
 router.get("/elevi/:studentId", studentController.getStudent);
-router.get("/elevi/:studentId/catalog", gradebookController.getStudentCatalog);
+// router.get("/elevi/:studentId/catalog", gradebookController.getStudentCatalog);
+router.get("/admin/elevi/:studentId/catalog", gradebookController.editStudentCatalog);
+router.get("/elevi/:studentId/catalog", gradebookController.viewStudentCatalog);
+router.get("/elevi/:studentId/catalog-recent", gradebookController.viewRecentStudentCatalog);
 
 router.get("/parinti", parentController.getAll);
 router.get("/parinti/:parentId", parentController.getParent);

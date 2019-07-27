@@ -1,0 +1,221 @@
+<style>
+    .btn-link {
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
+
+    .btn-group-toggle>label {
+        width: 40px;
+    }
+
+    .btn-light:not(:disabled):not(.disabled).active {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .add-form {
+        padding-left: 8px;
+        background: #ffe6cb;
+    }
+
+
+    .btn-group>.btn {
+        border-radius: 0;
+    }
+
+    .btn-light {
+        border-radius: 0;
+        margin-bottom: 0;
+        border: 0;
+
+    }
+
+    .btn-group>.btn.btn-light {
+        flex-grow: 0;
+        margin: 0;
+    }
+
+    .flex-new-line {
+        width: 100% !important;
+        visibility: hidden;
+        padding: 0
+    }
+
+    /* spinner icon: http://stackoverflow.com/a/26283602 */
+    .fas.spinning {
+        animation: spin 1s infinite linear;
+        -webkit-animation: spin2 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: scale(1) rotate(0deg);
+        }
+
+        to {
+            transform: scale(1) rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes spin2 {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    .spinner {
+        color: gray;
+        vertical-align: middle;
+    }
+
+    .spinner.spinner-md {
+        font-size: 1.4em;
+    }
+
+    .absence-date-span {
+        display: inline-block;
+        width: 60px;
+    }
+
+    .mark-date-span {
+        display: inline-block;
+        width: 70px;
+    }
+
+    .mark-value-span {
+        display: inline-block;
+        width: 20px;
+    }
+
+    .value-span {
+        display: inline-block;
+        width: 20px;
+    }
+
+    .date-span {
+        display: inline-block;
+        width: 58px;
+    }
+
+    .delete-absence-btn,
+    .excuse-absence-btn,
+    .delete-mark-btn,
+    .delete-semestrial-test-paper-btn,
+    .delete-semestrial-average-btn,
+    .expand-add-semestrial-test-paper-btn,
+    .expand-add-semestrial-average-btn {
+        vertical-align: baseline;
+    }
+
+    /* end spinner icon */
+</style>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}">{{class.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item"><a href="/elevi/{{student.id}}">{{student.lastName}}
+                {{studentFirstNameFirstChar}}.</a></li>
+        {{!-- <li class="breadcrumb-item active" aria-current="page">Catalog</li> --}}
+    </ol>
+</nav>
+
+<h1>Catalog
+    <small>(recent)</small>
+</h1>
+
+<h5 class="mt-4">
+    <a href="/elevi/{{student.id}}">{{student.lastName}} {{student.firstName}}</a>,
+    Clasa:
+    <a href="/clase/{{class.id}}">{{class.name}}</a>
+</h5>
+
+<p class="mb-5">Actualizari din ultimele <span class="font-weight-bold">2 saptamani</span>:
+</p>
+
+{{!-- <div class="font-weight-bold  mt-5">Absente:</div> --}}
+<h4 class="font-weight-normal mt-3">Absente:</h4>
+<ul>
+    {{#each gradebookItems.absences}}
+    <li>
+        <span class="date-span {{#if isExcused}}text-success{{/if}}">{{friendlyDate}}</span>
+        <span class="text-muted">- {{subject.name}}</span>
+        {{#if isExcused}}
+        <span class="text-success">(Motivat)</span>
+        {{/if}}
+    </li>
+    {{/each}}
+</ul>
+
+{{!-- <div class="font-weight-bold">Note:</div> --}}
+<h4 class="font-weight-normal mt-3">Note:</h4>
+<ul>
+    {{#each gradebookItems.marks}}
+    <li>
+        <span class="value-span font-weight-bold">{{value}}</span>
+        <span class="date-span">/ {{friendlyDate}}</span>
+        <span class="text-muted">- {{subject.name}}</span>
+    </li>
+
+    {{/each}}
+</ul>
+
+<h4 class="font-weight-normal mt-3">Teze:</h4>
+{{!-- <div class="font-weight-bold">Teze:</div> --}}
+<ul>
+    {{#each gradebookItems.semestrialTestPapers}}
+    <li>
+        <span class="value-span font-weight-bold text-danger">{{value}}</span>
+        <span class="text-muted">- {{subject.name}}</span>
+    </li>
+
+    {{/each}}
+</ul>
+
+<h4 class="font-weight-normal mt-3">Medii:</h4>
+{{!-- <div class="font-weight-bold">Medii:</div> --}}
+<ul class="mb-4">
+    {{#each gradebookItems.semestrialAverages}}
+    <li>
+        <span class="value-span font-weight-bold text-danger">{{value}}</span>
+        <span class="text-muted">- {{subject.name}}</span>
+    </li>
+
+    {{/each}}
+</ul>
+
+{{!-- <p class="text-muted">
+                OBS.1: Data afisata in dreptul notelor/absentelor reprezinta data trecuta in <span
+                    class="font-weight-bold">catalogul original</span> (clasic).
+            </p>
+            <p class="text-muted">
+                OBS.2: Selectarea inregistrarilor recente (ultimele 2 sapt.) se bazeaza pe data la care
+                informatiile
+                au fost
+                adaugate/modificate in <span class="font-weight-bold">catalogul electronic</span>.
+            </p> --}}
+<p>
+    <span></span>
+    <a href="/elevi/{{student.id}}/catalog">Afiseaza catalogul complet</a>
+</p>
+<p>
+    <a href="/admin/elevi/{{student.id}}/catalog">Editeaza catalogul</a>
+</p>
+
+
+
+<script type="text/x-template" id="ui-state">{{{toJSON uiState }}}</script>
+
+{{#section 'script'}}
+{{!-- <script type="module" src="/views/gradebook/main.js"></script> --}}
+{{/section}}

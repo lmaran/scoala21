@@ -2,7 +2,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{currentClass._id}}">Clasa {{currentClass.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass._id}}">{{currentClass.name}}</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{currentClass._id}}/elevi">Elevi</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{student.firstNameFirstChar}}.</li>
     </ol>
@@ -14,7 +14,7 @@
     <a href="/clase/{{currentClass._id}}">{{currentClass.name}}</a>
 </h5>
 
-<h5 class="mt-4">Note / Absente <span class="font-weight-light text-secondary">(ultimele 2 sapt.)</span>:</h5>
+{{!-- <h5 class="mt-4">Note / Absente <span class="font-weight-light text-secondary">(ultimele 2 sapt.)</span>:</h5>
 <table class="table thead-light table-bordered table-light2 table-hover">
     <thead>
         <tr>
@@ -27,7 +27,6 @@
         {{#each lastMarks}}
         <tr>
             <td>
-                {{!-- {{date}} --}}
                 {{#if date}}
                 {{date}}
                 {{else}}
@@ -35,11 +34,6 @@
                 {{/if}}
             </td>
             <td>{{subject.name}}
-                {{!-- {{#if (eq type "semestrialTestPaper")}}
-                (teza)
-                {{else if (eq type "semestrialAverage")}}
-                (media)
-                {{/if}} --}}
             </td>
             <td>
 
@@ -63,9 +57,45 @@
         </tr>
         {{/each}}
     </tbody>
-</table>
+</table> --}}
+{{!-- <p>
+    <a href="/elevi/{{student._id}}/catalog-recent">Catalog</a> (ultimele 2 sapt)
+</p>
+<p>
+    <a href="/elevi/{{student._id}}/catalog">Catalog</a> (2018-19, Sem.1)
+</p> --}}
 
-<a href="/elevi/{{student._id}}/catalog">Editeaza catalogul</a>
+<h5 class="mt-4">Catalog:</h5>
+
+<ul>
+    <li class="mt-1">
+        <a href="/elevi/{{student._id}}/catalog-recent">Catalog recent</a>
+        <span>(doar ultimele 2 sapt.)</span>
+    </li>
+    <li class="mt-1">
+        <a href="/elevi/{{student._id}}/catalog">Catalog complet</a>
+        <span>(semestrul curent)</span>
+    </li>
+    <li class="mt-1">
+        <a href="/admin/elevi/{{student._id}}/catalog">Editeaza catalog</a>
+    </li>
+    {{!-- <li class="mt-1">
+        <span class="font-weight-bold">Istoric:</span>
+        <ul>
+            <li class="mt-1">
+                <span>An scolar 2018-19</span>
+                <a href="/parinti/{{id}}">Sem.1</a>
+                | <a href="/parinti/{{id}}">Sem.2</a>
+            </li>
+            <li class="mt-1">
+                <span>An scolar 2017-18</span>
+                <a href="/parinti/{{id}}">Sem.1</a>
+                | <a href="/parinti/{{id}}">Sem.2</a>
+            </li>
+        </ul>
+    </li> --}}
+</ul>
+
 
 {{!-- <h5 class="mt-4">Absente <span class="font-weight-light text-secondary">(inregistrate in ultimele 2 saptamani)</span>:
 </h5>

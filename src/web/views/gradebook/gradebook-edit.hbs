@@ -112,7 +112,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{class.id}}">Clasa {{class.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}">{{class.name}}</a></li>
         <li class="breadcrumb-item"><a href="/clase/{{class.id}}/elevi">Elevi</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{studentFirstNameFirstChar}}.</li>
     </ol>
@@ -193,6 +193,13 @@
 
     <hr class="mt-5" />
     {{/each}}
+
+    <p>
+        <a href="/elevi/{{student.id}}/catalog-recent">Catalogul recent</a> <span> (ultimele 2 sapt.)</span>
+    </p>
+    <p>
+        <a href="/elevi/{{student.id}}/catalog">Catalogul complet</a>
+    </p>
 
     <script type="text/x-template" id="ui-state">{{{toJSON uiState }}}</script>
 
