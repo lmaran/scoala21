@@ -20,9 +20,8 @@ app.engine(
     exphbs({
         defaultLayout: "main",
         extname: ".hbs",
-        layoutsDir: path.join(__dirname, "/views/layouts/"),
-        partialsDir: path.join(__dirname, "/views/partials/"),
-
+        layoutsDir: path.join(__dirname, "../shared/views/layouts/"),
+        partialsDir: path.join(__dirname, "../shared/views/partials/"),
 
         helpers: handlebarHelpers
     })
