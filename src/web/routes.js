@@ -12,7 +12,6 @@ const contactController = require("./controllers/contact.controller");
 const pageController = require("./controllers/page.controller");
 const pdfController = require("./controllers/pdf.controller");
 const auth = require("../shared/user/login/loginService");
-const gradebookController = require("./controllers/gradebook.controller");
 
 // home
 router.get("/", homeController.getHomePage);
@@ -41,10 +40,6 @@ router.get("/pagina-mea", meController.getMyPage);
 // uncomment this route in order to import students
 // router.get("/elevi/import", studentController.import);
 router.get("/elevi/:studentId", studentController.getStudent);
-// router.get("/elevi/:studentId/catalog", gradebookController.getStudentCatalog);
-router.get("/admin/elevi/:studentId/catalog", gradebookController.editStudentCatalog);
-router.get("/elevi/:studentId/catalog", gradebookController.viewStudentCatalog);
-router.get("/elevi/:studentId/catalog-recent", gradebookController.viewRecentStudentCatalog);
 
 router.get("/parinti", parentController.getAll);
 router.get("/parinti/:parentId", parentController.getParent);
@@ -53,12 +48,6 @@ router.get("/parinti/:parentId", parentController.getParent);
 router.get("/profesori", teacherController.getAll);
 router.get("/profesori/:teacherId", teacherController.getTeacher);
 router.get("/profesori/:teacherId/orar", teacherController.getTimetable);
-
-// gradebook
-router.post("/catalog", gradebookController.createGradebookItem);
-router.post("/catalog/absences", gradebookController.createAbsences);
-router.put("/catalog/excuse-absence/:id", gradebookController.excuseAbsence);
-router.delete("/catalog/:id", gradebookController.deleteGradebookItem);
 
 // class
 router.get("/clase", classController.getAll);

@@ -1,4 +1,4 @@
-import { components } from "/views/gradebook/gradebook.components.js";
+import { components } from "../gradebook/gradebook.components.js";
 
 export const renderController = {
     init: store => {

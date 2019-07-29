@@ -1,6 +1,6 @@
 const studentService = require("../../shared/services/student.service");
 const classService = require("../../shared/services/class.service");
-const gradebookService = require("../../shared/services/gradebook.service");
+const gradebookService = require("../../gradebook/services/gradebook.service");
 // const lessonService = require("../services/lesson.service");
 const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 

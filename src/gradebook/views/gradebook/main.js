@@ -1,10 +1,10 @@
 import { createStore } from "/js/redux/store.js";
-import { reducer } from "/views/gradebook/gradebook.reducer.js";
+import { reducer } from "../gradebook/gradebook.reducer.js";
 
-import { eventHandlers } from "/views/gradebook/gradebook.event-handlers.js";
-import { eventBinders } from "/views/gradebook/gradebook.event-binders.js";
-import { components } from "/views/gradebook/gradebook.components.js";
-import { renderController } from "/views/gradebook/gradebook.render-controller.js";
+import { eventHandlers } from "../gradebook/gradebook.event-handlers.js";
+import { eventBinders } from "../gradebook/gradebook.event-binders.js";
+import { components } from "../gradebook/gradebook.components.js";
+import { renderController } from "../gradebook/gradebook.render-controller.js";
 
 const uiStateTemplate = document.getElementById("ui-state");
 const initialState = JSON.parse(uiStateTemplate.innerHTML);

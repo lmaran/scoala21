@@ -1,4 +1,4 @@
-const gradebookService = require("../../shared/services/gradebook.service");
+const gradebookService = require("../services/gradebook.service");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const numberHelper = require("../../shared/helpers/number.helper");
 const lessonService = require("../../shared/services/lesson.service");
