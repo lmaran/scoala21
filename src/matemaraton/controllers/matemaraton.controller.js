@@ -1,5 +1,4 @@
-const matemaratonService = require("../../shared/services/matemaraton.service");
-const studentService = require("../../shared/services/student.service");
+const matemaratonService = require("../services/matemaraton.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const arrayHelper = require("../../shared/helpers/array.helper");
@@ -72,7 +71,7 @@ exports.getPresencePerGroup = async (req, res, next) => {
 
     const [presencePerGroups, students] = await Promise.all([
         await matemaratonService.getPresencePerGroup(period, grade, groupName),
-        await studentService.getStudentsPerGrade(period, grade)
+        await matemaratonService.getStudentsPerGrade(period, grade)
     ]);
 
     const studentsObj = arrayHelper.arrayToObject(students, "_id");
@@ -150,13 +149,13 @@ exports.getPresencePerStudent = async (req, res, next) => {
         } else {
             [edition, student] = await Promise.all([
                 await matemaratonService.getSelectedEdition(editionSegments[1]),
-                await studentService.getOneById2(studentId)
+                await matemaratonService.getOneById(studentId)
             ]);
         }
     } else {
         [edition, student] = await Promise.all([
             await matemaratonService.getCurrentEdition(),
-            await studentService.getOneById2(studentId)
+            await matemaratonService.getOneById(studentId)
         ]);
     }
 

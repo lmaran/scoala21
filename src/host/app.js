@@ -2,6 +2,7 @@ const express = require("express");
 
 const api = require("../api/app");
 const web = require("../web/app");
+const matemaraton = require("../matemaraton/app");
 // const admin = require("../admin/app");
 
 const app = express();
@@ -11,6 +12,7 @@ app.get("/check", function(req, res) {
 });
 
 app.use("/api", api);
+app.use("/matemaraton", matemaraton);
 //app.use("/admin", admin);
 app.use("/", web);
 

@@ -4,7 +4,7 @@ const timetableService = require("../../shared/services/timetable.service");
 const studentService = require("../../shared/services/student.service");
 const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
-const matemaratonService = require("../../shared/services/matemaraton.service");
+const matemaratonService = require("../../matemaraton/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
 exports.getAll = async (req, res) => {

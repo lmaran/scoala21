@@ -62,9 +62,7 @@
     };
 
     userService.getByIdWithoutPsw = function(id, next) {
-        console.log(333);
         mongoHelper.getDb(function(err, db) {
-            console.log(444);
             if (err) return next(err, null);
             id = mongoHelper.normalizedId(id);
             db.collection("users").findOne({ _id: id }, { salt: 0, hashedPassword: 0 }, next); // exclude 'salt' and 'psw'
@@ -89,9 +87,7 @@
     };
 
     userService.authenticate = function(plainText, hashedPassword, salt) {
-        console.log(hashedPassword);
         const psw = this.encryptPassword(plainText, salt);
-        console.log(psw);
         return psw === hashedPassword;
     };
 })(module.exports);

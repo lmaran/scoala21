@@ -3,6 +3,7 @@ const { ObjectID } = require("mongodb");
 
 const collection = "mm-presence";
 const coursesCollection = "mm-courses";
+const studentsCollection = "mm-students";
 
 exports.getPresencePerGroup = async (period, grade, groupName) => {
     const db = await mongoHelper.getDb();
@@ -53,4 +54,21 @@ exports.getSelectedEdition = async edition => {
 exports.getCourse = async id => {
     const db = await mongoHelper.getDb();
     return await db.collection("mm-courses").findOne({ _id: new ObjectID(id) });
+};
+
+exports.getOneById = async id => {
+    const db = await mongoHelper.getDb();
+    return await db.collection(studentsCollection).findOne({ _id: new ObjectID(id) });
+};
+
+exports.getStudentsPerGrade = async (period, grade) => {
+    const db = await mongoHelper.getDb();
+    return await db
+        .collection(studentsCollection)
+        .aggregate([
+            { $match: { "grades.period": period, "grades.grade": grade } },
+            { $unwind: "$grades" },
+            { $project: { shortName: 1, grade: "$grades.grade", class: "$grades.class" } }
+        ])
+        .toArray();
 };
