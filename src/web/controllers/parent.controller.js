@@ -8,7 +8,6 @@ const parentService = require("../../shared/services/parent.service");
 
 exports.getAll = async (req, res) => {
     const parents = await parentService.getAll();
-    // const teachersByArea = groupBy(teachers, "area");
 
     const data = {
         parents: parents,

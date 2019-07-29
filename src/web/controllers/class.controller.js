@@ -283,28 +283,9 @@ exports.getTimetable = async (req, res, next) => {
 
 exports.getClass = async (req, res) => {
     const classId = req.params.classId;
-    // const edition = await matemaratonService.getCurrentEdition();
-
-    // const [teacher, lessons] = await Promise.all([
-    //     await teacherService.getOneById(teacherId),
-    //     await lessonService.getLessonsForTeacher(teacherId, edition.period)
-    // ]);
-
-    // const uniqueClassesAsObject = lessons.reduce((acc, crt) => {
-    //     if (crt.class) {
-    //         acc[crt.class.id] = crt.class;
-    //     }
-    //     return acc;
-    // }, {});
-
-    // const uniqueClasses = arrayHelper.objectToArray(uniqueClassesAsObject);
-
     const cls = await classService.getOneById(classId);
 
     const data = {
-        // uniqueClasses,
-        // teacher,
-        // lessons,
         class: cls,
         ctx: req.ctx
     };

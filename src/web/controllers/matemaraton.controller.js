@@ -160,10 +160,6 @@ exports.getPresencePerStudent = async (req, res, next) => {
         ]);
     }
 
-    console.log("Edition:" + edition);
-    console.log("Student:");
-    console.log(student);
-
     if (!edition || !student) {
         const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
         return next(err);

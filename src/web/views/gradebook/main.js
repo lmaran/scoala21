@@ -1,4 +1,4 @@
-import { createStore } from "/lib/redux/store.js";
+import { createStore } from "/js/redux/store.js";
 import { reducer } from "/views/gradebook/gradebook.reducer.js";
 
 import { eventHandlers } from "/views/gradebook/gradebook.event-handlers.js";

@@ -167,6 +167,7 @@ exports.getPage2 = async (req, res, next) => {
     // https://stribny.name/blog/2018/10/convert-markdown-text-to-html-and-to-plaintext-in-javascript
     page.htmlContent =
         // page.htmlContent && page.htmlContent.replace(`/<table>/g`, `<table class="table-sm table-bordered">`);
+        // eslint-disable-next-line quotes
         page.htmlContent && page.htmlContent.split("<table>").join('<table class="table table-sm table-bordered">');
     // console.log(page);
 
