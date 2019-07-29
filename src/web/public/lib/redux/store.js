@@ -2,8 +2,6 @@
 // https://github.com/saigowthamr/React-Store/blob/master/src/store.js
 
 export const createStore = (reducer, initialState) => {
-    // console.log("initialState in Store inside:");
-    // console.log(initialState);
     let state = initialState;
     let listeners = [];
 
@@ -25,19 +23,5 @@ export const createStore = (reducer, initialState) => {
     // display a dummy action to init the store
     dispatch({});
 
-    function Async(cb, request) {
-        request(cb);
-    }
-
-    //helps to do async things
-    const thunk = function(cb, request, delay) {
-        if (delay) {
-            return setTimeout(() => {
-                Async(cb, request);
-            }, delay);
-        }
-        Async(cb, request);
-    };
-
-    return { getState, subscribe, dispatch, thunk };
+    return { getState, subscribe, dispatch };
 };

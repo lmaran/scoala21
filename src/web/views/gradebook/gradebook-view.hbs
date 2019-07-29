@@ -80,17 +80,12 @@
         font-size: 1.4em;
     }
 
-    .absence-date-span {
+    .date-span {
         display: inline-block;
-        width: 60px;
+        width: 55px;
     }
 
-    .mark-date-span {
-        display: inline-block;
-        width: 70px;
-    }
-
-    .mark-value-span {
+    .value-span {
         display: inline-block;
         width: 20px;
     }
@@ -140,7 +135,7 @@
         <ul>
             {{#each absences}}
             <li id={{id}}>
-                <span class="absence-date-span {{#if isExcused}}text-success{{/if}}">{{friendlyDate}}</span>
+                <span class="date-span {{#if isExcused}}text-success{{/if}}">{{friendlyDate}}</span>
                 {{#if isExcused}}
                 <span class="text-success"> (Motivat)</span>
                 {{/if}}
@@ -156,8 +151,8 @@
         <ul>
             {{#each marks}}
             <li id={{id}}>
-                <span class="mark-value-span">{{value}}</span>
-                <span class="mark-date-span text-muted">/ {{friendlyDate}}</span>
+                <span class="value-span font-weight-bold">{{value}}</span>
+                / <span class="date-span text-muted">{{friendlyDate}}</span>
             </li>
             {{/each}}
         </ul>

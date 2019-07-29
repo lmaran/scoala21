@@ -8,6 +8,11 @@ exports.getOneById = async id => {
     return await db.collection("students").findOne({ _id: new ObjectID(id) });
 };
 
+exports.getOneById2 = async id => {
+    const db = await mongoHelper.getDb();
+    return await db.collection("mm-students").findOne({ _id: new ObjectID(id) });
+};
+
 exports.getStudentsPerGrade = async (period, grade) => {
     const db = await mongoHelper.getDb();
     return await db

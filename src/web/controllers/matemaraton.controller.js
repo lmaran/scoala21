@@ -150,15 +150,19 @@ exports.getPresencePerStudent = async (req, res, next) => {
         } else {
             [edition, student] = await Promise.all([
                 await matemaratonService.getSelectedEdition(editionSegments[1]),
-                await studentService.getOneById(studentId)
+                await studentService.getOneById2(studentId)
             ]);
         }
     } else {
         [edition, student] = await Promise.all([
             await matemaratonService.getCurrentEdition(),
-            await studentService.getOneById(studentId)
+            await studentService.getOneById2(studentId)
         ]);
     }
+
+    console.log("Edition:" + edition);
+    console.log("Student:");
+    console.log(student);
 
     if (!edition || !student) {
         const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);

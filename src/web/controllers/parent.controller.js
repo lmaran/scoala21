@@ -20,7 +20,6 @@ exports.getAll = async (req, res) => {
 
 exports.getParent = async (req, res) => {
     const parentId = req.params.parentId;
-    // const student = await studentService.getOneById2(studentId);
 
     const [parent] = await Promise.all([
         await parentService.getOneById(parentId)
