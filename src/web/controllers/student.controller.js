@@ -1,8 +1,8 @@
-const studentService = require("../services/student.service");
-const classService = require("../services/class.service");
-const gradebookService = require("../services/gradebook.service");
+const studentService = require("../../shared/services/student.service");
+const classService = require("../../shared/services/class.service");
+const gradebookService = require("../../shared/services/gradebook.service");
 // const lessonService = require("../services/lesson.service");
-const studentsAndClassesService = require("../services/studentsAndClasses.service");
+const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 
 // const lessonService = require("../services/lesson.service");
 // const matemaratonService = require("../services/matemaraton.service");

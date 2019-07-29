@@ -1,9 +1,8 @@
-const parentService = require("../services/parent.service");
+const parentService = require("../../shared/services/parent.service");
 
 exports.getMyPage = async (req, res) => {
-
     const user = req.ctx && req.ctx.user;
-    if(!user) res.send("Not authenticated!");
+    if (!user) res.send("Not authenticated!");
 
     const parent = await parentService.getOneById(user.parentId);
     // parent.firstNameFirstChar = parent.firstName.charAt(0);

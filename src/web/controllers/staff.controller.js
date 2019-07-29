@@ -1,11 +1,11 @@
-const staffService = require("../services/staff.service");
+const staffService = require("../../shared/services/staff.service");
 
 exports.getAll = async (req, res) => {
     const staff = await staffService.getAll();
 
     const data = {
         //ctx: req.ctx,
-        staff: staff,
+        staff: staff
     };
 
     res.render("staff/staff", data);

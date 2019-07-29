@@ -1,5 +1,5 @@
-const matemaratonService = require("../services/matemaraton.service");
-const studentService = require("../services/student.service");
+const matemaratonService = require("../../shared/services/matemaraton.service");
+const studentService = require("../../shared/services/student.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const arrayHelper = require("../../shared/helpers/array.helper");
@@ -30,7 +30,7 @@ exports.getMatemaraton = async (req, res, next) => {
     } else {
         // edition = await matemaratonService.getCurrentEdition();
         const data = {
-            ctx: req.ctx,
+            ctx: req.ctx
         };
         res.render("matemaraton/matemaraton", data);
     }
@@ -322,7 +322,7 @@ const sortByPresence = (a, b) =>
     a.totalPresences > b.totalPresences
         ? -1
         : a.totalPresences === b.totalPresences
-            ? a.shortName > b.shortName
-                ? 1
-                : -1
-            : 1;
+        ? a.shortName > b.shortName
+            ? 1
+            : -1
+        : 1;

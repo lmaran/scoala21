@@ -1,4 +1,4 @@
-const parentService = require("../services/parent.service");
+const parentService = require("../../shared/services/parent.service");
 // const classService = require("../services/class.service");
 // const lessonService = require("../services/lesson.service");
 // const matemaratonService = require("../services/matemaraton.service");

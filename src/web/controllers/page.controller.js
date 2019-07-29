@@ -1,5 +1,5 @@
 const path = require("path");
-const pageService = require("../services/page.service");
+const pageService = require("../../shared/services/page.service");
 const marked = require("marked");
 const fs = require("fs");
 const { promisify } = require("util");

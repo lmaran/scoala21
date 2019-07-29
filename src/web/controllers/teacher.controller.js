@@ -1,9 +1,9 @@
-const teacherService = require("../services/teacher.service");
-const lessonService = require("../services/lesson.service");
-const classService = require("../services/class.service");
-const matemaratonService = require("../services/matemaraton.service");
+const teacherService = require("../../shared/services/teacher.service");
+const lessonService = require("../../shared/services/lesson.service");
+const classService = require("../../shared/services/class.service");
+const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
-const timetableService = require("../services/timetable.service");
+const timetableService = require("../../shared/services/timetable.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
 
 // https://stackoverflow.com/a/46431916

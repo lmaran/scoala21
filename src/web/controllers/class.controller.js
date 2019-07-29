@@ -1,10 +1,10 @@
-const classService = require("../services/class.service");
-const lessonService = require("../services/lesson.service");
-const timetableService = require("../services/timetable.service");
-const studentService = require("../services/student.service");
-const studentsAndClassesService = require("../services/studentsAndClasses.service");
+const classService = require("../../shared/services/class.service");
+const lessonService = require("../../shared/services/lesson.service");
+const timetableService = require("../../shared/services/timetable.service");
+const studentService = require("../../shared/services/student.service");
+const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
-const matemaratonService = require("../services/matemaraton.service");
+const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
 exports.getAll = async (req, res) => {

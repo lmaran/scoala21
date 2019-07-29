@@ -1,9 +1,9 @@
-const gradebookService = require("../services/gradebook.service");
+const gradebookService = require("../../shared/services/gradebook.service");
 const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const numberHelper = require("../../shared/helpers/number.helper");
-const lessonService = require("../services/lesson.service");
+const lessonService = require("../../shared/services/lesson.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
-const studentsAndClassesService = require("../services/studentsAndClasses.service");
+const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 
 exports.editStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
@@ -108,7 +108,7 @@ exports.viewStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
 
     const academicYear = "201819";
-    const semester = "1";
+    // const semester = "1";
 
     const [studentAndClass, gradebookItems] = await Promise.all([
         await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
@@ -230,7 +230,7 @@ exports.viewRecentStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
 
     const academicYear = "201819";
-    const semester = "1";
+    // const semester = "1";
 
     const [studentAndClass, gradebookItems] = await Promise.all([
         await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
