@@ -20,13 +20,13 @@ router.post("/login/", require("../shared/user/login/local/loginLocalController"
 router.get("/logout", auth.isAuthenticated(), require("../shared/user/logout/logoutController").logout);
 // app.get('/me', auth.isAuthenticated(), require('./user/userController').me);
 router.post("/me/changepassword", auth.isAuthenticated(), require("../shared/user/userController").changePassword);
-router.get("/login", function(req, res) {
+router.get("/login", function (req, res) {
     res.render("user/login");
 });
-router.get("/register", function(req, res) {
+router.get("/register", function (req, res) {
     res.render("user/register", { email: req.query.email });
 });
-router.get("/changePassword", auth.isAuthenticated(), function(req, res) {
+router.get("/changePassword", auth.isAuthenticated(), function (req, res) {
     res.render("user/changePassword", { user: req.user });
 });
 
@@ -47,7 +47,6 @@ router.get("/parinti/:parentId", parentController.getParent);
 // teacher
 router.get("/profesori", teacherController.getAll);
 router.get("/profesori/:teacherId", teacherController.getTeacher);
-router.get("/profesori/:teacherId/orar", teacherController.getTimetable);
 
 // class
 router.get("/clase", classController.getAll);
@@ -55,7 +54,6 @@ router.get("/clase/:classId", classController.getClass);
 router.get("/clase/:classId/elevi", classController.getStudents);
 router.get("/clase/:classId/parinti", classController.getParents);
 router.get("/clase/:classId/profesori", classController.getTeachers);
-router.get("/clase/:classId/orar", classController.getTimetable);
 
 // staff
 router.get("/conducere", staffController.getAll);

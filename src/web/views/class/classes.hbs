@@ -16,7 +16,7 @@
 <ul>
     {{#each classes }}
     <li><span class="font-weight-bold"><a href="/clase/{{_id}}">{{name}}</a></span>,
-        {{#if (gt grade "4")}}diriginte{{else}}invatator{{/if}}
+        {{#if (gt grade.name "4")}}diriginte{{else}}invatator{{/if}}
         {{classTeacher.name}}
         <div class="mb-3">
             <a href="/clase/{{_id}}/elevi">elevi</a>
@@ -26,7 +26,7 @@
             {{#if (gt grade "4")}}
             |
             <a href="/clase/{{_id}}/profesori">profesori</a> |
-            <a href="/clase/{{_id}}/orar">orar</a>
+            <a href="/orar/clase/{{_id}}">orar</a>
             {{/if}}
         </div>
     </li>

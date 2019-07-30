@@ -14,7 +14,7 @@ function onError(error) {
     if (error.syscall !== "listen") {
         throw error;
     }
-
+    console.log(error);
     switch (error.code) {
         case "EACCES":
             process.exit(1);
