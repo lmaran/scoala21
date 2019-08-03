@@ -4,10 +4,9 @@ const auth = require("../loginService");
 // Passport Configuration (once)
 require("./passportConfig");
 
-exports.authenticate = function (req, res, next) {
-
+exports.authenticate = function(req, res, next) {
     // auth with custom callback: http://passportjs.org/docs/authenticate
-    passport.authenticate("local", function (err, user, info) {
+    passport.authenticate("local", function(err, user, info) {
         // console.log("asd2");
         const error = err || info;
         // console.log(error);
