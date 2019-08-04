@@ -10,7 +10,6 @@ const classController = require("./controllers/class.controller");
 const staffController = require("./controllers/staff.controller");
 const contactController = require("./controllers/contact.controller");
 const pageController = require("./controllers/page.controller");
-const pdfController = require("./controllers/pdf.controller");
 const auth = require("../shared/user/login/loginService");
 
 // home
@@ -20,18 +19,15 @@ router.post("/login/", require("../shared/user/login/local/loginLocalController"
 router.get("/logout", auth.isAuthenticated(), require("../shared/user/logout/logoutController").logout);
 // app.get('/me', auth.isAuthenticated(), require('./user/userController').me);
 router.post("/me/changepassword", auth.isAuthenticated(), require("../shared/user/userController").changePassword);
-router.get("/login", function (req, res) {
+router.get("/login", function(req, res) {
     res.render("user/login");
 });
-router.get("/register", function (req, res) {
+router.get("/register", function(req, res) {
     res.render("user/register", { email: req.query.email });
 });
-router.get("/changePassword", auth.isAuthenticated(), function (req, res) {
+router.get("/changePassword", auth.isAuthenticated(), function(req, res) {
     res.render("user/changePassword", { user: req.user });
 });
-
-// pdf
-router.get("/pdf/:pdfId", pdfController.getTextFromPdf);
 
 // my page
 router.get("/pagina-mea", meController.getMyPage);
