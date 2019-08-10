@@ -1,4 +1,4 @@
-import { createStore } from "/js/redux/store.js";
+import { createStore } from "/client/app/helpers/redux.store.js";
 import { reducer } from "./gradebook.reducer.js"; // or use an absolute path: "/app/gradebook/gradebook.reducer.js"
 import { eventHandlers } from "./gradebook.event-handlers.js";
 import { eventBinders } from "./gradebook.event-binders.js";
