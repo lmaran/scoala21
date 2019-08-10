@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 
 const api = require("../api/app");
 const web = require("../web/app");
@@ -9,7 +10,10 @@ const timetable = require("../timetable/app");
 
 const app = express();
 
-app.get("/check", function (req, res) {
+// routes for static files; in prod set NGINX to serve it
+app.use(express.static(path.join(__dirname, "../public")));
+
+app.get("/check", function(req, res) {
     res.send("scoala21-" + (process.env.DEPLOYMENT_SLOT || "noslot") + "-" + process.env.NODE_ENV);
 });
 

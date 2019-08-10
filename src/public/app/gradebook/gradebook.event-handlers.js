@@ -1,9 +1,4 @@
-import {
-    createAbsences,
-    deleteGradebookItem,
-    excuseAbsence,
-    createGradebookItem
-} from "../gradebook/gradebook.service.js";
+import { createAbsences, deleteGradebookItem, excuseAbsence, createGradebookItem } from "./gradebook.service.js";
 export const eventHandlers = {
     getEventHandlers: store => ({
         //

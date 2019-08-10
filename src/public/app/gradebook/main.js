@@ -1,10 +1,9 @@
 import { createStore } from "/js/redux/store.js";
-import { reducer } from "../gradebook/gradebook.reducer.js";
-
-import { eventHandlers } from "../gradebook/gradebook.event-handlers.js";
-import { eventBinders } from "../gradebook/gradebook.event-binders.js";
-import { components } from "../gradebook/gradebook.components.js";
-import { renderController } from "../gradebook/gradebook.render-controller.js";
+import { reducer } from "./gradebook.reducer.js"; // or use an absolute path: "/app/gradebook/gradebook.reducer.js"
+import { eventHandlers } from "./gradebook.event-handlers.js";
+import { eventBinders } from "./gradebook.event-binders.js";
+import { components } from "./gradebook.components.js";
+import { renderController } from "./gradebook.render-controller.js";
 
 const uiStateTemplate = document.getElementById("ui-state");
 const initialState = JSON.parse(uiStateTemplate.innerHTML);
