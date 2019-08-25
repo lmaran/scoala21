@@ -20,10 +20,24 @@ app.get("/check", function(req, res) {
 });
 
 app.use("/api", api);
-app.use("/matemaraton", matemaraton);
+
 app.use("/catalog", gradebook);
 app.use("/orar", timetable);
 //app.use("/admin", admin);
+
+// redirect MateMaraton: scoala21.ro/matemaraton/<url> --> matemaraton.ro/<url>
+app.use((req, res, next) => {
+    const requestSegments = req.originalUrl.split("/"); // ["", "matemaraton", "prezenta", "8-avansati"]
+    const newUrlSegments = requestSegments.filter(x => x !== "" && x !== "matemaraton"); // ["prezenta", "8-avansati"]
+    const newUrl = newUrlSegments.join("/"); // "prezenta/8-avansati"
+
+    if (requestSegments[1] === "matemaraton") {
+        return res.redirect(301, "https://matemaraton.ro/" + newUrl);
+    }
+    next();
+});
+// app.use("/matemaraton", matemaraton);
+
 app.use("/", web);
 
 module.exports = app;

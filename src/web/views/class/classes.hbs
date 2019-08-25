@@ -19,12 +19,12 @@
         {{#if (gt grade.name "4")}}diriginte{{else}}invatator{{/if}}
         {{classTeacher.name}}
         <div class="mb-3">
-            <a href="/clase/{{_id}}/elevi">elevi</a>
-            {{#if (eq name "7B")}}
+            {{!-- <a href="/clase/{{_id}}/elevi">elevi</a> --}}
+            {{!-- {{#if (eq name "7B")}}
             | <a href="/clase/{{_id}}/parinti">parinti</a>
-            {{/if}}
+            {{/if}} --}}
             {{#if (gt grade "4")}}
-            |
+            {{!-- | --}}
             <a href="/clase/{{_id}}/profesori">profesori</a> |
             <a href="/orar/clase/{{_id}}">orar</a>
             {{/if}}

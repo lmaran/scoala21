@@ -22,11 +22,11 @@ if 2 similar sections are used, the last one will override the first one --}}
                     </a>
                 </li> --}}
 
-                <li class="nav-item">
+                {{!-- <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/pagina-mea' )}} active {{/if}}"
                         href="/pagina-mea">Pagina mea
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -150,11 +150,10 @@ if 2 similar sections are used, the last one will override the first one --}}
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link {{#if (eq selectedTopMenu '/parinti' )}} active {{/if}}"
-                        href="/parinti">Parinti
+                {{!-- <li class="nav-item">
+                    <a class="nav-link {{#if (eq selectedTopMenu '/parinti' )}} active {{/if}}" href="/parinti">Parinti
                     </a>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="/clase">Clase</a>
@@ -162,7 +161,7 @@ if 2 similar sections are used, the last one will override the first one --}}
 
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}"
-                        href="/matemaraton">MateMaraton</a>
+                        href="https://matemaraton.ro">MateMaraton</a>
                 </li>
 
                 {{!-- <li class="nav-item dropdown {{#if (eq selectedTopMenu '/matemaraton' )}} active {{/if}}">
@@ -249,7 +248,8 @@ if 2 similar sections are used, the last one will override the first one --}}
                 </li>
             </ul> --}}
 
-            {{#unless user.activationToken}} {{!do not display this part during user activation}}
+            {{!do not display this part during user activation}}
+            {{!-- {{#unless user.activationToken}}
             <ul class='navbar-nav ml-auto'>
                 {{#if user}}
                 {{#if user.isAdmin}}
@@ -261,14 +261,8 @@ if 2 similar sections are used, the last one will override the first one --}}
                 <li class="nav-item dropdown">
                     <a class='nav-link dropdown-toggle' href="#" id="navbarDropdown2" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <!--<img src='//www.gravatar.com/avatar/6f137572059f8c0f23363e8678d7a795' width="20" height="20">-->
                         {{user.name}}
-                        {{!-- <b class='caret'></b> --}}
                     </a>
-                    {{!-- <ul class="dropdown-menu">
-                        <li><a href='/changePassword'>Schimba parola</a></li>
-                        <li><a href='/logout'>Log out</a></li>
-                    </ul> --}}
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/changePassword">Schimba parola</a>
                         <a class="dropdown-item" href="/logout">Log out</a>
@@ -284,7 +278,7 @@ if 2 similar sections are used, the last one will override the first one --}}
                 {{/if}}
 
             </ul>
-            {{/unless}}
+            {{/unless}} --}}
 
         </div>
     </div>
