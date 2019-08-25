@@ -3,7 +3,7 @@ const teacherService = require("../../shared/services/teacher.service");
 const lessonService = require("../../shared/services/lesson.service");
 const timetableService = require("../../shared/services/timetable.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
-const matemaratonService = require("../../matemaraton/services/matemaraton.service");
+const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
 exports.getTimetableForClass = async (req, res, next) => {
