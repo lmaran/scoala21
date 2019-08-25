@@ -1,7 +1,7 @@
 const teacherService = require("../../shared/services/teacher.service");
 const lessonService = require("../../shared/services/lesson.service");
 const classService = require("../../shared/services/class.service");
-const matemaratonService = require("../../matemaraton/services/matemaraton.service");
+const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
 // https://stackoverflow.com/a/46431916

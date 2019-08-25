@@ -3,7 +3,7 @@ const path = require("path");
 
 const api = require("../api/app");
 const web = require("../web/app");
-const matemaraton = require("../matemaraton/app");
+// const matemaraton = require("../matemaraton/app");
 const gradebook = require("../gradebook/app");
 const timetable = require("../timetable/app");
 // const admin = require("../admin/app");
