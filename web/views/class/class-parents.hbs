@@ -1,0 +1,50 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class._id}}">{{class.name}}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Parinti</li>
+    </ol>
+</nav>
+
+<h1>Clasa {{class.name}}</h1>
+<h4>{{#if (gt class.grade "4")}}Diriginte{{else}}Invatator{{/if}}:
+    <a class="font-weight-light" href="/profesori/{{class.classTeacher.id}}">{{class.classTeacher.name}}</a>
+</h4>
+<h3 class="mt-4">Parinti / tutori:</h3>
+{{!-- <ol>
+{{#each students }}
+<li class="mt-1"><a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a>
+    {{#each parents }}
+    <div class="ml-5"><a href="/parinti/{{id}}">{{lastName}} {{firstName}}</div>
+        
+    {{/each}}
+</li>
+{{/each}}
+</ol> --}}
+
+
+<table class="table thead-light table-bordered table-light2 table-hover mb-5">
+    <thead>
+        <tr>
+            <th>Elev</th>
+            <th>Parinti / tutori</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each students }}
+        <tr>
+            <td>{{inc @index}}. <a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a></td>
+            <td>
+                <ul class="pl-3 mb-0">
+                    {{#each parents }}
+                    <li>
+                        <a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

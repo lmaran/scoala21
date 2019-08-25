@@ -1,0 +1,192 @@
+<style>
+    .btn-link {
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
+
+    .btn-group-toggle>label {
+        width: 40px;
+    }
+
+    .btn-light:not(:disabled):not(.disabled).active {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .add-form {
+        padding-left: 8px;
+        background: #ffe6cb;
+    }
+
+
+    .btn-group>.btn {
+        border-radius: 0;
+    }
+
+    .btn-light {
+        border-radius: 0;
+        margin-bottom: 0;
+        border: 0;
+
+    }
+
+    .btn-group>.btn.btn-light {
+        flex-grow: 0;
+        margin: 0;
+    }
+
+    .flex-new-line {
+        width: 100% !important;
+        visibility: hidden;
+        padding: 0
+    }
+
+    /* spinner icon: http://stackoverflow.com/a/26283602 */
+    .fas.spinning {
+        animation: spin 1s infinite linear;
+        -webkit-animation: spin2 1s infinite linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: scale(1) rotate(0deg);
+        }
+
+        to {
+            transform: scale(1) rotate(360deg);
+        }
+    }
+
+    @-webkit-keyframes spin2 {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    .spinner {
+        color: gray;
+        vertical-align: middle;
+    }
+
+    .spinner.spinner-md {
+        font-size: 1.4em;
+    }
+
+    .date-span {
+        display: inline-block;
+        width: 55px;
+    }
+
+    .value-span {
+        display: inline-block;
+        width: 20px;
+    }
+
+    .delete-absence-btn,
+    .excuse-absence-btn,
+    .delete-mark-btn,
+    .delete-semestrial-test-paper-btn,
+    .delete-semestrial-average-btn,
+    .expand-add-semestrial-test-paper-btn,
+    .expand-add-semestrial-average-btn {
+        vertical-align: baseline;
+    }
+
+    /* end spinner icon */
+</style>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}">{{class.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class.id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item"><a href="/elevi/{{student.id}}">{{student.lastName}}
+                {{studentFirstNameFirstChar}}.</a></li>
+    </ol>
+</nav>
+
+<h1>Catalog</h1>
+
+<h5 class="mt-4">
+    <a href="/elevi/{{student.id}}">{{student.lastName}} {{student.firstName}}</a>,
+    Clasa:
+    <a href="/clase/{{class.id}}">{{class.name}}</a>
+</h5>
+
+<p>An scolar 2018-19, Semestrul 2:</p>
+
+{{#each subjects}}
+
+<div id="{{id}}" class="subject-container  mt-5" data-subject-id="{{id}}" data-subject-name="{{name}}">
+    <h4 class="font-weight-normal">{{name}}</h4>
+
+    {{#if hasAbsences}}
+    <div class="absences-container ml-4 mt-4">
+        <div class="font-weight-bold">Absente:</div>
+        <ul>
+            {{#each absences}}
+            <li id={{id}}>
+                <span class="date-span {{#if isExcused}}text-success{{/if}}">{{friendlyDate}}</span>
+                {{#if isExcused}}
+                <span class="text-success"> (Motivat)</span>
+                {{/if}}
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+
+    {{#if hasMarks}}
+    <div class="marks-container ml-4 mt-4">
+        <div class="font-weight-bold">Note:</div>
+        <ul>
+            {{#each marks}}
+            <li id={{id}}>
+                <span class="value-span font-weight-bold">{{value}}</span>
+                / <span class="date-span text-muted">{{friendlyDate}}</span>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+
+    {{#if hasSemestrialTestPaper}}
+    <div class="semestrial-test-paper-container ml-4 mt-4">
+        <span class="font-weight-bold">Teza:</span>
+        {{#if semestrialTestPaper.value}}
+        <span id={{semestrialTestPaper.id}}
+            class="semestrial-test-paper-value-span font-weight-bold text-danger">{{semestrialTestPaper.value}}</span>
+        {{/if}}
+    </div>
+    {{/if}}
+
+    {{#if hasSemestrialAverage}}
+    <div id={{id}} class="semestrial-average-container ml-4 mt-4">
+        <span class="font-weight-bold">Media:</span>
+        {{#if semestrialAverage.value}}
+        <span id={{semestrialAverage.id}}
+            class="semestrial-average-value-span font-weight-bold text-danger">{{semestrialAverage.value}}</span>
+        <span class="text-danger">({{semestrialAverage.valueAsText}})</span>
+        {{/if}}
+    </div>
+    {{/if}}
+
+    <hr class="mt-5" />
+    {{/each}}
+
+    <p>
+        <span></span>
+        <a href="/catalog/elevi/{{student.id}}/catalog-recent">Afiseaza catalogul recent</a>
+    </p>
+    <p>
+        <a href="/catalog/admin/elevi/{{student.id}}">Editeaza catalogul</a>
+    </p>

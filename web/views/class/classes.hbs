@@ -1,0 +1,35 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Clase</li>
+    </ol>
+</nav>
+
+<h1>Clase</h1>
+{{#each classesByGrade}}
+{{#if (or 
+    (eq grade "0") (eq grade "1"))}}
+<h2>Clasa {{grade}}</h2>
+{{else}}
+<h2>Clasa a {{grade}}-a</h2>
+{{/if}}
+<ul>
+    {{#each classes }}
+    <li><span class="font-weight-bold"><a href="/clase/{{_id}}">{{name}}</a></span>,
+        {{#if (gt grade.name "4")}}diriginte{{else}}invatator{{/if}}
+        {{classTeacher.name}}
+        <div class="mb-3">
+            {{!-- <a href="/clase/{{_id}}/elevi">elevi</a> --}}
+            {{!-- {{#if (eq name "7B")}}
+            | <a href="/clase/{{_id}}/parinti">parinti</a>
+            {{/if}} --}}
+            {{#if (gt grade "4")}}
+            {{!-- | --}}
+            <a href="/clase/{{_id}}/profesori">profesori</a> |
+            <a href="/orar/clase/{{_id}}">orar</a>
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+</ul>
+{{/each}}

@@ -1,0 +1,46 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Clasa {{class.name}}</li>
+    </ol>
+</nav>
+
+<h1>Clasa {{class.name}}</h1>
+<h4>{{#if (gt class.grade.name "4")}}Diriginte{{else}}Invatator{{/if}}:
+    <a class="font-weight-light" href="/profesori/{{class.classTeacher.id}}">{{class.classTeacher.name}}</a>
+</h4>
+
+<h5 class="mt-4 font-weight-light">
+    {{!-- <a href="/clase/{{class._id}}/elevi">elevi</a> --}}
+    {{!-- {{#if (eq class.name "7B")}}
+    | <a href="/clase/{{class._id}}/parinti">parinti</a>
+    {{/if}} --}}
+    {{#if (gt class.grade "4")}}
+    {{!-- | --}}
+    <a href="/clase/{{class._id}}/profesori">profesori</a> |
+    <a href="/orar/clase/{{class._id}}">orar</a>
+    {{/if}}
+</h5>
+
+{{!-- <h3 class="font-weight-light">Profesor {{teacher.degree}}{{#if teacher.holder}}, titular{{/if}}</h3>
+<h4 class="font-weight-light">{{teacher.subject}}</h4>
+
+<h5 class="mt-4 font-weight-light2">Clase la care preda:</h5>
+
+<h5 class="font-weight-light">
+    {{#each uniqueClasses }}
+    <a href="/clase/{{id}}">{{name}}</a>{{#unless @last}},{{/unless}}
+    {{/each}}
+</h5> --}}
+{{!-- <ol>
+    {{#each lessons }}
+    <li><span class="font-weight-bold">{{teacher.name}}</span>, {{subject.name}}
+        <div class="mb-3">
+            <a href="#">elevi</a> |
+            <a href="/clase/{{_id}}/profesori">profesori</a> |
+            <a href="#">orar</a>
+        </div>
+    </li>
+    {{/each}}
+</ol> --}}

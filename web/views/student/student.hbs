@@ -1,0 +1,139 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Acasa</a></li>
+        <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass._id}}">{{currentClass.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{currentClass._id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{student.lastName}} {{student.firstNameFirstChar}}.</li>
+    </ol>
+</nav>
+
+<h1>{{student.lastName}} {{student.firstName}} </h1>
+
+<h5 class="mt-4">Clasa:
+    <a href="/clase/{{currentClass._id}}">{{currentClass.name}}</a>
+</h5>
+
+{{!-- <h5 class="mt-4">Note / Absente <span class="font-weight-light text-secondary">(ultimele 2 sapt.)</span>:</h5>
+<table class="table thead-light table-bordered table-light2 table-hover">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Materia</th>
+            <th>Nota / Absenta</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each lastMarks}}
+        <tr>
+            <td>
+                {{#if date}}
+                {{date}}
+                {{else}}
+                sem.{{semester}}
+                {{/if}}
+            </td>
+            <td>{{subject.name}}
+            </td>
+            <td>
+
+                {{#if (eq type "absence")}}
+                {{#if isExcused}}
+                <span style="color:green">absent motivat</span>
+                {{else}}
+                <span style="color:red">absent</span>
+                {{/if}}
+                {{else}}
+                {{value}}
+
+                {{#if (eq type "semestrialTestPaper")}}
+                (teza)
+                {{else if (eq type "semestrialAverage")}}
+                (media)
+                {{/if}}
+
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table> --}}
+{{!-- <p>
+    <a href="/elevi/{{student._id}}/catalog-recent">Catalog</a> (ultimele 2 sapt)
+</p>
+<p>
+    <a href="/elevi/{{student._id}}/catalog">Catalog</a> (2018-19, Sem.1)
+</p> --}}
+
+<h5 class="mt-4">Catalog:</h5>
+
+<ul>
+    <li class="mt-1">
+        <a href="/catalog/elevi/{{student._id}}/catalog-recent">Catalog recent</a>
+        <span>(doar ultimele 2 sapt.)</span>
+    </li>
+    <li class="mt-1">
+        <a href="/catalog/elevi/{{student._id}}">Catalog complet</a>
+        <span>(semestrul curent)</span>
+    </li>
+    <li class="mt-1">
+        <a href="/catalog/admin/elevi/{{student._id}}">Editeaza catalog</a>
+    </li>
+    {{!-- <li class="mt-1">
+        <span class="font-weight-bold">Istoric:</span>
+        <ul>
+            <li class="mt-1">
+                <span>An scolar 2018-19</span>
+                <a href="/parinti/{{id}}">Sem.1</a>
+                | <a href="/parinti/{{id}}">Sem.2</a>
+            </li>
+            <li class="mt-1">
+                <span>An scolar 2017-18</span>
+                <a href="/parinti/{{id}}">Sem.1</a>
+                | <a href="/parinti/{{id}}">Sem.2</a>
+            </li>
+        </ul>
+    </li> --}}
+</ul>
+
+
+{{!-- <h5 class="mt-4">Absente <span class="font-weight-light text-secondary">(inregistrate in ultimele 2 saptamani)</span>:
+</h5>
+<table class="table thead-light table-bordered table-light2 table-hover mb-5">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Materia</th>
+            <th>Absenta motivata</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each lastAbsences}}
+        <tr>
+            <td>
+                {{date}}
+            </td>
+            <td>{{subject.name}}
+                {{#if (eq type "semestrialTestPaper")}}
+                (teza, sem. {{semester}})
+                {{else if (eq type "semestrialAverage")}}
+                (media, sem. {{semester}})
+                {{/if}}
+            </td>
+            <td>
+                {{isExcused}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table> --}}
+
+<h5 class="mt-4">Parinti/Tutori:</h5>
+
+<ul>
+    {{#each student.parents }}
+    <li class="mt-1"><a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a></li>
+    {{/each}}
+</ul>
+
+<h5 class="mt-4">Premii obtinute:</h5>
