@@ -14,6 +14,28 @@ const { ObjectID } = require("mongodb");
 
 // uncomment the associated route in order to import students
 
+// exports.moveParentsToPersonsOld = async (req, res) => {
+//     const [parents] = await Promise.all([await parentService.getAll()]);
+
+//     const newPersons = parents.map(p => {
+//         return {
+//             _id: new ObjectID(p._id),
+//             isParent: true,
+//             isActive: true,
+//             firstName: p.firstName,
+//             lastName: p.lastName,
+//             email: p.email,
+//             parentInfo: {
+//                 students: p.students
+//             }
+//         };
+//     });
+
+//     await personService.insertMany(newPersons);
+
+//     res.send(newPersons);
+// };
+
 // exports.moveTeachersToPersonsOld = async (req, res) => {
 //     const [teachers] = await Promise.all([await teacherService.getAll()]);
 
@@ -34,7 +56,7 @@ const { ObjectID } = require("mongodb");
 //         };
 //     });
 
-//     personService.insertMany(newPersons);
+//     await personService.insertMany(newPersons);
 
 //     res.send(newPersons);
 // };

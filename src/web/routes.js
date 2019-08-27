@@ -36,7 +36,7 @@ router.get("/pagina-mea", meController.getMyPage);
 // student
 // uncomment this route in order to make upgrade operations
 // router.get("/upgrade-operation", upgradeOperationController.importStudentsFromSiiir);
-// router.get("/upgrade-operation", upgradeOperationController.moveTeachersToPersons);
+// router.get("/upgrade-operation", upgradeOperationController.moveParentsToPersons);
 
 router.get("/elevi/:studentId", studentController.getStudent);
 
