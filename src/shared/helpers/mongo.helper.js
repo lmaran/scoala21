@@ -2,20 +2,25 @@ const config = require("../config");
 const mongodb = require("mongodb");
 
 const MongoClient = mongodb.MongoClient;
+const dbName = config.mongo_dbName;
+const uri = config.mongo_uri;
+
 const ObjectID = mongodb.ObjectID;
 let theDb; // this will be re-used so the db is only created once (on first request).
 
 exports.getDb = async () => {
     try {
         if (!theDb) {
-            if (!config.mongo || !config.mongo.uri) {
+            if (!uri) {
                 throw new Error("Nu este definit un connection string pentru Mongo.");
             }
-            if (!config.mongo || !config.mongo.dbName) {
+            if (!dbName) {
                 throw new Error("Nu este definit numele bazei de date.");
             }
-            const client = await MongoClient.connect(config.mongo.uri, config.mongo.options);
-            const db = client.db(config.mongo.dbName);
+            const client = await MongoClient.connect(uri, {
+                useNewUrlParser: true
+            });
+            const db = client.db(dbName);
 
             theDb = db;
             return db;

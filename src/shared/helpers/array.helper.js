@@ -34,3 +34,13 @@ exports.groupBySubKey = (array, key, subKey) => {
         return acc;
     }, {});
 };
+
+// or: https://stackoverflow.com/a/46431916
+// const groupBy = (items, key) =>
+//     items.reduce(
+//         (acc, crt) => ({
+//             ...acc,
+//             [crt[key]]: [...(acc[crt[key]] || []), crt]
+//         }),
+//         {}
+//     );

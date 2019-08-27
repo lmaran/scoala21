@@ -10,8 +10,9 @@
 <h2>{{key}}</h2>
 <ul>
     {{#each value }}
-    <li class="mt-1"><a href="/profesori/{{_id}}">{{firstName}} {{lastName}}</a>{{#if holder}},
-        titular{{/if}}<span>, {{degree}}</span>{{#if (ne area 'Invatamant primar') }}<span>, {{subject}}</span>{{/if}}
+    <li class="mt-1"><a href="/profesori/{{_id}}">{{firstName}} {{lastName}}</a>{{#if teacherInfo.isFull}},
+        titular{{/if}}<span>, {{teacherInfo.degree}}</span>{{#if (ne teacherInfo.area 'Invatamant primar') }}<span>,
+            {{teacherInfo.subject}}</span>{{/if}}
     </li>
     {{/each}}
 </ul>

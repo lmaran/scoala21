@@ -1,22 +1,12 @@
-const teacherService = require("../../shared/services/teacher.service");
+const personService = require("../../shared/services/person.service");
 const lessonService = require("../../shared/services/lesson.service");
 const classService = require("../../shared/services/class.service");
 const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
-// https://stackoverflow.com/a/46431916
-const groupBy = (items, key) =>
-    items.reduce(
-        (result, item) => ({
-            ...result,
-            [item[key]]: [...(result[item[key]] || []), item]
-        }),
-        {}
-    );
-
 exports.getAll = async (req, res) => {
-    const teachers = await teacherService.getAll();
-    const teachersByArea = groupBy(teachers, "area");
+    const teachers = await personService.getAll({ isActive: true, isTeacher: true });
+    const teachersByArea = arrayHelper.groupBySubKey(teachers, "teacherInfo", "area");
 
     const data = {
         teachersByArea: teachersByArea,
@@ -31,7 +21,7 @@ exports.getTeacher = async (req, res) => {
     const edition = await matemaratonService.getCurrentEdition();
 
     const [teacher, lessons] = await Promise.all([
-        await teacherService.getOneById(teacherId),
+        await personService.getOneById(teacherId),
         await lessonService.getLessonsForTeacher(teacherId, edition.period)
     ]);
 

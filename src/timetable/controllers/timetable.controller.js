@@ -1,5 +1,5 @@
 const classService = require("../../shared/services/class.service");
-const teacherService = require("../../shared/services/teacher.service");
+const personService = require("../../shared/services/person.service");
 const lessonService = require("../../shared/services/lesson.service");
 const timetableService = require("../../shared/services/timetable.service");
 const { PageNotFound } = require("../../shared/errors/all.errors");
@@ -220,7 +220,7 @@ exports.getTimetableForTeacher = async (req, res, next) => {
 
     const [lessons, teacher, timetableItems] = await Promise.all([
         await lessonService.getLessonsForTeacher(teacherId, academicYear),
-        await teacherService.getOneById(teacherId),
+        await personService.getOneById(teacherId),
         await timetableService.getTimetableItems(timetableId)
     ]);
 

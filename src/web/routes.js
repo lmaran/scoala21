@@ -10,6 +10,7 @@ const classController = require("./controllers/class.controller");
 const staffController = require("./controllers/staff.controller");
 const contactController = require("./controllers/contact.controller");
 const pageController = require("./controllers/page.controller");
+const upgradeOperationController = require("./controllers/upgrade-operation.controller");
 const auth = require("../shared/user/login/loginService");
 
 // home
@@ -33,8 +34,10 @@ router.get("/changePassword", auth.isAuthenticated(), function(req, res) {
 router.get("/pagina-mea", meController.getMyPage);
 
 // student
-// uncomment this route in order to import students
-// router.get("/elevi/import", studentController.import);
+// uncomment this route in order to make upgrade operations
+// router.get("/upgrade-operation", upgradeOperationController.importStudentsFromSiiir);
+// router.get("/upgrade-operation", upgradeOperationController.moveTeachersToPersons);
+
 router.get("/elevi/:studentId", studentController.getStudent);
 
 router.get("/parinti", parentController.getAll);

@@ -3,10 +3,9 @@ const LogLevel = constants.LogLevel;
 const LogDetail = constants.LogDetail;
 
 const config = {
-    mongo: {
-        uri: "mongodb://localhost",
-        dbName: "cantinas-dev",
-    },
+    mongo_uri: "mongodb://localhost/scoala21-dev",
+    mongo_dbName: "scoala21-dev",
+    session_secret: "node-fullstack-secret",
     rollbarToken: "<rollbarToken>",
     logglyToken: "<logglyToken>",
     logglySubdomain: "<logglySubdomain>",
@@ -15,13 +14,13 @@ const config = {
         request: {
             general: LogDetail.PARTIAL,
             headers: LogDetail.NONE,
-            body: false,
+            body: false
         },
         response: {
             general: false,
             headers: false,
-            body: false,
-        },
-    },
+            body: false
+        }
+    }
 };
 module.exports = config;
