@@ -1,4 +1,4 @@
-const studentService = require("../../shared/services/student.service");
+const personService = require("../../shared/services/person.service");
 const classService = require("../../shared/services/class.service");
 const gradebookService = require("../../gradebook/services/gradebook.service");
 const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
@@ -9,7 +9,7 @@ exports.getStudent = async (req, res) => {
     const academicYear = "201819";
 
     const [student, studentAndClass, lastGradebookItems] = await Promise.all([
-        await studentService.getOneById(studentId),
+        await personService.getOneById(studentId),
         await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
         await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
     ]);
@@ -17,16 +17,11 @@ exports.getStudent = async (req, res) => {
     const currentClass = await classService.getOneById(studentAndClass.class.id);
     student.firstNameFirstChar = student.firstName.charAt(0);
 
-    // const currentClassWithYear = classesPerStudent.find(x => x.academicYear === "201819");
-    // const currentClass = (currentClassWithYear && currentClassWithYear.class) || "graduated";
-
     const lastAbsences = lastGradebookItems.filter(x => x.itemType === "absence");
-    // const lastMarks = lastGradebookItems.filter(x => x.itemType !== "absence");
     const lastMarks = lastGradebookItems;
 
     const data = {
         student,
-        // classesPerStudent,
         currentClass,
         lastMarks,
         lastAbsences

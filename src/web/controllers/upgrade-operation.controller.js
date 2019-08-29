@@ -14,6 +14,28 @@ const { ObjectID } = require("mongodb");
 
 // uncomment the associated route in order to import students
 
+exports.moveStudentsToPersons = async (req, res) => {
+    const [students] = await Promise.all([await studentService.getAll()]);
+
+    const newPersons = students.map(t => {
+        return {
+            _id: new ObjectID(t._id),
+            isStudent: true,
+            isActive: true,
+            firstName: t.firstName,
+            lastName: t.lastName,
+            studentInfo: {
+                parents: t.parents,
+                shortFirstName: t.shortFirstName
+            }
+        };
+    });
+
+    // await personService.insertMany(newPersons);
+
+    res.send(newPersons);
+};
+
 // exports.moveParentsToPersonsOld = async (req, res) => {
 //     const [parents] = await Promise.all([await parentService.getAll()]);
 

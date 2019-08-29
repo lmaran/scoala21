@@ -37,7 +37,7 @@
             <td>{{inc @index}}. <a href="/elevi/{{_id}}">{{lastName}} {{firstName}}</a></td>
             <td>
                 <ul class="pl-3 mb-0">
-                    {{#each parents }}
+                    {{#each studentInfo.parents }}
                     <li>
                         <a href="/parinti/{{id}}">{{lastName}} {{firstName}}</a>
                     </li>
