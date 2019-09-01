@@ -1,6 +1,7 @@
 const classService = require("../../shared/services/class.service");
 const lessonService = require("../../shared/services/lesson.service");
 const studentService = require("../../shared/services/student.service");
+const personService = require("../../shared/services/person.service");
 const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
@@ -35,7 +36,7 @@ exports.getStudents = async (req, res) => {
         await studentsAndClassesService.getStudentsIdsPerClass(classId)
     ]);
 
-    const students = await studentService.getStudentsByIds(studentIdsPerClass);
+    const students = await personService.getByIds(studentIdsPerClass);
 
     const data = {
         class: cls,
@@ -52,11 +53,11 @@ exports.getParents = async (req, res) => {
 
     const [studentsIds, cls] = await Promise.all([
         // await studentService.getStudentsPerClass(classId),
-        await studentService.getStudentsIdsPerClass(classId),
+        await studentsAndClassesService.getStudentsIdsPerClass(classId),
         await classService.getOneById(classId)
     ]);
 
-    const students = await studentService.getStudentsByIds(studentsIds);
+    const students = await personService.getByIds(studentsIds);
 
     const data = {
         class: cls,
@@ -66,7 +67,7 @@ exports.getParents = async (req, res) => {
         ctx: req.ctx
     };
 
-    // res.send(data);
+    //res.send(data);
     res.render("class/class-parents", data);
 };
 

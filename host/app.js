@@ -6,6 +6,7 @@ const web = require("../web/app");
 // const matemaraton = require("../matemaraton/app");
 const gradebook = require("../gradebook/app");
 const timetable = require("../timetable/app");
+const config = require("../shared/config");
 // const admin = require("../admin/app");
 
 const app = express();
@@ -17,6 +18,12 @@ app.use("/lib/lit-html", express.static(path.join(__dirname, "../../node_modules
 
 app.get("/check", function(req, res) {
     res.send("scoala21-" + (process.env.DEPLOYMENT_SLOT || "noslot") + "-" + process.env.NODE_ENV);
+});
+
+// add global variables
+app.use(function(req, res, next) {
+    res.locals.isDevEnv = config.env === "development";
+    next();
 });
 
 app.use("/api", api);

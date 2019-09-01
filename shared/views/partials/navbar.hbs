@@ -22,11 +22,15 @@ if 2 similar sections are used, the last one will override the first one --}}
                     </a>
                 </li> --}}
 
-                {{!-- <li class="nav-item">
+                {{#if @root.isDevEnv}}
+                {{#if user}}
+                <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/pagina-mea' )}} active {{/if}}"
                         href="/pagina-mea">Pagina mea
                     </a>
-                </li> --}}
+                </li>
+                {{/if}}
+                {{/if}}
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -150,10 +154,12 @@ if 2 similar sections are used, the last one will override the first one --}}
                     </a>
                 </li>
 
-                {{!-- <li class="nav-item">
+                {{#if @root.isDevEnv}}
+                <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/parinti' )}} active {{/if}}" href="/parinti">Parinti
                     </a>
-                </li> --}}
+                </li>
+                {{/if}}
 
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="/clase">Clase</a>
@@ -248,8 +254,9 @@ if 2 similar sections are used, the last one will override the first one --}}
                 </li>
             </ul> --}}
 
+            {{#if @root.isDevEnv}}
             {{!do not display this part during user activation}}
-            {{!-- {{#unless user.activationToken}}
+            {{#unless user.activationToken}}
             <ul class='navbar-nav ml-auto'>
                 {{#if user}}
                 {{#if user.isAdmin}}
@@ -278,7 +285,8 @@ if 2 similar sections are used, the last one will override the first one --}}
                 {{/if}}
 
             </ul>
-            {{/unless}} --}}
+            {{/unless}}
+            {{/if}}
 
         </div>
     </div>

@@ -16,8 +16,18 @@
     {{!-- {{#if (eq class.name "7B")}}
     | <a href="/clase/{{class._id}}/parinti">parinti</a>
     {{/if}} --}}
+    {{#if @root.isDevEnv}}
+    <a href="/clase/{{class._id}}/elevi">elevi</a>
+    {{#if (eq class.name "7B")}}
+    | <a href="/clase/{{class._id}}/parinti">parinti</a>
+    {{/if}}
+    {{/if}}
     {{#if (gt class.grade "4")}}
-    {{!-- | --}}
+
+    {{#if @root.isDevEnv}}
+    |
+    {{/if}}
+
     <a href="/clase/{{class._id}}/profesori">profesori</a> |
     <a href="/orar/clase/{{class._id}}">orar</a>
     {{/if}}

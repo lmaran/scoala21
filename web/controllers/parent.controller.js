@@ -1,4 +1,4 @@
-const parentService = require("../../shared/services/parent.service");
+const personService = require("../../shared/services/person.service");
 // const classService = require("../services/class.service");
 // const lessonService = require("../services/lesson.service");
 // const matemaratonService = require("../services/matemaraton.service");
@@ -7,7 +7,7 @@ const parentService = require("../../shared/services/parent.service");
 // const { PageNotFound } = require("../../shared/errors/all.errors");
 
 exports.getAll = async (req, res) => {
-    const parents = await parentService.getAll();
+    const parents = await personService.getAll({ isParent: true, isActive: true });
 
     const data = {
         parents: parents,
@@ -21,7 +21,7 @@ exports.getParent = async (req, res) => {
     const parentId = req.params.parentId;
 
     const [parent] = await Promise.all([
-        await parentService.getOneById(parentId)
+        await personService.getOneById(parentId)
         // await studentService.getClassesPerStudent(studentId)
     ]);
 
