@@ -1,10 +1,4 @@
 const personService = require("../../shared/services/person.service");
-// const classService = require("../services/class.service");
-// const lessonService = require("../services/lesson.service");
-// const matemaratonService = require("../services/matemaraton.service");
-// const arrayHelper = require("../../shared/helpers/array.helper");
-// const timetableService = require("../services/timetable.service");
-// const { PageNotFound } = require("../../shared/errors/all.errors");
 
 exports.getAll = async (req, res) => {
     const parents = await personService.getAll({ isParent: true, isActive: true });

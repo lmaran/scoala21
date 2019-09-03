@@ -1,6 +1,5 @@
 const classService = require("../../shared/services/class.service");
 const lessonService = require("../../shared/services/lesson.service");
-const studentService = require("../../shared/services/student.service");
 const personService = require("../../shared/services/person.service");
 const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
@@ -52,7 +51,6 @@ exports.getParents = async (req, res) => {
     const classId = req.params.classId;
 
     const [studentsIds, cls] = await Promise.all([
-        // await studentService.getStudentsPerClass(classId),
         await studentsAndClassesService.getStudentsIdsPerClass(classId),
         await classService.getOneById(classId)
     ]);
