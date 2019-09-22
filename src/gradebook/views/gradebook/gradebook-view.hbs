@@ -107,9 +107,9 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Acasa</a></li>
         <li class="breadcrumb-item"><a href="/clase">Clase</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{class.id}}">{{class.name}}</a></li>
-        <li class="breadcrumb-item"><a href="/clase/{{class.id}}/elevi">Elevi</a></li>
-        <li class="breadcrumb-item"><a href="/elevi/{{student.id}}">{{student.lastName}}
+        <li class="breadcrumb-item"><a href="/clase/{{class._id}}">{{class.name}}</a></li>
+        <li class="breadcrumb-item"><a href="/clase/{{class._id}}/elevi">Elevi</a></li>
+        <li class="breadcrumb-item"><a href="/elevi/{{student._id}}">{{student.lastName}}
                 {{studentFirstNameFirstChar}}.</a></li>
     </ol>
 </nav>
@@ -117,9 +117,9 @@
 <h1>Catalog</h1>
 
 <h5 class="mt-4">
-    <a href="/elevi/{{student.id}}">{{student.lastName}} {{student.firstName}}</a>,
+    <a href="/elevi/{{student._id}}">{{student.lastName}} {{student.firstName}}</a>,
     Clasa:
-    <a href="/clase/{{class.id}}">{{class.name}}</a>
+    <a href="/clase/{{class._id}}">{{class.name}}</a>
 </h5>
 
 <p>An scolar 2018-19, Semestrul 2:</p>
@@ -185,8 +185,8 @@
 
     <p>
         <span></span>
-        <a href="/catalog/elevi/{{student.id}}/catalog-recent">Afiseaza catalogul recent</a>
+        <a href="/catalog/elevi/{{student._id}}/catalog-recent">Afiseaza catalogul recent</a>
     </p>
     <p>
-        <a href="/catalog/admin/elevi/{{student.id}}">Editeaza catalogul</a>
+        <a href="/catalog/admin/elevi/{{student._id}}">Editeaza catalogul</a>
     </p>

@@ -29,7 +29,7 @@ exports.getTimetableForClass = async (req, res) => {
     // }
 
     // const academicYear = edition.period; // 201819
-    const academicYear = "201819";
+    const academicYear = "201920";
 
     const activeTimetable = await timetableService.getActiveTimetableForAcademicYear(academicYear);
     const timetableId = activeTimetable._id.toString(); // "_id" is an object
@@ -213,7 +213,7 @@ exports.getTimetableForTeacher = async (req, res) => {
     // }
 
     // const academicYear = edition.period; // 201819
-    const academicYear = "201819";
+    const academicYear = "201920";
 
     const activeTimetable = await timetableService.getActiveTimetableForAcademicYear(academicYear);
     const timetableId = activeTimetable._id.toString(); // "_id" is an object

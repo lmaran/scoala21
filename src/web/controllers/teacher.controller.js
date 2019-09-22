@@ -21,7 +21,7 @@ exports.getTeacher = async (req, res) => {
 
     const [teacher, lessons] = await Promise.all([
         await personService.getOneById(teacherId),
-        await lessonService.getLessonsForTeacher(teacherId, "201819")
+        await lessonService.getLessonsForTeacher(teacherId, "201920")
     ]);
 
     teacher.firstNameFirstChar = teacher.firstName.charAt(0);

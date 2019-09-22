@@ -1,13 +1,14 @@
 const classService = require("../../shared/services/class.service");
 const lessonService = require("../../shared/services/lesson.service");
 const personService = require("../../shared/services/person.service");
-const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
 exports.getAll = async (req, res) => {
-    const classes = await classService.getAll();
+    const academicYear = "201920";
+    const classes = await classService.getClassesByAcademicYear(academicYear);
 
-    const classesByGradeAsObject = arrayHelper.groupBySubKey(classes, "grade", "name");
+    // const classesByGradeAsObject = arrayHelper.groupBySubKey(classes, "grade", "name");
+    const classesByGradeAsObject = arrayHelper.groupBy(classes, "grade");
 
     const classesByGrade = Object.keys(classesByGradeAsObject)
         .map(key => {
@@ -30,12 +31,8 @@ exports.getAll = async (req, res) => {
 exports.getStudents = async (req, res) => {
     const classId = req.params.classId;
 
-    const [cls, studentIdsPerClass] = await Promise.all([
-        await classService.getOneById(classId),
-        await studentsAndClassesService.getStudentsIdsPerClass(classId)
-    ]);
-
-    const students = await personService.getByIds(studentIdsPerClass);
+    const cls = await classService.getOneById(classId);
+    const students = await personService.getByIds(cls.members);
 
     const data = {
         class: cls,
@@ -50,18 +47,12 @@ exports.getStudents = async (req, res) => {
 exports.getParents = async (req, res) => {
     const classId = req.params.classId;
 
-    const [studentsIds, cls] = await Promise.all([
-        await studentsAndClassesService.getStudentsIdsPerClass(classId),
-        await classService.getOneById(classId)
-    ]);
-
-    const students = await personService.getByIds(studentsIds);
+    const cls = await classService.getOneById(classId);
+    const students = await personService.getByIds(cls.members);
 
     const data = {
         class: cls,
         students,
-        studentsIds,
-        // fullStudents,
         ctx: req.ctx
     };
 

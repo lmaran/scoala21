@@ -10,7 +10,7 @@ const classController = require("./controllers/class.controller");
 const staffController = require("./controllers/staff.controller");
 const contactController = require("./controllers/contact.controller");
 const pageController = require("./controllers/page.controller");
-// const upgradeOperationController = require("./controllers/upgrade-operation.controller");
+const upgradeOperationController = require("./controllers/upgrade-operation.controller");
 const auth = require("../shared/user/login/loginService");
 
 // home
@@ -38,6 +38,8 @@ router.get("/pagina-mea", meController.getMyPage);
 // router.get("/upgrade-operation", upgradeOperationController.importStudentsFromSiiir);
 // router.get("/upgrade-operation", upgradeOperationController.moveParentsToPersons);
 // router.get("/upgrade-operation", upgradeOperationController.moveStudentsToPersons);
+// router.get("/upgrade-operation", upgradeOperationController.moveStudentsToClasses);
+// router.get("/upgrade-operation", upgradeOperationController.promoteClasses);
 
 router.get("/elevi/:studentId", studentController.getStudent);
 

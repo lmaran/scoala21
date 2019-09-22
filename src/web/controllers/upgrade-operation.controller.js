@@ -1,7 +1,6 @@
 // const personService = require("../../shared/services/person.service");
-// const classService = require("../../shared/services/class.service");
+const classService = require("../../shared/services/class.service");
 // const gradebookService = require("../../gradebook/services/gradebook.service");
-// const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
 
 // const arrayHelper = require("../../shared/helpers/array.helper");
 // const timetableService = require("../services/timetable.service");
@@ -9,6 +8,62 @@
 // const { ObjectID } = require("mongodb");
 
 // uncomment the associated route in order to import students
+
+// exports.promoteClasses = async (req, res) => {
+//     const academicYearOld = "201819";
+//     const academicYearNew = "201920";
+
+//     const oldClasses = await classService.getClassesByAcademicYear(academicYearOld);
+
+//     const newClasses = [];
+//     oldClasses.forEach(cls => {
+//         if (cls.grade !== "8") {
+//             const newGradeAsString = (parseInt(cls.grade) + 1).toString();
+//             newClasses.push({
+//                 name: `${newGradeAsString}${cls.name.charAt(1)}`,
+//                 grade: newGradeAsString,
+//                 classTeacher: cls.classTeacher,
+//                 academicYear: academicYearNew,
+//                 members: cls.members
+//             });
+//         }
+//     });
+
+//     await classService.insertMany(newClasses);
+
+//     const data = {
+//         oldClasses,
+//         newClasses
+//     };
+//     res.send(data);
+// };
+
+// exports.moveStudentsToClasses = async (req, res) => {
+//     const [classes, studentsAndClasses] = await Promise.all([
+//         await classService.getAll(),
+//         await studentsAndClassesService.getAll()
+//     ]);
+
+//     const mongoOps = [];
+//     classes.forEach(cls => {
+//         const classId = cls._id;
+//         const studentsAndClassesPerClass = studentsAndClasses.filter(x => x.class.id == classId);
+//         cls.members = studentsAndClassesPerClass.map(x => x.student.id); // "_id" is an object
+//         mongoOps.push({
+//             updateOne: {
+//                 filter: { _id: classId },
+//                 update: { $set: { members: cls.members } }
+//             }
+//         });
+//     });
+
+//     await classService.bulkWrite(mongoOps);
+
+//     const data = {
+//         classes
+//     };
+//     res.send(data);
+// };
 
 // exports.moveStudentsToPersons = async (req, res) => {
 //     const [students] = await Promise.all([await studentService.getAll()]);
