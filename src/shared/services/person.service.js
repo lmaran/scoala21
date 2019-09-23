@@ -16,6 +16,14 @@ exports.getAll = async filter => {
         .toArray();
 };
 
+exports.getStaffMembers = async () => {
+    const db = await mongoHelper.getDb();
+    return db
+        .collection(collection)
+        .find({ isStaffMember: true })
+        .toArray();
+};
+
 exports.getByIds = async ids => {
     const idsAsObjectID = ids.map(x => new ObjectID(x));
     const db = await mongoHelper.getDb();
