@@ -19,7 +19,7 @@ exports.getAll = async (req, res) => {
 
     const data = {
         ctx: req.ctx,
-        staff,
+        staff: staff.sort((a, b) => a.displayOrderInStaff - b.displayOrderInStaff),
         principals
     };
 
