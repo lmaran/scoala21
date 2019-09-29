@@ -2,35 +2,34 @@ const classService = require("../../shared/services/class.service");
 const personService = require("../../shared/services/person.service");
 const lessonService = require("../../shared/services/lesson.service");
 const timetableService = require("../../shared/services/timetable.service");
-const { PageNotFound } = require("../../shared/errors/all.errors");
-const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
-exports.getTimetableForClass = async (req, res, next) => {
+exports.getTimetableForClass = async (req, res) => {
     const classId = req.params.classId;
 
-    // get edition (and its associated period)
-    // edition = {period:'201819', edition:'2', ...}
-    const editionName = req.params.edition; // "edition-2"
-    let edition = null;
-    if (editionName) {
-        const editionSegments = editionName.split("-");
-        if (editionSegments.length !== 2) {
-            const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
-            return next(err);
-        } else {
-            edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
-        }
-    } else {
-        edition = await matemaratonService.getCurrentEdition();
-    }
+    // // get edition (and its associated period)
+    // // edition = {period:'201819', edition:'2', ...}
+    // const editionName = req.params.edition; // "edition-2"
+    // let edition = null;
+    // if (editionName) {
+    //     const editionSegments = editionName.split("-");
+    //     if (editionSegments.length !== 2) {
+    //         const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
+    //         return next(err);
+    //     } else {
+    //         edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
+    //     }
+    // } else {
+    //     edition = await matemaratonService.getCurrentEdition();
+    // }
 
-    if (!edition) {
-        const err = new PageNotFound(`Pagina negasita2: ${req.method} ${req.url}`);
-        return next(err);
-    }
+    // if (!edition) {
+    //     const err = new PageNotFound(`Pagina negasita2: ${req.method} ${req.url}`);
+    //     return next(err);
+    // }
 
-    const academicYear = edition.period; // 201819
+    // const academicYear = edition.period; // 201819
+    const academicYear = "201920";
 
     const activeTimetable = await timetableService.getActiveTimetableForAcademicYear(academicYear);
     const timetableId = activeTimetable._id.toString(); // "_id" is an object
@@ -189,31 +188,32 @@ exports.getTimetableForClass = async (req, res, next) => {
     res.render("timetable-class", data);
 };
 
-exports.getTimetableForTeacher = async (req, res, next) => {
+exports.getTimetableForTeacher = async (req, res) => {
     const teacherId = req.params.teacherId;
 
-    // get edition (and its associated period)
-    // edition = {period:'201819', edition:'2', ...}
-    const editionName = req.params.edition; // "edition-2"
-    let edition = null;
-    if (editionName) {
-        const editionSegments = editionName.split("-");
-        if (editionSegments.length !== 2) {
-            const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
-            return next(err);
-        } else {
-            edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
-        }
-    } else {
-        edition = await matemaratonService.getCurrentEdition();
-    }
+    // // get edition (and its associated period)
+    // // edition = {period:'201819', edition:'2', ...}
+    // const editionName = req.params.edition; // "edition-2"
+    // let edition = null;
+    // if (editionName) {
+    //     const editionSegments = editionName.split("-");
+    //     if (editionSegments.length !== 2) {
+    //         const err = new PageNotFound(`Pagina negasita: ${req.method} ${req.url}`);
+    //         return next(err);
+    //     } else {
+    //         edition = await matemaratonService.getSelectedEdition(editionSegments[1]);
+    //     }
+    // } else {
+    //     edition = await matemaratonService.getCurrentEdition();
+    // }
 
-    if (!edition) {
-        const err = new PageNotFound(`Pagina negasita2: ${req.method} ${req.url}`);
-        return next(err);
-    }
+    // if (!edition) {
+    //     const err = new PageNotFound(`Pagina negasita2: ${req.method} ${req.url}`);
+    //     return next(err);
+    // }
 
-    const academicYear = edition.period; // 201819
+    // const academicYear = edition.period; // 201819
+    const academicYear = "201920";
 
     const activeTimetable = await timetableService.getActiveTimetableForAcademicYear(academicYear);
     const timetableId = activeTimetable._id.toString(); // "_id" is an object

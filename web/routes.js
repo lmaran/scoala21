@@ -38,6 +38,8 @@ router.get("/pagina-mea", meController.getMyPage);
 // router.get("/upgrade-operation", upgradeOperationController.importStudentsFromSiiir);
 // router.get("/upgrade-operation", upgradeOperationController.moveParentsToPersons);
 // router.get("/upgrade-operation", upgradeOperationController.moveStudentsToPersons);
+// router.get("/upgrade-operation", upgradeOperationController.moveStudentsToClasses);
+// router.get("/upgrade-operation", upgradeOperationController.promoteClasses);
 
 router.get("/elevi/:studentId", studentController.getStudent);
 

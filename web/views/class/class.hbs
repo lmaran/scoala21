@@ -7,7 +7,7 @@
 </nav>
 
 <h1>Clasa {{class.name}}</h1>
-<h4>{{#if (gt class.grade.name "4")}}Diriginte{{else}}Invatator{{/if}}:
+<h4>{{#if (gt class.grade "4")}}Diriginte{{else}}Invatator{{/if}}:
     <a class="font-weight-light" href="/profesori/{{class.classTeacher.id}}">{{class.classTeacher.name}}</a>
 </h4>
 
@@ -28,8 +28,8 @@
     |
     {{/if}}
 
-    <a href="/clase/{{class._id}}/profesori">profesori</a> |
-    <a href="/orar/clase/{{class._id}}">orar</a>
+    {{!-- <a href="/clase/{{class._id}}/profesori">profesori</a> |
+    <a href="/orar/clase/{{class._id}}">orar</a> --}}
     {{/if}}
 </h5>
 

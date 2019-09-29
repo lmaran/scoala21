@@ -1,7 +1,6 @@
 const personService = require("../../shared/services/person.service");
 const lessonService = require("../../shared/services/lesson.service");
 const classService = require("../../shared/services/class.service");
-const matemaratonService = require("../../shared/services/matemaraton.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
 
 exports.getAll = async (req, res) => {
@@ -18,11 +17,11 @@ exports.getAll = async (req, res) => {
 
 exports.getTeacher = async (req, res) => {
     const teacherId = req.params.teacherId;
-    const edition = await matemaratonService.getCurrentEdition();
+    // const edition = await matemaratonService.getCurrentEdition();
 
     const [teacher, lessons] = await Promise.all([
         await personService.getOneById(teacherId),
-        await lessonService.getLessonsForTeacher(teacherId, edition.period)
+        await lessonService.getLessonsForTeacher(teacherId, "201920")
     ]);
 
     teacher.firstNameFirstChar = teacher.firstName.charAt(0);

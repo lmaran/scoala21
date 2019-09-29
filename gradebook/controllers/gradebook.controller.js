@@ -3,32 +3,35 @@ const dateTimeHelper = require("../../shared/helpers/date-time.helper");
 const numberHelper = require("../../shared/helpers/number.helper");
 const lessonService = require("../../shared/services/lesson.service");
 const arrayHelper = require("../../shared/helpers/array.helper");
-const studentsAndClassesService = require("../../shared/services/studentsAndClasses.service");
+const personService = require("../../shared/services/person.service");
+const classService = require("../../shared/services/class.service");
 
 exports.editStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
 
-    const academicYear = "201819";
+    const academicYear = "201920";
     const semester = "1";
 
-    const [studentAndClass, gradebookItems] = await Promise.all([
-        await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
-        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
+    const [student, gradebookItems, class2] = await Promise.all([
+        await personService.getOneById(studentId),
+        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear),
+        await classService.getClassByStudentId(academicYear, studentId)
     ]);
 
-    const student = studentAndClass.student;
-    const class2 = studentAndClass.class;
-
-    const lessonsForClass = await lessonService.getLessonsForClass(class2.id);
+    const lessonsForClass = await lessonService.getLessonsForClass(class2._id);
 
     const subjectsWithMandatorySemestrialTestPaper = lessonsForClass
         .filter(x => x.hasMandatorySemestrialTestPaper)
         .map(x => x.subject);
 
+    const studentPreference =
+        student.studentInfo.preferences && student.studentInfo.preferences.find(x => x.academicYear === academicYear);
+    const subjectsWithStudentDefinedTestPaper = studentPreference && studentPreference.subjectsWithSemestrialTestPaper;
+
     // merge the 2 lists of subjects with semestrial test paper (class and student level)
     const subjectsWithSemestrialTestPaper = [
         ...(subjectsWithMandatorySemestrialTestPaper || []),
-        ...(studentAndClass.semestrialTestPaperStudentsChoice || [])
+        ...(subjectsWithStudentDefinedTestPaper || [])
     ];
 
     const subjectsWithSemestrialTestPaperObj = arrayHelper.arrayToObject(subjectsWithSemestrialTestPaper, "id");
@@ -107,18 +110,16 @@ exports.editStudentCatalog = async (req, res) => {
 exports.viewStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
 
-    const academicYear = "201819";
+    const academicYear = "201920";
     // const semester = "1";
 
-    const [studentAndClass, gradebookItems] = await Promise.all([
-        await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
-        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
+    const [student, gradebookItems, class2] = await Promise.all([
+        await personService.getOneById(studentId),
+        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear),
+        await classService.getClassByStudentId(academicYear, studentId)
     ]);
 
-    const student = studentAndClass.student;
-    const class2 = studentAndClass.class;
-
-    const lessonsForClass = await lessonService.getLessonsForClass(class2.id);
+    const lessonsForClass = await lessonService.getLessonsForClass(class2._id);
 
     // const subjectsWithMandatorySemestrialTestPaper = lessonsForClass
     //     .filter(x => x.hasMandatorySemestrialTestPaper)
@@ -229,18 +230,16 @@ exports.viewStudentCatalog = async (req, res) => {
 exports.viewRecentStudentCatalog = async (req, res) => {
     const studentId = req.params.studentId;
 
-    const academicYear = "201819";
+    const academicYear = "201920";
     // const semester = "1";
 
-    const [studentAndClass, gradebookItems] = await Promise.all([
-        await studentsAndClassesService.getStudentAndClassByStudentIdAndYear(studentId, academicYear),
-        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear)
+    const [student, gradebookItems, class2] = await Promise.all([
+        await personService.getOneById(studentId),
+        await gradebookService.getGradebookItemsPerStudent(studentId, academicYear),
+        await classService.getClassByStudentId(academicYear, studentId)
     ]);
 
-    const student = studentAndClass.student;
-    const class2 = studentAndClass.class;
-
-    const lessonsForClass = await lessonService.getLessonsForClass(class2.id);
+    const lessonsForClass = await lessonService.getLessonsForClass(class2._id);
 
     // const subjectsWithMandatorySemestrialTestPaper = lessonsForClass
     //     .filter(x => x.hasMandatorySemestrialTestPaper)
@@ -326,7 +325,7 @@ exports.viewRecentStudentCatalog = async (req, res) => {
         // ctx: req.ctx,
     };
 
-    //res.send(data);
+    // res.send(data);
     res.render("gradebook/gradebook-view-recent", data);
 };
 
