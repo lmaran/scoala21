@@ -16,7 +16,7 @@
 <ul>
     {{#each classes }}
     <li><span class="font-weight-bold"><a href="/clase/{{_id}}">{{name}}</a></span>,
-        {{#if (gt grade.name "4")}}diriginte{{else}}invatator{{/if}}
+        {{#if (gt grade "4")}}diriginte{{else}}invatator{{/if}}
         {{classTeacher.name}}
         <div class="mb-3">
             {{#if @root.isDevEnv}}
@@ -28,12 +28,12 @@
 
             {{#if (gt grade "4")}}
 
-            {{#if @root.isDevEnv}}
+            {{!-- {{#if @root.isDevEnv}}
             |
-            {{/if}}
+            {{/if}} --}}
 
-            <a href="/clase/{{_id}}/profesori">profesori</a> |
-            <a href="/orar/clase/{{_id}}">orar</a>
+            {{!-- <a href="/clase/{{_id}}/profesori">profesori</a> |
+            <a href="/orar/clase/{{_id}}">orar</a> --}}
             {{/if}}
         </div>
     </li>
