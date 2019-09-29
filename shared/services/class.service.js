@@ -7,8 +7,7 @@ exports.getAll = async () => {
     const db = await mongoHelper.getDb();
     return db
         .collection(collection)
-        .find()
-        .sort({ grade: -1, name: 1 })
+        .find() // .sort({ grade: -1, name: 1 })
         .toArray();
 };
 

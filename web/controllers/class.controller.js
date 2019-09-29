@@ -12,9 +12,15 @@ exports.getAll = async (req, res) => {
 
     const classesByGrade = Object.keys(classesByGradeAsObject)
         .map(key => {
+            // sort by class name, asc
+            const sortedClasses = classesByGradeAsObject[key].sort((a, b) => {
+                if (a.name > b.name) return 1;
+                else if (a.name < b.name) return -1;
+                else return 0;
+            });
             return {
                 grade: key,
-                classes: classesByGradeAsObject[key]
+                classes: sortedClasses
             };
         })
         .sort((a, b) => b.grade - a.grade); // sort by grade, desc
