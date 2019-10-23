@@ -30,7 +30,6 @@ app.use("/api", api);
 
 app.use("/catalog", gradebook);
 app.use("/orar", timetable);
-//app.use("/admin", admin);
 
 // redirect MateMaraton: scoala21.ro/matemaraton/<url> --> matemaraton.ro/<url>
 app.use((req, res, next) => {
@@ -43,7 +42,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-// app.use("/matemaraton", matemaraton);
 
 app.use("/", web);
 
