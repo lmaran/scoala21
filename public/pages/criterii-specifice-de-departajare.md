@@ -1,6 +1,6 @@
 # Criterii specifice de departajare
 
-## pentru inscrierea in inv. primar 2019
+## pentru inscrierea in inv. primar
 
 1.  Locul de munca al parintilor este in circumscriptia scolii (justificat prin adeverinta de la locul de munca al parintilor, din care sa rezulte adresa institutiei la care lucreaza)
 

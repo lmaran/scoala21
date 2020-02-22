@@ -64,6 +64,8 @@ router.get("/conducere", staffController.getAll);
 router.get("/contact", contactController.getContact);
 
 // pages
+router.get("/imagini-din-clase", pageController.getPageImagesFromClasses);
+router.get("/diverse", pageController.getPageDiverse);
 router.get("/:pageId", pageController.getPage);
 
 router.get("/:pageId/asdfgh", pageController.getPage2);
