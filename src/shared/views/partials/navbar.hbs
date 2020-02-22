@@ -32,7 +32,7 @@ if 2 similar sections are used, the last one will override the first one --}}
                 {{/if}}
                 {{/if}}
 
-                {{!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Inscriere
@@ -56,7 +56,6 @@ if 2 similar sections are used, the last one will override the first one --}}
                             href="/acte-necesare-pentru-inscriere">Acte
                             necesare pentru inscriere</a>
 
-                        comment lines below    
                         <a class="dropdown-item {{#if (eq selectedTopMenu '/procedura-de-repartizare-pe-clase' )}} active {{/if}}"
                             href="/procedura-de-repartizare-pe-clase">Procedura
                             de repartizare pe clase</a>
@@ -70,7 +69,7 @@ if 2 similar sections are used, the last one will override the first one --}}
 
 
                     </div>
-                </li> --}}
+                </li>
 
                 {{!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -156,12 +155,12 @@ if 2 similar sections are used, the last one will override the first one --}}
                     </a>
                 </li>
 
-                {{#if @root.isDevEnv}}
+                {{!-- {{#if @root.isDevEnv}}
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/parinti' )}} active {{/if}}" href="/parinti">Parinti
                     </a>
                 </li>
-                {{/if}}
+                {{/if}} --}}
 
                 <li class="nav-item">
                     <a class="nav-link {{#if (eq selectedTopMenu '/clase' )}} active {{/if}}" href="/clase">Clase</a>
@@ -231,6 +230,7 @@ if 2 similar sections are used, the last one will override the first one --}}
                         <a class="dropdown-item" href="/personal-auxiliar">Personal auxiliar</a>
                         <a class="dropdown-item {{#if (eq selectedTopMenu '/revista-scolii' )}} active {{/if}}"
                             href="/revista-scolii">Revista scolii</a>
+                        <a class="dropdown-item" href="/diverse">Diverse</a>
                         {{!-- <a class="dropdown-item" href="#">Personal nedidactic</a> --}}
                         {{!-- <div class="dropdown-divider"></div> --}}
                     </div>

@@ -1,7 +1,5 @@
 # Acte necesare pentru inscriere
 
-## An scolar 2019 - 2020
-
 1. Certificatul de nastere al copilului (original si copie)
 2. Cartea de identitate a parintilor (original si copie)
 3. Copie dupa sentinta de divort (daca este cazul)

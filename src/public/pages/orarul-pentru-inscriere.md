@@ -2,6 +2,6 @@
 
 **Inscrieri, etapa I**:
 
-4 - 22 Martie 2019
+4 - 23 Martie 2020
 
-Luni-Vineri, 9-18
+Luni-Vineri, 8-18

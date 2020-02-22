@@ -6,6 +6,14 @@ const { promisify } = require("util");
 const readFileAsync = promisify(fs.readFile);
 const { PageNotFound } = require("../../shared/errors/all.errors");
 
+exports.getPageImagesFromClasses = async (req, res, next) => {
+    res.render("inscriere/imagini-din-clase");
+};
+
+exports.getPageDiverse = async (req, res, next) => {
+    res.render("diverse");
+};
+
 exports.getPage = async (req, res, next) => {
     const routeWhitelist = [
         "repere-istorice",
