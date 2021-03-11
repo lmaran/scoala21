@@ -150,7 +150,7 @@ exports.getPage2 = async (req, res, next) => {
 
     // const pageId = "5c3258b8b3a6dc56c06a6e7d";
 
-    const filePath = path.join(__dirname, `../public/pages/${pageId}.md`);
+    const filePath = path.join(__dirname, `../../public/pages/${pageId}.md`);
 
     const page1Md = await readFileAsync(filePath, "utf-8");
 
