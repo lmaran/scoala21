@@ -1,5 +1,5 @@
 # Planul de scolarizare
 
-### An scolar 2020-2021
+### An scolar 2021-2022
 
-3 clase pregatitoare, 75 locuri
+3 clase pregatitoare, 66 locuri

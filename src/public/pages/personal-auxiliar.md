@@ -9,7 +9,8 @@
 
 ## Personal nedidactic
 
--   **Elena Sirbu** - ingrijitor
+-   **Ana Maria Sachelaridi** - ingrijitor
 -   **Gerda Rosenhoffer** - ingrijitor
--   **Magda Hosman** - ingrijitor
--   **Daniela Nan** - ingrijitor
+-   **Corina Cucu** - ingrijitor
+-   **Alina Gabor** - ingrijitor
+-   **Albert Rosenhoffer** - muncitor

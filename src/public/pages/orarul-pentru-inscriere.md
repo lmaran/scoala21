@@ -2,6 +2,6 @@
 
 **Inscrieri, etapa I**:
 
-4 - 23 Martie 2020
+Martie 2021
 
 Luni-Vineri, 8-18
